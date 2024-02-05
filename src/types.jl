@@ -59,22 +59,22 @@ function Base.show(io::IO, set::AbstractSet)
     print(io, set.name)
 end
 
-"""
-    get_name(v::AbstractSet)
+# """
+#     get_name(v::AbstractSet)
 
-Get the name (string) of an underlying struct, such as a model node.
+# Get the name (string) of an underlying struct, such as a model node.
 
-Use broadcasting to retrieve a vector of names from a vector of objects.
+# Use broadcasting to retrieve a vector of names from a vector of objects.
 
-# Examples
-```julia-repl
-julia> using HydrOGEnMod
-julia> data = get_HydrOGEnMod_data();
-julia> get_name.(data.nodes)
-1-element Vector{String}:
- "DEU"
-```
-"""
+# # Examples
+# ```julia-repl
+# julia> using HydrOGEnMod
+# julia> data = get_HydrOGEnMod_data();
+# julia> get_name.(data.nodes)
+# 1-element Vector{String}:
+#  "DEU"
+# ```
+# """
 function get_name(v::AbstractSet)
     return v.name
 end
