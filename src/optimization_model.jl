@@ -8,20 +8,9 @@ A logfile and upper bounds on variables can be specified.
 # Examples
 ```julia-repl
 julia> using HydrOGEnMod
-julia> data = get_HydrOGEnMod_data();
-julia> build_optimization_model(data)
-A JuMP Model
-Maximization problem with:
-Variables: 11
-Objective function type: JuMP.QuadExpr
-`JuMP.AffExpr`-in-`MathOptInterface.EqualTo{Float64}`: 3 constraints
-`JuMP.AffExpr`-in-`MathOptInterface.LessThan{Float64}`: 8 constraints
-`JuMP.VariableRef`-in-`MathOptInterface.GreaterThan{Float64}`: 11 constraints
-`JuMP.VariableRef`-in-`MathOptInterface.LessThan{Float64}`: 11 constraints
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: arc_capacity, conversion_capacity, conversion_cost, conversion_expansion_cost, conversion_repurposing_cost, demand, equal_arc_expansion, equal_arc_repurposing, gross_surplus, input_block_limit, input_cost, input_expansion_cost, input_expansion_limit, market_power_adjustment, prices, producer_mass_balance, production_capacity, production_cost, production_expansion_cost, production_expansion_limit, q_I, q_P_T, q_S, q_S_in, q_S_out, q_T, q_T_D, q_V, storage_capacities, storage_cost, storage_expansion_cost, storage_expansion_limit, storage_mass_balance, storage_repurposing_cost, trade_sanctions, trader_mass_balance, transport_cost, transport_expansion_cost, transport_repurposing_cost, yearly_arc_flows, yearly_demand, yearly_input_procurement, yearly_production, Δ_A, Δ_I, Δ_P, Δ_RA, Δ_RS, Δ_RV, Δ_S, Δ_V```
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
+julia> model = build_optimization_model(data);
+```
 """
 function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
 
@@ -935,75 +924,10 @@ A logfile can be specified, and solver specific options can be passed.
 ```julia-repl
 julia> using HydrOGEnMod
 julia> using Ipopt
-julia> data = get_HydrOGEnMod_data();
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
 julia> model = build_optimization_model(data);
 julia> optimize!(model, Ipopt.Optimizer, "max_wall_time" => 1e-5)
-******************************************************************************
-This program contains Ipopt, a library for large-scale nonlinear optimization.
- Ipopt is released as open source code under the Eclipse Public License (EPL).
-         For more information visit https://github.com/coin-or/Ipopt
-******************************************************************************
-
-This is Ipopt version 3.14.13, running with linear solver MUMPS 5.6.0.
-
-Number of nonzeros in equality constraint Jacobian...:        6
-Number of nonzeros in inequality constraint Jacobian.:        7
-Number of nonzeros in Lagrangian Hessian.............:        2
-
-Total number of variables............................:       11
-                     variables with only lower bounds:        0
-                variables with lower and upper bounds:       11
-                     variables with only upper bounds:        0
-Total number of equality constraints.................:        3
-Total number of inequality constraints...............:        8
-        inequality constraints with only lower bounds:        0
-   inequality constraints with lower and upper bounds:        0
-        inequality constraints with only upper bounds:        8
-
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
-   0 -9.0099910e-02 1.00e-02 1.00e+01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
-
-Number of Iterations....: 0
-
-                                   (scaled)                 (unscaled)
-Objective...............:   9.0099909800000114e-02   -9.0099909800000114e-02
-Dual infeasibility......:   1.0000000000000000e+01    1.0000000000000000e+01
-Constraint violation....:   9.9999800000000003e-03    9.9999800000000003e-03
-Variable bound violation:   0.0000000000000000e+00    0.0000000000000000e+00
-Complementarity.........:   9.9999999010000995e+05    9.9999999010000995e+05
-Overall NLP error.......:   9.9999999010000995e+05    9.9999999010000995e+05
-
-
-Number of objective function evaluations             = 1
-Number of objective gradient evaluations             = 1
-Number of equality constraint evaluations            = 1
-Number of inequality constraint evaluations          = 1
-Number of equality constraint Jacobian evaluations   = 1
-Number of inequality constraint Jacobian evaluations = 1
-Number of Lagrangian Hessian evaluations             = 0
-Total seconds in IPOPT                               = 0.000
-
-EXIT: Maximum wallclock time exceeded.
-┌ Status: Optimizing Model
-│   Progress:                                                 Solution Status TIME_LIMIT.
-│   Time elapsed:                                                                   0.14s
-└ @ HydrOGEnMod /Users/lb/Desktop/git/HydrOGEnMod/src/optimization_model.jl:999
-┌ Status: Optimizing Model
-│   Progress:                                                            Returning Model.
-│   Time elapsed:                                                                   0.14s
-└ @ HydrOGEnMod /Users/lb/Desktop/git/HydrOGEnMod/src/optimization_model.jl:1002
-A JuMP Model
-Maximization problem with:
-Variables: 11
-Objective function type: JuMP.QuadExpr
-`JuMP.AffExpr`-in-`MathOptInterface.EqualTo{Float64}`: 3 constraints
-`JuMP.AffExpr`-in-`MathOptInterface.LessThan{Float64}`: 8 constraints
-`JuMP.VariableRef`-in-`MathOptInterface.GreaterThan{Float64}`: 11 constraints
-`JuMP.VariableRef`-in-`MathOptInterface.LessThan{Float64}`: 11 constraints
-Model mode: AUTOMATIC
-CachingOptimizer state: ATTACHED_OPTIMIZER
-Solver name: Ipopt
-Names registered in the model: arc_capacity, conversion_capacity, conversion_cost, conversion_expansion_cost, conversion_repurposing_cost, demand, equal_arc_expansion, equal_arc_repurposing, gross_surplus, input_block_limit, input_cost, input_expansion_cost, input_expansion_limit, market_power_adjustment, prices, producer_mass_balance, production_capacity, production_cost, production_expansion_cost, production_expansion_limit, q_I, q_P_T, q_S, q_S_in, q_S_out, q_T, q_T_D, q_V, storage_capacities, storage_cost, storage_expansion_cost, storage_expansion_limit, storage_mass_balance, storage_repurposing_cost, trade_sanctions, trader_mass_balance, transport_cost, transport_expansion_cost, transport_repurposing_cost, yearly_arc_flows, yearly_demand, yearly_input_procurement, yearly_production, Δ_A, Δ_I, Δ_P, Δ_RA, Δ_RS, Δ_RV, Δ_S, Δ_V```
+```
 """
 function JuMP.optimize!(model::Model, optimizer, options...; logfile = "")
 

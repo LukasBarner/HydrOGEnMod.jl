@@ -1,7 +1,7 @@
 function test_case_5_opt(config)
     @testset "Test Case 5" begin
 
-        data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "test_5"))
+        data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_5"))
         model = build_optimization_model(data)
 
         optimize!(

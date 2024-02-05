@@ -1,7 +1,7 @@
 function test_case_8_mcp(config)
     @testset "Test Case 8" begin
 
-        data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "test_8"))
+        data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_8"))
         model = build_complementarity_model(data)
 
         status = solve_mcp(model; output = "no")

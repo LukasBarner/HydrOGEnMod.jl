@@ -1,7 +1,7 @@
 function functional_test_1(config)
     @testset "Functional Test 1" begin
 
-        data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "functional_test_1"))
+        data = get_HydrOGEnMod_data(joinpath(@__DIR__, "functional_test_1"))
 
         @testset "Production Costs" begin
             @test isapprox(

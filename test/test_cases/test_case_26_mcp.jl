@@ -1,7 +1,7 @@
 function test_case_26_mcp(config)
     @testset "Test Case 26a (pipeline)" begin
 
-        data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "test_26a"))
+        data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_26a"))
         model = build_complementarity_model(data)
 
         status = solve_mcp(model; output = "no")
@@ -47,7 +47,7 @@ function test_case_26_mcp(config)
 
     @testset "Test Case 26b (shipping)" begin
 
-        data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "test_26b"))
+        data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_26b"))
         model = build_complementarity_model(data)
 
         @testset "Shipping Capacity BIG" begin

@@ -20,7 +20,7 @@ A logfile can be specified.
 # Examples
 ```julia-repl
 julia> using HydrOGEnMod
-julia> data = get_HydrOGEnMod_data();
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
 julia> write_csv("path/to/my/dir",data);
 ```
 """
@@ -237,11 +237,10 @@ A logfile can be specified.
 
 # Examples
 ```julia-repl
-julia> data = get_HydrOGEnMod_data();
-julia> write_csv("path/to/my/dir",data);
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
 julia> model = build_optimization_model(data);
 julia> optimize!(model, Ipopt.Optimizer);
-julia> write_csv("path/to/my/dir",model);
+julia> write_csv("path/to/my/dir", model);
 ```
 """
 function write_csv(resultsfile, model::Model; logfile = "")

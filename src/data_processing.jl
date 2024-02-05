@@ -1561,20 +1561,20 @@ end
 
 
 """
-    get_HydrOGEnMod_data(;data = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "data", "data_pc"), logfile = "")
+    get_HydrOGEnMod_data(data; logfile = "")
 
-Get the model data
+Get model data from the specified data path. 
 
-A separate datafile and a file where to write the log records can be specified via keyword arguments. 
+A file where to write the log records can be specified via keyword arguments. 
 
 # Examples
 ```julia-repl
 julia> using HydrOGEnMod
-julia> data = get_HydrOGEnMod_data();
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
 ```
 """
-function get_HydrOGEnMod_data(;
-    data = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "data", "data_pc"),
+function get_HydrOGEnMod_data(
+    data;
     logfile = "",
 )
     starttime = time()

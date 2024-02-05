@@ -8,17 +8,8 @@ A logfile and upper bounds on variables can be specified.
 # Examples
 ```julia-repl
 julia> using HydrOGEnMod
-julia> data = get_HydrOGEnMod_data();
-julia> build_complementarity_model(data)
-A JuMP Model
-Feasibility problem with:
-Variables: 35
-`JuMP.VariableRef`-in-`MathOptInterface.GreaterThan{Float64}`: 34 constraints
-`JuMP.VariableRef`-in-`MathOptInterface.LessThan{Float64}`: 34 constraints
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: arc_capacity, conversion_capacity, conversion_cost, conversion_expansion_cost, conversion_repurposing_cost, demand, equal_arc_expansion, equal_arc_repurposing, gross_surplus, input_block_limit, input_cost, input_expansion_cost, input_expansion_limit, market_power_adjustment, prices, producer_mass_balance, production_capacity, production_cost, production_expansion_cost, production_expansion_limit, q_I, q_P_T, q_S, q_S_in, q_S_out, q_T, q_T_D, q_V, storage_capacities, storage_cost, storage_expansion_cost, storage_expansion_limit, storage_mass_balance, storage_repurposing_cost, trade_sanctions, trader_mass_balance, transport_cost, transport_expansion_cost, transport_repurposing_cost, yearly_arc_flows, yearly_demand, yearly_input_procurement, yearly_production, Δ_A, Δ_I, Δ_P, Δ_RA, Δ_RS, Δ_RV, Δ_S, Δ_V
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
+julia> model = build_complementarity_model(data);
 ```
 """
 function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
@@ -1838,15 +1829,9 @@ A logfile can be specified, and solver specific options can be passed.
 # Examples
 ```julia-repl
 julia> using HydrOGEnMod
-julia> data = get_HydrOGEnMod_data();
+julia> data = get_HydrOGEnMod_data("path/to/my/data");
 julia> model = build_complementarity_model(data);
-julia> solve_mcp(model; output = "no", time_limit = 5)
-Reading options file /var/folders/c7/86nwrvmd1c325s4lzwg77jz40000gn/T/jl_CJTzvb
-Read of options file complete.
-
-Path 5.1.99 (Mon Jul 24 14:47:28 2023)
-Written by Todd Munson, Steven Dirkse, Youngdae Kim, and Michael Ferris
-:Solved
+julia> solve_mcp(model; output = "no", time_limit = 5);
 ```
 """
 function solve_mcp(model::Model; logfile = "", kwargs...)

@@ -18,10 +18,6 @@ Only active, if no positional argument is passed.
 - `map_title = "Model Nodes"`: Specification of the title.
 - `legend_title = "Node Names"`: Title of the legend.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
-
-# Examples
-```julia-repl
-```
 """
 function plot_model_nodes(;
     nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"),
@@ -133,10 +129,6 @@ Separate methods implemented for DenseAxisArray and SparseAxisArray.
 - `rasterize = 10`: Rasterization to reduce output file size, lesser implies smaller files.
 - `map_title = "Model Nodes"`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
-
-# Examples
-```julia-repl
-```
 """
 function plot_model_nodes(
     container::JuMP.Containers.DenseAxisArray{T,N,Ax,L};
@@ -254,9 +246,6 @@ Separate methods implemented for DenseAxisArray and SparseAxisArray.
 - `map_title = "Model Nodes"`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
 
-# Examples
-```julia-repl
-```
 """
 function plot_model_nodes(
     container::JuMP.Containers.SparseAxisArray{T,N,K};
@@ -383,9 +372,6 @@ Separate method implemented for also passing arc values.
 - `map_title = "Model Nodes"`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
 
-# Examples
-```julia-repl
-```
 """
 function plot_model_nodes(
     arcs::Vector{TransportArc};
@@ -512,9 +498,6 @@ Separate method implemented for just plotting normal values.
 - `map_title = "Model Nodes"`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format.
 
-# Examples
-```julia-repl
-```
 """
 function plot_model_nodes(
     container::JuMP.Containers.DenseAxisArray{T,N,Ax,L},

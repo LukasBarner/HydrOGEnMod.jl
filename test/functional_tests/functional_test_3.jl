@@ -1,7 +1,7 @@
 function functional_test_3(config)
     @testset "Functional Test 3" begin
 
-        data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "functional_test_3"))
+        data = get_HydrOGEnMod_data(joinpath(@__DIR__, "functional_test_3"))
         writedir = mktempdir()
         vardir = joinpath(writedir, "variables")
         exdir = joinpath(writedir, "expressions")
