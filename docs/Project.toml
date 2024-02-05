@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+HydrOGEnMod = "58e70178-3df0-46d3-b61d-7cf9dadc212f"
