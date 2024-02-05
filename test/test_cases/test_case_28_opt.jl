@@ -7,7 +7,7 @@ function test_case_28_opt(config)
         optimize!(
             model,
             config.optimizer,
-            # config.solver_options...,
+            config.solver_options...,
         )
 
         @testset "Results" begin

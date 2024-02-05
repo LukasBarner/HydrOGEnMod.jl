@@ -14,7 +14,7 @@ struct TestConfig
     optimizer
     testing_tol::Float64
     solver_options
-    function TestConfig(; optimizer = Ipopt.Optimizer, testing_tol = 1e-3, solver_options = ("bound_relax_factor" => 1e-6, "max_wall_time" => 10.0, "print_level" => 0))
+    function TestConfig(; optimizer = Ipopt.Optimizer, testing_tol = 1e-3, solver_options = ("bound_relax_factor" => 1e-6, "max_wall_time" => 100.0, "print_level" => 0))
         return new(optimizer, testing_tol, solver_options)
     end
 end
