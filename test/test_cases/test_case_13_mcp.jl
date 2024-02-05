@@ -4,7 +4,7 @@ function test_case_13_mcp(config)
         data = get_HydrOGEnMod_data(; data = joinpath(@__DIR__, "test_13"))
         model = build_complementarity_model(data)
 
-        status = solve_mcp(model; output = "yes")
+        status = solve_mcp(model; output = "no")
 
         @testset "Results" begin
             @testset "Termination Status" begin
