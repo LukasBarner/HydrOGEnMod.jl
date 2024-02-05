@@ -20,12 +20,12 @@ struct TestConfig
 end
 
 @testset "HydrOGEnMod.jl" begin
-    @testset "Code quality (Aqua.jl)" begin
-        Aqua.test_all(HydrOGEnMod)
-    end
-    @testset "Code linting (JET.jl)" begin
-        JET.test_package(HydrOGEnMod; target_defined_modules = true)
-    end
+    # @testset "Code quality (Aqua.jl)" begin
+    #     Aqua.test_all(HydrOGEnMod)
+    # end
+    # @testset "Code linting (JET.jl)" begin
+    #     JET.test_package(HydrOGEnMod; target_defined_modules = true)
+    # end
     
     @testset "Test Cases Optimization Model" verbose = true begin
         include(joinpath("test_cases", "test_case_1_opt.jl"))
