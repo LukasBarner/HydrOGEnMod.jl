@@ -21,6 +21,7 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
+Ipopt = "1"
 DataFrames = "1"
 Aqua = "0.8"
 JET = "0.8"
