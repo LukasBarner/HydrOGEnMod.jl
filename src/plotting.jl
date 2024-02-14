@@ -1,5 +1,5 @@
 """
-    plot_model_nodes(; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), colorscheme = :seaborn_colorblind6, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, size = (1600, 900), rasterize = 10, map_title = "Model Nodes", legend_title = "Node Names", save_path = "",)
+    plot_model_nodes(; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), colorscheme = :seaborn_colorblind6, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, size = (1600, 900), map_title = "", legend_title = "Node Names", save_path = "",)
 
 Plot an overview of the model nodes. 
 
@@ -13,8 +13,7 @@ Only active, if no positional argument is passed.
 - `strokecolor = :black`: Strokecolor around regions.
 - `strokewidth = 0.1`: Strokewidth around regions.
 - `size = (1200, 900)`: Picture size.
-- `rasterize = 10`: Rasterization to reduce output file size, lesser implies smaller files.
-- `map_title = "Model Nodes"`: Specification of the title.
+- `map_title = ""`: Specification of the title.
 - `legend_title = "Node Names"`: Title of the legend.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
 """
@@ -26,8 +25,7 @@ function plot_model_nodes(;
     strokecolor = :black,
     strokewidth = 0.1,
     size = (1200, 900),
-    rasterize = 10,
-    map_title = "Model Nodes",
+    map_title = "",
     legend_title = "Node Names",
     save_path = "",
 )
@@ -56,11 +54,13 @@ function plot_model_nodes(;
     ]
 
 
-    fig = Figure(resolution = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
+    fig = Figure(size = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     ax = GeoAxis(
         fig[1, 1];
         dest = "+proj=wintri",
+        xgridcolor = (:grey, 0.5),
+        ygridcolor= (:grey, 0.5),
     )
 
     Label(fig[1, 1, Top()], map_title, font = :bold)
@@ -71,8 +71,7 @@ function plot_model_nodes(;
         lats,
         field;
         colormap = Reverse(:Blues_3),
-        shading = false,
-        rasterize = rasterize,
+        shading = NoShading,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -82,7 +81,6 @@ function plot_model_nodes(;
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -91,7 +89,6 @@ function plot_model_nodes(;
         color = [colormap[i.properties[:MODEL_NODE]] for i in all_countries],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     Legend(
@@ -109,7 +106,7 @@ function plot_model_nodes(;
 end
 
 """
-    plot_model_nodes(container::JuMP.Containers.DenseAxisArray{T,N,Ax,L}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), colorscheme = :plasma, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, size = (1600, 900), rasterize = 10, map_title = "Model Nodes", save_path = "") where {T,N,Ax,L<:NTuple{N,JuMP.Containers._AxisLookup}}
+    plot_model_nodes(container::JuMP.Containers.DenseAxisArray{T,N,Ax,L}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), colorscheme = :plasma, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, size = (1600, 900), map_title = "", save_path = "") where {T,N,Ax,L<:NTuple{N,JuMP.Containers._AxisLookup}}
 
 Plot the values inside container into the model node map. 
 
@@ -123,8 +120,7 @@ Separate methods implemented for DenseAxisArray and SparseAxisArray.
 - `strokecolor = :black`: Strokecolor around regions.
 - `strokewidth = 0.1`: Strokewidth around regions.
 - `size = (1600, 900)`: Picture size.
-- `rasterize = 10`: Rasterization to reduce output file size, lesser implies smaller files.
-- `map_title = "Model Nodes"`: Specification of the title.
+- `map_title = ""`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
 """
 function plot_model_nodes(
@@ -136,8 +132,7 @@ function plot_model_nodes(
     strokecolor = :black,
     strokewidth = 0.1,
     size = (1600, 900),
-    rasterize = 10,
-    map_title = "Model Nodes",
+    map_title = "",
     save_path = "",
     geojson_property_tag = :MODEL_NODE_3,
 ) where {T,N,Ax,L<:NTuple{N,JuMP.Containers._AxisLookup}}
@@ -156,11 +151,13 @@ function plot_model_nodes(
     modelnodes = filter!(e -> e ∉ ["N.A.","P_N.A."], unique(modelnodes))
     @assert issetequal(modelnodes, axes(container)...) "Data to be plotted does not match given map data, make sure that model nodes are correctly mapped in file $nodes_path"
 
-    fig = Figure(resolution = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
+    fig = Figure(size = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     ax = GeoAxis(
         fig[1, 1];
         dest = "+proj=wintri",
+        xgridcolor = (:grey, 0.5),
+        ygridcolor= (:grey, 0.5),
     )
 
     Label(fig[1, 1, Top()], map_title, font = :bold)
@@ -171,8 +168,7 @@ function plot_model_nodes(
         lats,
         field;
         colormap = Reverse(:Blues_3),
-        shading = false,
-        rasterize = rasterize,
+        shading = NoShading,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -182,7 +178,6 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -196,7 +191,6 @@ function plot_model_nodes(
         nan_color = unassigned_color,
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     cb_lims = extrema(container.data) .+ (-1e-12,1e-12)
@@ -223,7 +217,7 @@ function plot_model_nodes(
 end
 
 """
-    plot_model_nodes(container::JuMP.Containers.SparseAxisArray{T,N,K}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), colorscheme = :plasma, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, size = (1600, 900), rasterize = 10, map_title = "Model Nodes", save_path = "")    
+    plot_model_nodes(container::JuMP.Containers.SparseAxisArray{T,N,K}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), colorscheme = :plasma, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, size = (1600, 900), map_title = "", save_path = "")    
 
 Plot the values inside container into the model node map. 
 
@@ -237,8 +231,7 @@ Separate methods implemented for DenseAxisArray and SparseAxisArray.
 - `strokecolor = :black`: Strokecolor around regions.
 - `strokewidth = 0.1`: Strokewidth around regions.
 - `size = (1600, 900)`: Picture size.
-- `rasterize = 10`: Rasterization to reduce output file size, lesser implies smaller files.
-- `map_title = "Model Nodes"`: Specification of the title.
+- `map_title = ""`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
 
 """
@@ -251,8 +244,7 @@ function plot_model_nodes(
     strokecolor = :black,
     strokewidth = 0.1,
     size = (1600, 900),
-    rasterize = 10,
-    map_title = "Model Nodes",
+    map_title = "",
     save_path = "",
     geojson_property_tag = :MODEL_NODE_3,
 ) where {T,N,K<:NTuple{N,Any}}
@@ -277,11 +269,13 @@ function plot_model_nodes(
 
     @assert issetequal(modelnodes, idxs) "Data to be plotted does not match given map data, make sure that model nodes are correctly mapped in file $nodes_path"
 
-    fig = Figure(resolution = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
+    fig = Figure(size = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     ax = GeoAxis(
         fig[1, 1];
         dest = "+proj=wintri",
+        xgridcolor = (:grey, 0.5),
+        ygridcolor= (:grey, 0.5),
     )
 
     Label(fig[1, 1, Top()], map_title, font = :bold)
@@ -292,8 +286,7 @@ function plot_model_nodes(
         lats,
         field;
         colormap = Reverse(:Blues_3),
-        shading = false,
-        rasterize = rasterize,
+        shading = NoShading,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -303,7 +296,6 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -317,7 +309,6 @@ function plot_model_nodes(
         nan_color = unassigned_color,
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     cb_lims = extrema(values(container.data)) .+ (-1e-12,1e-12)
@@ -344,7 +335,7 @@ function plot_model_nodes(
 end
 
 """
-    plot_model_nodes(arcs::Vector{TransportArc}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), centroids_path = joinpath(@__DIR__, "maps", "centroids.csv"), colorscheme = :seaborn_colorblind6, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, linewidth = 0.2, linecolor = :black, size = (1600, 900), rasterize = 10, map_title = "Model Nodes", save_path = "")
+    plot_model_nodes(arcs::Vector{TransportArc}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), centroids_path = joinpath(@__DIR__, "maps", "centroids.csv"), colorscheme = :seaborn_colorblind6, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, linewidth = 0.2, linecolor = :black, size = (1600, 900), map_title = "", save_path = "")
 
 Plot the passed arcs into the model node map. 
 
@@ -361,8 +352,7 @@ Separate method implemented for also passing arc values.
 - `linewidth = 0.2`: Arc linewidth connecting nodes.
 - `linecolor = :black`: Color of arcs connecting nodes.
 - `size = (1600, 900)`: Picture size.
-- `rasterize = 10`: Rasterization to reduce output file size, lesser implies smaller files.
-- `map_title = "Model Nodes"`: Specification of the title.
+- `map_title = ""`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format. 
 
 """
@@ -378,8 +368,7 @@ function plot_model_nodes(
     linewidth = 0.2,
     linecolor = :black,
     size = (1600, 900),
-    rasterize = 10,
-    map_title = "Model Nodes",
+    map_title = "",
     save_path = "",
 )
     all_countries = GeoMakie.GeoJSON.read(nodes_path)
@@ -410,11 +399,13 @@ function plot_model_nodes(
         ) for i in legend_items
     ]
 
-    fig = Figure(resolution = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
+    fig = Figure(size = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     ax = GeoAxis(
         fig[1, 1];
         dest = "+proj=wintri",
+        xgridcolor = (:grey, 0.5),
+        ygridcolor= (:grey, 0.5),
     )
 
     Label(fig[1, 1, Top()], map_title, font = :bold)
@@ -425,8 +416,7 @@ function plot_model_nodes(
         lats,
         field;
         colormap = Reverse(:Blues_3),
-        shading = false,
-        rasterize = rasterize,
+        shading = NoShading,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -436,7 +426,6 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -445,7 +434,6 @@ function plot_model_nodes(
         color = [colormap[i.properties[:MODEL_NODE]] for i in all_countries],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     for a in arcs
@@ -466,7 +454,7 @@ function plot_model_nodes(
 end
 
 """
-    plot_model_nodes(container::JuMP.Containers.DenseAxisArray{T,N,Ax,L}, arcs::Vector{TransportArc}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), centroids_path = joinpath(@__DIR__, "maps", "centroids.csv"), colorscheme = :seaborn_colorblind6, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, linewidth = 1, linecolorscheme = :plasma, size = (1600, 900), rasterize = 10, largestvalues = 10, map_title = "Model Nodes", save_path = "") where {T,N,Ax,L<:NTuple{N,JuMP.Containers._AxisLookup}}
+    plot_model_nodes(container::JuMP.Containers.DenseAxisArray{T,N,Ax,L}, arcs::Vector{TransportArc}; nodes_path = joinpath(@__DIR__, "maps", "WB_countries_Admin0_modified.geojson"), disputed_path = joinpath(@__DIR__, "maps", "WB_Admin0_disputed_areas_modified.geojson"), centroids_path = joinpath(@__DIR__, "maps", "centroids.csv"), colorscheme = :seaborn_colorblind6, unassigned_color = :gray85, strokecolor = :black, strokewidth = 0.1, linewidth = 1, linecolorscheme = :plasma, size = (1600, 900), largestvalues = 10, map_title = "", save_path = "") where {T,N,Ax,L<:NTuple{N,JuMP.Containers._AxisLookup}}
 
 Plot the passed arcs with coloring corresponding to given values in the container into the model node map. 
 
@@ -483,10 +471,9 @@ Separate method implemented for just plotting normal values.
 - `linewidth = 1`: Arc linewidth connecting nodes.
 - `linecolorscheme = :plasma`: Colorscheme for coloring arcs connecting regions based on container values.
 - `size = (1600, 900)`: Picture size.
-- `rasterize = 10`: Rasterization to reduce output file size, lesser implies smaller files.
 - `largestvalues = 10`: The n largest arc values and equal to select.
 - `minval = 1`: The smallest value to include in the arc plot.
-- `map_title = "Model Nodes"`: Specification of the title.
+- `map_title = ""`: Specification of the title.
 - `save_path = ""`: Where to save the resulting graphic. Ending of filename automatically implies file format.
 
 """
@@ -503,10 +490,9 @@ function plot_model_nodes(
     linewidth = 1,
     linecolorscheme = :plasma,
     size = (1600, 900),
-    rasterize = 10,
     largestvalues = 10,
     minval = 1,
-    map_title = "Model Nodes",
+    map_title = "",
     save_path = "",
 ) where {T,N,Ax,L<:NTuple{N,JuMP.Containers._AxisLookup}}
     all_countries = GeoMakie.GeoJSON.read(nodes_path)
@@ -549,7 +535,7 @@ function plot_model_nodes(
     )
     color_gradient_relevant_vals = cgrad(linecolorscheme)
 
-    fig = Figure(resolution = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
+    fig = Figure(size = size, fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     if !isempty(relevant_values)
         cb_lims = extrema(values(relevant_values)) .+ (-1e-12,1e-12)
@@ -560,6 +546,8 @@ function plot_model_nodes(
     ax = GeoAxis(
         fig[1, 1];
         dest = "+proj=wintri",
+        xgridcolor = (:grey, 0.5),
+        ygridcolor= (:grey, 0.5),
     )
 
     Label(fig[1, 1, Top()], map_title, font = :bold)
@@ -570,8 +558,7 @@ function plot_model_nodes(
         lats,
         field;
         colormap = Reverse(:Blues_3),
-        shading = false,
-        rasterize = rasterize,
+        shading = NoShading,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -581,7 +568,6 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -590,7 +576,6 @@ function plot_model_nodes(
         color = [colormap[i.properties[:MODEL_NODE]] for i in all_countries],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize,
     )
 
     for a in arcs
