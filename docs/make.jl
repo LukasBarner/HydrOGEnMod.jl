@@ -14,6 +14,8 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Mathematical Formulation" => "mathematical_formulation.md",
+        "Code Documentation" => "docstrings.md",
         "Replication" => "replication.md",
     ],
 )

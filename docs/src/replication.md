@@ -1,6 +1,7 @@
 # Replication
 To run the replication script, you may use the following code: 
 
+
 ```julia
 using HydrOGEnMod
 using Gurobi
@@ -29,7 +30,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
                     "graphics",
                     "pc_prices_$(c)_$(s)_$(y).pdf",
                 ),
-                rasterize = 5,
+                rasterize = 1,
             )
             plot_model_nodes(
                 value.(model_pc[:demand][:, c, "Block 1", s, y]);
@@ -39,7 +40,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
                     "graphics",
                     "pc_demand_$(c)_$(s)_$(y).pdf",
                 ),
-                rasterize = 5,
+                rasterize = 1,
             )
         end
     end
@@ -48,7 +49,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
         value.(model_pc[:yearly_demand][:, c, y]);
         map_title = "Annual Demand for $c in $y Perfect Competition\n",
         save_path = joinpath(pc_results_path, "graphics", "pc_demand_$(c)_$(y).pdf"),
-        rasterize = 5,
+        rasterize = 1,
     )
 
     plot_model_nodes(
@@ -56,7 +57,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
         map_title = "Annual Production for $c in $y Perfect Competition\n",
         save_path = joinpath(pc_results_path, "graphics", "pc_production_$(c)_$(y).pdf"),
         geojson_property_tag = :MODEL_PRODUCER_5,
-        rasterize = 5,
+        rasterize = 1,
     )
 
     plot_model_nodes(
@@ -67,7 +68,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
         colorscheme = :linear_gow_65_90_c35_n256,
         linewidth = 2,
         largestvalues = 50,
-        rasterize = 5,
+        rasterize = 1,
     )
 
     for i in ["Renewable Hydrogen", "Nuclear Hydrogen"]
@@ -80,7 +81,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
                 "pc_procurement_$(i)_$(y).pdf",
             ),
             geojson_property_tag = :MODEL_PRODUCER_5,
-            rasterize = 5,
+            rasterize = 1,
         )
     end
 end
@@ -107,7 +108,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
                     "graphics",
                     "mp_prices_$(c)_$(s)_$(y).pdf",
                 ),
-                rasterize = 5,
+                rasterize = 1,
             )
             plot_model_nodes(
                 value.(model_mp[:demand][:, c, "Block 1", s, y]);
@@ -117,7 +118,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
                     "graphics",
                     "mp_demand_$(c)_$(s)_$(y).pdf",
                 ),
-                rasterize = 5,
+                rasterize = 1,
             )
         end
     end
@@ -126,7 +127,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
         value.(model_mp[:yearly_demand][:, c, y]);
         map_title = "Annual Demand for $c in $y Imperfect Competition\n",
         save_path = joinpath(mp_results_path, "graphics", "mp_demand_$(c)_$(y).pdf"),
-        rasterize = 5,
+        rasterize = 1,
     )
 
     plot_model_nodes(
@@ -134,7 +135,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
         map_title = "Annual Production for $c in $y Imperfect Competition\n",
         save_path = joinpath(mp_results_path, "graphics", "mp_production_$(c)_$(y).pdf"),
         geojson_property_tag = :MODEL_PRODUCER_5,
-        rasterize = 5,
+        rasterize = 1,
     )
 
     plot_model_nodes(
@@ -145,7 +146,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
         colorscheme = :linear_gow_65_90_c35_n256,
         linewidth = 2,
         largestvalues = 50,
-        rasterize = 5,
+        rasterize = 1,
     )
 
     for i in ["Renewable Hydrogen", "Nuclear Hydrogen"]
@@ -158,7 +159,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
                 "mp_procurement_$(i)_$(y).pdf",
             ),
             geojson_property_tag = :MODEL_PRODUCER_5,
-            rasterize = 5,
+            rasterize = 1,
         )
     end
 end
@@ -174,7 +175,7 @@ for y in [2030, 2050]
             ));
             map_title = "Price Difference against Perfect Competition $s $c $y\n",
             save_path = joinpath(diff_plots_path, "diff_prices_$(c)_$(s)_$(y).pdf"),
-            rasterize = 5,
+            rasterize = 1,
         )
     end
 
@@ -187,7 +188,7 @@ for y in [2030, 2050]
             map_title = "Difference in Annual Procurement of $i in $y Imperfect Competition\n",
             save_path = joinpath(diff_plots_path, "diff_procurement_$(i)_$(y).pdf"),
             geojson_property_tag = :MODEL_PRODUCER_5,
-            rasterize = 5,
+            rasterize = 1,
         )
     end
 end
