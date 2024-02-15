@@ -6,7 +6,7 @@ using JuMP
 pc_results_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), &quot;results&quot;, &quot;pc&quot;)
 
 data_pc = get_HydrOGEnMod_data(
-    data = joinpath(dirname(dirname(pathof(HydrOGEnMod))), &quot;data&quot;, &quot;data_pc&quot;),
+    joinpath(dirname(dirname(pathof(HydrOGEnMod))), &quot;data&quot;, &quot;data_pc&quot;)
 );
 write_csv(joinpath(pc_results_path, &quot;precalculated&quot;), data_pc)
 
@@ -20,7 +20,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
         if c ∉ [&quot;LH2&quot;]
             plot_model_nodes(
                 value.(model_pc[:prices][:, c, &quot;Block 1&quot;, s, y]);
-                map_title = &quot;Prices for $c in Season $s $y Perfect Competition\n&quot;,
+                map_title = &quot;Prices for $c in Season $s $y Perfect Competition&quot;,
                 save_path = joinpath(
                     pc_results_path,
                     &quot;graphics&quot;,
@@ -30,7 +30,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
             )
             plot_model_nodes(
                 value.(model_pc[:demand][:, c, &quot;Block 1&quot;, s, y]);
-                map_title = &quot;Demand for $c in Season $s $y Perfect Competition\n&quot;,
+                map_title = &quot;Demand for $c in Season $s $y Perfect Competition&quot;,
                 save_path = joinpath(
                     pc_results_path,
                     &quot;graphics&quot;,
@@ -43,14 +43,14 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
 
     plot_model_nodes(
         value.(model_pc[:yearly_demand][:, c, y]);
-        map_title = &quot;Annual Demand for $c in $y Perfect Competition\n&quot;,
+        map_title = &quot;Annual Demand for $c in $y Perfect Competition&quot;,
         save_path = joinpath(pc_results_path, &quot;graphics&quot;, &quot;pc_demand_$(c)_$(y).pdf&quot;),
         rasterize = 1,
     )
 
     plot_model_nodes(
         value.(model_pc[:yearly_production][:, c, y]);
-        map_title = &quot;Annual Production for $c in $y Perfect Competition\n&quot;,
+        map_title = &quot;Annual Production for $c in $y Perfect Competition&quot;,
         save_path = joinpath(pc_results_path, &quot;graphics&quot;, &quot;pc_production_$(c)_$(y).pdf&quot;),
         geojson_property_tag = :MODEL_PRODUCER_5,
         rasterize = 1,
@@ -59,7 +59,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
     plot_model_nodes(
         value.(model_pc[:yearly_arc_flows][:, c, y]),
         data_pc.arcs;
-        map_title = &quot;Largest Trade Flows $c $y Perfect Competition\n&quot;,
+        map_title = &quot;Largest Trade Flows $c $y Perfect Competition&quot;,
         save_path = joinpath(pc_results_path, &quot;graphics&quot;, &quot;pc_trade_flows_$(c)_$(y).pdf&quot;),
         colorscheme = :linear_gow_65_90_c35_n256,
         linewidth = 2,
@@ -70,7 +70,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
     for i in [&quot;Renewable Hydrogen&quot;, &quot;Nuclear Hydrogen&quot;]
         plot_model_nodes(
             value.(model_pc[:yearly_input_procurement][:, i, y]);
-            map_title = &quot;Annual Procurement of $i in $y Perfect Competition\n&quot;,
+            map_title = &quot;Annual Procurement of $i in $y Perfect Competition&quot;,
             save_path = joinpath(
                 pc_results_path,
                 &quot;graphics&quot;,
@@ -85,7 +85,7 @@ end
 mp_results_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), &quot;results&quot;, &quot;mp&quot;)
 
 data_mp = get_HydrOGEnMod_data(
-    data = joinpath(dirname(dirname(pathof(HydrOGEnMod))), &quot;data&quot;, &quot;data_mp&quot;),
+    joinpath(dirname(dirname(pathof(HydrOGEnMod))), &quot;data&quot;, &quot;data_mp&quot;)
 );
 
 write_csv(joinpath(mp_results_path, &quot;precalculated&quot;), data_mp)
@@ -98,7 +98,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
         if c ∉ [&quot;LH2&quot;]
             plot_model_nodes(
                 value.(model_mp[:prices][:, c, &quot;Block 1&quot;, s, y]);
-                map_title = &quot;Prices for $c in Season $s $y Imperfect Competition\n&quot;,
+                map_title = &quot;Prices for $c in Season $s $y Imperfect Competition&quot;,
                 save_path = joinpath(
                     mp_results_path,
                     &quot;graphics&quot;,
@@ -108,7 +108,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
             )
             plot_model_nodes(
                 value.(model_mp[:demand][:, c, &quot;Block 1&quot;, s, y]);
-                map_title = &quot;Demand for $c in Season $s $y Imperfect Competition\n&quot;,
+                map_title = &quot;Demand for $c in Season $s $y Imperfect Competition&quot;,
                 save_path = joinpath(
                     mp_results_path,
                     &quot;graphics&quot;,
@@ -121,14 +121,14 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
 
     plot_model_nodes(
         value.(model_mp[:yearly_demand][:, c, y]);
-        map_title = &quot;Annual Demand for $c in $y Imperfect Competition\n&quot;,
+        map_title = &quot;Annual Demand for $c in $y Imperfect Competition&quot;,
         save_path = joinpath(mp_results_path, &quot;graphics&quot;, &quot;mp_demand_$(c)_$(y).pdf&quot;),
         rasterize = 1,
     )
 
     plot_model_nodes(
         value.(model_mp[:yearly_production][:, c, y]);
-        map_title = &quot;Annual Production for $c in $y Imperfect Competition\n&quot;,
+        map_title = &quot;Annual Production for $c in $y Imperfect Competition&quot;,
         save_path = joinpath(mp_results_path, &quot;graphics&quot;, &quot;mp_production_$(c)_$(y).pdf&quot;),
         geojson_property_tag = :MODEL_PRODUCER_5,
         rasterize = 1,
@@ -137,7 +137,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
     plot_model_nodes(
         value.(model_mp[:yearly_arc_flows][:, c, y]),
         data_mp.arcs;
-        map_title = &quot;Largest Trade Flows $c $y Imperfect Competition\n&quot;,
+        map_title = &quot;Largest Trade Flows $c $y Imperfect Competition&quot;,
         save_path = joinpath(mp_results_path, &quot;graphics&quot;, &quot;mp_trade_flows_$(c)_$(y).pdf&quot;),
         colorscheme = :linear_gow_65_90_c35_n256,
         linewidth = 2,
@@ -148,7 +148,7 @@ for y in [2030, 2050], c in [&quot;GH2&quot;, &quot;NH3&quot;, &quot;LH2&quot;]
     for i in [&quot;Renewable Hydrogen&quot;, &quot;Nuclear Hydrogen&quot;]
         plot_model_nodes(
             value.(model_mp[:yearly_input_procurement][:, i, y]);
-            map_title = &quot;Annual Procurement of $i in $y Imperfect Competition\n&quot;,
+            map_title = &quot;Annual Procurement of $i in $y Imperfect Competition&quot;,
             save_path = joinpath(
                 mp_results_path,
                 &quot;graphics&quot;,
@@ -169,7 +169,7 @@ for y in [2030, 2050]
                 model_mp[:prices][:, c, &quot;Block 1&quot;, s, y] .-
                 model_pc[:prices][:, c, &quot;Block 1&quot;, s, y]
             ));
-            map_title = &quot;Price Difference against Perfect Competition $s $c $y\n&quot;,
+            map_title = &quot;Price Difference against Perfect Competition $s $c $y&quot;,
             save_path = joinpath(diff_plots_path, &quot;diff_prices_$(c)_$(s)_$(y).pdf&quot;),
             rasterize = 1,
         )
@@ -181,11 +181,11 @@ for y in [2030, 2050]
                 model_mp[:yearly_input_procurement][:, i, y] .-
                 model_pc[:yearly_input_procurement][:, i, y]
             );
-            map_title = &quot;Difference in Annual Procurement of $i in $y Imperfect Competition\n&quot;,
+            map_title = &quot;Difference in Annual Procurement of $i in $y Imperfect Competition&quot;,
             save_path = joinpath(diff_plots_path, &quot;diff_procurement_$(i)_$(y).pdf&quot;),
             geojson_property_tag = :MODEL_PRODUCER_5,
             rasterize = 1,
         )
     end
 end
-</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../docstrings/">« Code Documentation</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.2.1 on <span class="colophon-date" title="Thursday 15 February 2024 12:33">Thursday 15 February 2024</span>. Using Julia version 1.10.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../docstrings/">« Code Documentation</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="auto">Automatic (OS)</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.2.1 on <span class="colophon-date" title="Thursday 15 February 2024 13:07">Thursday 15 February 2024</span>. Using Julia version 1.10.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
