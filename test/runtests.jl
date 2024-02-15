@@ -4,7 +4,6 @@ using Aqua
 using JET
 using Ipopt
 using JuMP
-using Makie, CairoMakie
 using Complementarity
 import Logging
 
