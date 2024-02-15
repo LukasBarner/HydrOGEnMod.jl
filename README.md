@@ -14,5 +14,5 @@ Pkg.add("https://github.com/LukasBarner/HydrOGEnMod.jl")
 Alternatively, you can also directly use the Pkg-mode from within the REPL. 
 
 ## Running the model
-For a replication script and code documentation see the [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://LukasBarner.github.io/HydrOGEnMod.jl/dev/).
+For a replication script and code documentation see the [documentation](https://LukasBarner.github.io/HydrOGEnMod.jl/dev/).
 
