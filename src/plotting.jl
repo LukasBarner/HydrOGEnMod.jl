@@ -219,7 +219,7 @@ function plot_model_nodes(
         lowclip = unassigned_color,
     )
 
-    linkyaxes!(ax, cb)
+    # linkyaxes!(ax, cb)
 
     length(save_path) > 0 && save(save_path, fig)
 
@@ -342,7 +342,7 @@ function plot_model_nodes(
         lowclip = unassigned_color,
     )
 
-    linkyaxes!(ax, cb)
+    # linkyaxes!(ax, cb)
 
     length(save_path) > 0 && save(save_path, fig)
 
@@ -631,7 +631,7 @@ function plot_model_nodes(
         lowclip = unassigned_color,
     )
 
-    linkyaxes!(ax, cb)
+    # linkyaxes!(ax, cb)
 
     length(save_path) > 0 && save(save_path, fig)
 
