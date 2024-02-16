@@ -225,7 +225,7 @@ function get_input_data(
 
                     Λ_I_h = Λ_I_df[
                         (Λ_I_df.Input.==i).&(Λ_I_df.Node.==n),
-                        "Daily Capacity $b $y",
+                        "Capacity $b $y",
                     ]
 
                     if length(Λ_I_h) == 1
@@ -419,7 +419,7 @@ function get_production_data(
             p_name = get_name(p)
             Λ_P_h = cap_df[
                 (cap_df.Output.==c).&(cap_df.Node.==n).&(cap_df.Origin.==o),
-                "Daily Capacity $y",
+                "Capacity $y",
             ]
             if length(Λ_P_h) == 1
                 Λ_P[p_name, c, o, y] = Λ_P_h[1]
@@ -440,7 +440,7 @@ function get_production_data(
 
             Ω_P_h = lim_df[
                 (lim_df.Output.==c).&(lim_df.Node.==n).&(lim_df.Origin.==o),
-                "Expansion Limit Daily Capacity $y",
+                "Expansion Limit Capacity $y",
             ]
             if length(Ω_P_h) == 1
                 Ω_P[p_name, c, o, y] = Ω_P_h[1]
@@ -829,7 +829,7 @@ function get_arc_data(
                             !,
                             "End",
                         ].==a.end_node).&(exist_pipes[!, "Flow Commodity"].==get_name(f)),
-                        "Daily Capacity $y",
+                        "Capacity $y",
                     ]
                     if length(pipe_cap_arr) == 1
                         Λ_A[get_name(a), get_name(f), y] = pipe_cap_arr[1]
@@ -1142,7 +1142,7 @@ function get_demand_data(
                 !,
                 "Commodity",
             ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Season"].==s),
-            "Daily Consumption $b $y",
+            "Consumption $b $y",
         ]
         p = ref_df[
             (ref_df[

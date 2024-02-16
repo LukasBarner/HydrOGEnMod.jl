@@ -1,4 +1,4 @@
-Node,Output,Origin,Expansion Limit Daily Capacity 2020,Expansion Limit Daily Capacity 2025,Expansion Limit Daily Capacity 2030,Expansion Limit Daily Capacity 2035,Expansion Limit Daily Capacity 2040,Expansion Limit Daily Capacity 2045,Expansion Limit Daily Capacity 2050,Expansion Limit Daily Capacity 2055,Expansion Limit Daily Capacity 2060
+Node,Output,Origin,Expansion Limit Capacity 2020,Expansion Limit Capacity 2025,Expansion Limit Capacity 2030,Expansion Limit Capacity 2035,Expansion Limit Capacity 2040,Expansion Limit Capacity 2045,Expansion Limit Capacity 2050,Expansion Limit Capacity 2055,Expansion Limit Capacity 2060
 N1,GH2,Renewable Electrolysis,7,1,3,10,5,6,2,8,10
 N2,GH2,Renewable Electrolysis,7,7,10,4,5,4,8,3,10
 N3,GH2,Renewable Electrolysis,3,6,6,5,5,8,3,7,5

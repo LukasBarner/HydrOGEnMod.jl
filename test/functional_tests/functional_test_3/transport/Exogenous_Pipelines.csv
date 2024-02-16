@@ -1,4 +1,4 @@
-Start,End,Flow Commodity,Daily Capacity 2020,Daily Capacity 2025,Daily Capacity 2030,Daily Capacity 2035,Daily Capacity 2040,Daily Capacity 2045,Daily Capacity 2050,Daily Capacity 2055,Daily Capacity 2060
+Start,End,Flow Commodity,Capacity 2020,Capacity 2025,Capacity 2030,Capacity 2035,Capacity 2040,Capacity 2045,Capacity 2050,Capacity 2055,Capacity 2060
 N1,N2,GCH4,1,3,9,4,5,3,10,8,5
 N2,N3,GCH4,9,10,3,8,1,8,6,1,3
 N3,N4,GCH4,5,6,7,5,5,9,9,9,10
