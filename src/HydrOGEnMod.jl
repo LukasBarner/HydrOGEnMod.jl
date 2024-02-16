@@ -9,8 +9,7 @@ export get_HydrOGEnMod_data,
     plot_model_nodes,
     write_csv
 
-using XLSX,
-    JuMP, DataFrames, Makie, CairoMakie, CSV, GeoMakie, Complementarity, MathOptInterface, Printf
+using JuMP, DataFrames, Makie, CairoMakie, CSV, GeoMakie, Complementarity, MathOptInterface, Printf
 import GeoJSON
 
 include("logging.jl")

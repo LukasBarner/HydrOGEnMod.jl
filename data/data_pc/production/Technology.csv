@@ -1,0 +1,3 @@
+Output,Factor Intensity Renewable Hydrogen,Factor Intensity Nuclear Hydrogen,Origin,Lifetime,Operational Cost 2020,Operational Cost 2025,Operational Cost 2030,Operational Cost 2035,Operational Cost 2040,Operational Cost 2045,Operational Cost 2050,Operational Cost 2055,Operational Cost 2060,Operational Cost 2065,Operational Cost 2070,Operational Cost 2075,Investment Cost 2020,Investment Cost 2025,Investment Cost 2030,Investment Cost 2035,Investment Cost 2040,Investment Cost 2045,Investment Cost 2050,Investment Cost 2055,Investment Cost 2060,Investment Cost 2065,Investment Cost 2070,Investment Cost 2075
+GH2,1,0,Renewable Electrolysis,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+GH2,0,1,Nuclear Electrolysis,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

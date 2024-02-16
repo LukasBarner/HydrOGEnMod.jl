@@ -1,7 +1,7 @@
 function get_seasons(datafile)
     seasons = Season[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Seasons"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Seasons.csv"), DataFrame, delim=','))
         s = Season(r[:Season], r[:Days], r[:Type])
         push!(seasons, s)
     end
@@ -36,7 +36,7 @@ end
 
 function get_years(datafile)
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Years"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Years.csv"), DataFrame, delim=','))
         years = Years(
             r[:Initial]:r[:Step]:r[:Last],
             r[:Initial],
@@ -45,8 +45,7 @@ function get_years(datafile)
             sum(s.days for s in get_seasons(datafile)),
             "$(r[:Initial]) - $(r[:Last])",
         )
-        r =
-            XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Temporal Preferences!A2"]
+        r = CSV.read(joinpath(datafile, "general_data", "Temporal_Preferences.csv"), DataFrame)[1,"Discount Rate"]
         discount = JuMP.Containers.DenseAxisArray(
             [1.0 / (1.0 + r)^(y - years.start) for y in years.range],
             years.range,
@@ -59,7 +58,7 @@ end
 function get_nodes(datafile)
     nodes = Node[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Nodes"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
         n = Node(
             name = r[:Node],
             producer = "P_$(r[:Node])",
@@ -77,7 +76,7 @@ end
 function get_producers(datafile)
     producers = Producer[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Nodes"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
         p = Producer(
             name = "P_$(r[:Node])",
             node = r[:Node],
@@ -110,55 +109,32 @@ function get_input_data(
         get_name.(seasons),
     )
 
-    av_I_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "inputs", "inputs.xlsx"),
-            "Availability Factors",
-            infer_eltypes = true,
-        ),
+    av_I_df = CSV.read(
+        joinpath(datafile, "inputs", "Availability_Factors.csv"), DataFrame, delim=','
     )
 
     L_I = JuMP.Containers.DenseAxisArray(zeros(length(inputs)), get_name.(inputs))
 
-    Λ_I_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "inputs", "inputs.xlsx"),
-            "Exogenous Capacities",
-            infer_eltypes = true,
-        ),
+    Λ_I_df = CSV.read(
+        joinpath(datafile, "inputs", "Exogenous_Capacities.csv"), DataFrame, delim=','
     )
 
-    Ω_I_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "inputs", "inputs.xlsx"),
-            "Capacity Expansion Limits",
-            infer_eltypes = true,
-        ),
+    Ω_I_df = CSV.read(
+        joinpath(datafile, "inputs", "Capacity_Expansion_Limits.csv"), DataFrame, delim=','
     )
 
-    op_cost_par_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "inputs", "inputs.xlsx"),
-            "Cost Parameters",
-            infer_eltypes = true,
-        ),
+    op_cost_par_df = CSV.read(
+        joinpath(datafile, "inputs", "Cost_Parameters.csv"), DataFrame, delim=','
     )
 
-    inv_cost_par_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "inputs", "inputs.xlsx"),
-            "Investment Cost Parameters",
-            infer_eltypes = true,
-        ),
+    inv_cost_par_df = CSV.read(
+        joinpath(datafile, "inputs", "Investment_Cost_Parameters.csv"), DataFrame, delim=','
     )
 
-    life_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "inputs", "inputs.xlsx"),
-            "Lifetimes",
-            infer_eltypes = true,
-        ),
+    life_df = CSV.read(
+        joinpath(datafile, "inputs", "Lifetimes.csv"), DataFrame, delim=','
     )
+    
     for i in get_name.(inputs)
         L_I_h = life_df[(life_df.Input.==i), "Lifetime"]
         if length(L_I_h) == 1
@@ -360,26 +336,16 @@ function get_production_data(
     origins::Vector{Origin},
     years::Years,
 )
-    tec_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "production", "production.xlsx"),
-            "Technology",
-            infer_eltypes = true,
-        ),
+    tec_df = CSV.read(
+        joinpath(datafile, "production", "Technology.csv"), DataFrame, delim=','
     )
-    cap_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "production", "production.xlsx"),
-            "Exogenous Capacities",
-            infer_eltypes = true,
-        ),
+
+    cap_df = CSV.read(
+        joinpath(datafile, "production", "Exogenous_Capacities.csv"), DataFrame, delim=','
     )
-    lim_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "production", "production.xlsx"),
-            "Capacity Expansion Limits",
-            infer_eltypes = true,
-        ),
+    
+    lim_df = CSV.read(
+        joinpath(datafile, "production", "Capacity_Expansion_Limits.csv"), DataFrame, delim=','
     )
 
     for i in get_name.(inputs)
@@ -515,13 +481,10 @@ function get_trade_data(
     origins::Vector{Origin},
     years::Years,
 )
-    sanctions_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "trade", "trade.xlsx"),
-            "Sanctions",
-            infer_eltypes = true,
-        ),
+    sanctions_df = CSV.read(
+        joinpath(datafile, "trade", "Sanctions.csv"), DataFrame, delim=','
     )
+
     interim_sanctions = Dict{Tuple{String,String,String,String,Int64},Float64}(
         (row.Trader, row.Node, row.Commodity, row.Origin, y) =>
             sanctions_df[idx, "Yearly Limit $y"] for
@@ -535,13 +498,10 @@ function get_trade_data(
 
     Λ_T = JuMP.Containers.SparseAxisArray(interim_sanctions)
 
-    NC_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "general_data.xlsx"),
-            "Market Power",
-            infer_eltypes = true,
-        ),
+    NC_df = CSV.read(
+        joinpath(datafile, "general_data", "Market_Power.csv"), DataFrame
     )
+    
     NC = JuMP.Containers.DenseAxisArray(
         zeros(length(traders), length(nodes), length(commodities)),
         get_name.(traders),
@@ -565,12 +525,8 @@ function get_trade_data(
         end
     end
 
-    specific_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "trade", "trade.xlsx"),
-            "Specific Market Power",
-            infer_eltypes = true,
-        ),
+    specific_df = CSV.read(
+        joinpath(datafile, "trade", "Specific_Market_Power.csv"), DataFrame, delim=','
     )
 
     specific_dict = Dict{Tuple{String,String,String},Float64}(
@@ -599,27 +555,18 @@ function get_conversion_data(
     repurposing_conversion_technologies::Vector{RepurposingConversion},
     years::Years,
 )
-    df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "conversion", "conversion.xlsx"),
-            "Conversion Data",
-            infer_eltypes = true,
-        ),
+    df = CSV.read(
+        joinpath(datafile, "conversion", "Conversion_Data.csv"), DataFrame, delim=','
     )
-    cap_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "conversion", "conversion.xlsx"),
-            "Capacities",
-            infer_eltypes = true,
-        ),
+    
+    cap_df = CSV.read(
+        joinpath(datafile, "conversion", "Capacities.csv"), DataFrame, delim=','
     )
-    repurposing_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "conversion", "conversion.xlsx"),
-            "Repurposing",
-            infer_eltypes = true,
-        ),
+
+    repurposing_df = CSV.read(
+        joinpath(datafile, "conversion", "Repurposing.csv"), DataFrame, delim=','
     )
+    
     for f in get_name.(input_commodities)
         if f ∉ df[!, "Input Commodity"]
             @_warning "Missing input commodity in converison technologies" Commodity = f
@@ -782,40 +729,24 @@ function get_arc_data(
     arc_repurposing_technologies::Vector{RepurposingArcs},
     years::Years,
 )
-    commodity_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "transport", "transport.xlsx"),
-            "Commodity Data",
-            infer_eltypes = true,
-        ),
+    commodity_df = CSV.read(
+        joinpath(datafile, "transport", "Commodity_Data.csv"), DataFrame, delim=','
     )
-    pipe_dist_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "transport", "transport.xlsx"),
-            "Pipeline Distances",
-            infer_eltypes = true,
-        ),
+    
+    pipe_dist_df = CSV.read(
+        joinpath(datafile, "transport", "Pipeline_Distances.csv"), DataFrame, delim=','
     )
-    ship_dist_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "transport", "transport.xlsx"),
-            "Shipping Distances",
-            infer_eltypes = true,
-        ),
+    
+    ship_dist_df = CSV.read(
+        joinpath(datafile, "transport", "Shipping_Distances.csv"), DataFrame, delim=','
     )
-    exist_pipes = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "transport", "transport.xlsx"),
-            "Exogenous Pipelines",
-            infer_eltypes = true,
-        ),
+    
+    exist_pipes = CSV.read(
+        joinpath(datafile, "transport", "Exogenous_Pipelines.csv"), DataFrame, delim=','
     )
-    repurposing_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "transport", "transport.xlsx"),
-            "Repurposing Data",
-            infer_eltypes = true,
-        ),
+    
+    repurposing_df = CSV.read(
+        joinpath(datafile, "transport", "Repurposing_Data.csv"), DataFrame, delim=','
     )
 
     c_A = JuMP.Containers.DenseAxisArray(
@@ -963,33 +894,20 @@ function get_storage_data(
     years::Years,
     season_mapping::SeasonMapping,
 )
-    tec_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "storage", "storage.xlsx"),
-            "Technologies",
-            infer_eltypes = true,
-        ),
+    tec_df = CSV.read(
+        joinpath(datafile, "storage", "Technologies.csv"), DataFrame, delim=','
     )
-    los_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "storage", "storage.xlsx"),
-            "Losses",
-            infer_eltypes = true,
-        ),
+    
+    los_df = CSV.read(
+        joinpath(datafile, "storage", "Losses.csv"), DataFrame, delim=','
     )
-    cap_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "storage", "storage.xlsx"),
-            "Capacities",
-            infer_eltypes = true,
-        ),
+    
+    cap_df = CSV.read(
+        joinpath(datafile, "storage", "Capacities.csv"), DataFrame, delim=','
     )
-    repurposing_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "storage", "storage.xlsx"),
-            "Repurposing Data",
-            infer_eltypes = true,
-        ),
+    
+    repurposing_df = CSV.read(
+        joinpath(datafile, "storage", "Repurposing_Data.csv"), DataFrame, delim=','
     )
 
     Λ_S = JuMP.Containers.DenseAxisArray(
@@ -1180,12 +1098,8 @@ function get_demand_data(
     years::Years,
 )
 
-    ref_df = DataFrame(
-        XLSX.readtable(
-            joinpath(datafile, "demand", "demand.xlsx"),
-            "Reference Data",
-            infer_eltypes = true,
-        ),
+    ref_df = CSV.read(
+        joinpath(datafile, "demand", "Reference_Data.csv"), DataFrame, delim=','
     )
 
     α_D = JuMP.Containers.DenseAxisArray(
@@ -1266,7 +1180,7 @@ end
 function get_traders(datafile)
     traders = Trader[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Nodes"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim=','))
         idx = findfirst(x -> r[Symbol("Nodal Trader")] == get_name(x), traders)
         if !isnothing(idx)
             t = traders[idx]
@@ -1282,7 +1196,7 @@ end
 function get_converters(datafile)
     converters = Converter[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Nodes"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
         c = Converter(
             name = "V_$(r[:Node])",
             node = r[:Node],
@@ -1315,11 +1229,9 @@ end
 function get_arc_adjacency(datafile, nodes, arcs, commodities)
     arc_adjacency = ArcAdjacencyCommodity()
 
-    df_pipe = DataFrame(XLSX.readtable(
-        joinpath(datafile, "transport", "transport.xlsx"),
-        "Pipeline Adjacency",
-        infer_eltypes = true,
-    ),)
+    df_pipe = CSV.read(
+        joinpath(datafile, "transport", "Pipeline_Adjacency.csv"), DataFrame, delim=','
+    )
     
     @assert df_pipe.Start == names(df_pipe[!,2:end])
     @assert get_name.(nodes) ⊆ df_pipe.Start
@@ -1327,11 +1239,9 @@ function get_arc_adjacency(datafile, nodes, arcs, commodities)
     adjacency_pipe = JuMP.Containers.DenseAxisArray(Matrix(df_pipe[!,2:end]), node_names, node_names)
     @assert isequal(adjacency_pipe.data,permutedims(adjacency_pipe.data))
 
-    df_shipping = DataFrame(XLSX.readtable(
-        joinpath(datafile, "transport", "transport.xlsx"),
-        "Shipping Adjacency",
-        infer_eltypes = true,
-    ),)
+    df_shipping = CSV.read(
+        joinpath(datafile, "transport", "Shipping_Adjacency.csv"), DataFrame, delim=','
+    )
     
     @assert df_shipping.Start == names(df_shipping[!,2:end])
     @assert get_name.(nodes) ⊆ df_shipping.Start
@@ -1366,7 +1276,7 @@ end
 function get_storages(datafile)
     storages = Storage[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Nodes"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
         s = Storage(
             name = "S_$(r[:Node])",
             node = r[:Node],
@@ -1380,8 +1290,8 @@ end
 
 function get_commodities(datafile)
     commodities = Commodity[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Commodities"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Commodities.csv"),DataFrame, delim=',')
     )
         c = Commodity(name = r[Symbol("Commodity")], transport = "unassigned")
         push!(commodities, c)
@@ -1392,7 +1302,7 @@ end
 function get_origins(datafile)
     origins = Origin[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Origins"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Origins.csv"),DataFrame, delim=','))
         o = Origin(name = r[:Origin])
         push!(origins, o)
     end
@@ -1402,7 +1312,7 @@ end
 function get_inputs(datafile)
     inputs = Input[]
     for r in
-        XLSX.eachtablerow(XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Inputs"])
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Inputs.csv"),DataFrame, delim=','))
         i = Input(name = r[:Input])
         push!(inputs, i)
     end
@@ -1411,8 +1321,8 @@ end
 
 function get_input_operational_blocks(datafile)
     input_operational_blocks = InputOperationalBlock[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Input Blocks"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Input_Blocks.csv"),DataFrame, delim=',')
     )
         i = InputOperationalBlock(name = r[Symbol("Input Block")])
         push!(input_operational_blocks, i)
@@ -1422,8 +1332,8 @@ end
 
 function get_demand_blocks(datafile)
     demand_blocks = DemandBlock[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "general_data.xlsx"))["Demand Blocks"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Demand_Blocks.csv"),DataFrame; delim=',')
     )
         i = DemandBlock(name = r[Symbol("Demand Blocks")])
         push!(demand_blocks, i)
@@ -1435,8 +1345,8 @@ function get_production_technology_data(datafile::String)
     commodities = get_commodities(datafile)
     origins = get_origins(datafile)
     production_technologies = ProductionTechnology[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "production", "production.xlsx"))["Technology"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "production", "Technology.csv"),DataFrame, delim=',')
     )
         c = r[Symbol("Output")]
         o = r[Symbol("Origin")]
@@ -1459,8 +1369,8 @@ end
 function get_conversion_technology_data(datafile::String)
     commodities = get_commodities(datafile)
     conversion_technologies = ConversionTechnology[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "conversion", "conversion.xlsx"))["Conversion Data"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "conversion", "Conversion_Data.csv"),DataFrame, delim=',')
     )
         c_in = r[Symbol("Input Commodity")]
         c_out = r[Symbol("Output Commodity")]
@@ -1483,8 +1393,8 @@ end
 function get_arc_repurposing_technology(datafile)
     commodities = get_commodities(datafile)
     arc_repurposing_technologies = RepurposingArcs[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "transport", "transport.xlsx"))["Repurposing Data"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "transport", "Repurposing_Data.csv"),DataFrame, delim=',')
     )
         c_old = r[Symbol("Old Flow Commodity")]
         c_new = r[Symbol("New Flow Commodity")]
@@ -1507,8 +1417,8 @@ end
 function get_storage_repurposing_technology(datafile)
     commodities = get_commodities(datafile)
     storage_repurposing_technologies = RepurposingStorage[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "storage", "storage.xlsx"))["Repurposing Data"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "storage", "Repurposing_Data.csv"),DataFrame, delim=',')
     )
         c_old = r[Symbol("Old Commodity")]
         c_new = r[Symbol("New Commodity")]
@@ -1531,8 +1441,8 @@ end
 function get_conversion_repurposing_technology(datafile)
     commodities = get_commodities(datafile)
     repurposing_technology = RepurposingConversion[]
-    for r in XLSX.eachtablerow(
-        XLSX.readxlsx(joinpath(datafile, "conversion", "conversion.xlsx"))["Repurposing"],
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "conversion", "Repurposing.csv"),DataFrame, delim=',')
     )
         c_in_old = r[Symbol("From Input Commodity")]
         c_out_old = r[Symbol("From Output Commodity")]

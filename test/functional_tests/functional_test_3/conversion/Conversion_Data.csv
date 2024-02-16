@@ -1,0 +1,6 @@
+Input Commodity,Output Commodity,Factor Intensity,Lifetime,Operational Costs 2020,Operational Costs 2025,Operational Costs 2030,Operational Costs 2035,Operational Costs 2040,Operational Costs 2045,Operational Costs 2050,Operational Costs 2055,Operational Costs 2060,Investment Costs 2020,Investment Costs 2025,Investment Costs 2030,Investment Costs 2035,Investment Costs 2040,Investment Costs 2045,Investment Costs 2050,Investment Costs 2055,Investment Costs 2060
+GCH4,LCH4,1.1,50,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,100,100,100,100,100,100,100,100,100
+LCH4,GCH4,1.05,50,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,50,50,50,50,50,50,50,50,50
+GH2,GCH4,0.5,50,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,150,150,150,150,150,150,150,150,150
+GH2,NH3,0.5,50,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,150,150,150,150,150,150,150,150,150
+GH2,CH30H,0.5,50,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,150,150,150,150,150,150,150,150,150

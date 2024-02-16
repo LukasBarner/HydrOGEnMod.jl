@@ -1,0 +1,5 @@
+Node,Commodity,Season,Daily Consumption Block 1 2020,Daily Consumption Block 1 2021,Reference Price Block 1 2020,Reference Price Block 1 2021,Price Elasticity Block 1 2020,Price Elasticity Block 1 2021
+DEU,CNG,OnlySeason,1,0,1,0,-1,-1
+NLD,CNG,OnlySeason,0,0,0,0,-1,-1
+DEU,GH2,OnlySeason,0,1,0,1,-1,-1
+NLD,GH2,OnlySeason,0,0,0,0,-1,-1

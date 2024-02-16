@@ -1,0 +1,25 @@
+Commodity,Injection Season,Extraction Season,Loss Rate
+GCH4,L,L,0.1
+GCH4,L,H,0.1
+GCH4,H,L,0.1
+GCH4,H,H,0.1
+LCH4,L,L,0.1
+LCH4,L,H,0.1
+LCH4,H,L,0.1
+LCH4,H,H,0.1
+LH2,L,L,0.1
+LH2,L,H,0.1
+LH2,H,L,0.1
+LH2,H,H,0.1
+GH2,L,L,0.1
+GH2,L,H,0.1
+GH2,H,L,0.1
+GH2,H,H,0.1
+NH3,L,L,0.1
+NH3,L,H,0.1
+NH3,H,L,0.1
+NH3,H,H,0.1
+CH3OH,L,L,0.1
+CH3OH,L,H,0.1
+CH3OH,H,L,0.1
+CH3OH,H,H,0.1

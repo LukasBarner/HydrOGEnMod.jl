@@ -1,0 +1,9 @@
+Commodity,Injection Season,Extraction Season,Loss Rate
+CNG,L,L,0
+CNG,L,H,0
+CNG,H,L,0
+CNG,H,H,0
+GH2,L,L,0
+GH2,L,H,0
+GH2,H,L,0
+GH2,H,H,0

@@ -1,0 +1,7 @@
+Flow Commodity,Transport Type,Lifetime,Loss per kkm,Operational Cost per kkm 2020,Operational Cost per kkm 2025,Operational Cost per kkm 2030,Operational Cost per kkm 2035,Operational Cost per kkm 2040,Operational Cost per kkm 2045,Operational Cost per kkm 2050,Operational Cost per kkm 2055,Operational Cost per kkm 2060,Investment Cost per kkm 2020,Investment Cost per kkm 2025,Investment Cost per kkm 2030,Investment Cost per kkm 2035,Investment Cost per kkm 2040,Investment Cost per kkm 2045,Investment Cost per kkm 2050,Investment Cost per kkm 2055,Investment Cost per kkm 2060
+GCH4,Pipeline,50,0.01,4,7,6,6,6,6,1,9,1,1,4,5,9,7,5,7,5,8
+LCH4,Shipping,50,0.01,8,2,9,8,9,10,3,8,7,7,8,5,3,6,2,1,2,5
+LH2,Shipping,50,0.01,6,2,6,6,10,5,8,7,3,9,9,3,10,2,6,5,6,2
+GH2,Pipeline,50,0.01,1,2,8,6,6,10,4,3,2,1,9,2,8,6,9,6,5,7
+NH3,Shipping,50,0.01,1,4,5,4,6,6,8,6,3,9,8,2,8,2,7,4,10,6
+CH3OH,Shipping,50,0.01,5,6,6,4,9,1,7,9,3,6,10,9,3,7,4,8,8,3
