@@ -1,37 +1,37 @@
-function get_seasons(datafile)
-    seasons = Season[]
+function get_timesteps(datafile)
+    timesteps = Timestep[]
     for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Seasons.csv"), DataFrame, delim=','))
-        s = Season(r[:Season], r[:Days], r[:Type])
-        push!(seasons, s)
+        eachrow(CSV.read(joinpath(datafile, "general_data", "Timesteps.csv"), DataFrame, delim=','))
+        s = Timestep(r[:Timestep], r[:Days], r[:Type])
+        push!(timesteps, s)
     end
-    return seasons
+    return timesteps
 end
 
-function get_season_mapping(seasons)
+function get_timestep_mapping(timesteps)
     next_step = Dict(
         zip(
-            vcat(seasons, get_name.(seasons)),
+            vcat(timesteps, get_name.(timesteps)),
             vcat(
-                seasons[2:end],
-                seasons[1],
-                get_name.(seasons[2:end]),
-                get_name(seasons[1]),
+                timesteps[2:end],
+                timesteps[1],
+                get_name.(timesteps[2:end]),
+                get_name(timesteps[1]),
             ),
         ),
     )
     previous_step = Dict(
         zip(
-            vcat(seasons, get_name.(seasons)),
+            vcat(timesteps, get_name.(timesteps)),
             vcat(
-                seasons[end],
-                seasons[1:end-1],
-                get_name(seasons[end]),
-                get_name.(seasons[1:end-1]),
+                timesteps[end],
+                timesteps[1:end-1],
+                get_name(timesteps[end]),
+                get_name.(timesteps[1:end-1]),
             ),
         ),
     )
-    return SeasonMapping(next_step, previous_step)
+    return TimestepMapping(next_step, previous_step)
 end
 
 function get_years(datafile)
@@ -42,7 +42,7 @@ function get_years(datafile)
             r[:Initial],
             r[:Step],
             r[:Last],
-            sum(s.days for s in get_seasons(datafile)),
+            sum(s.days for s in get_timesteps(datafile)),
             "$(r[:Initial]) - $(r[:Last])",
         )
         r = CSV.read(joinpath(datafile, "general_data", "Temporal_Preferences.csv"), DataFrame)[1,"Discount Rate"]
@@ -93,7 +93,7 @@ function get_input_data(
     producers::Vector{Producer},
     inputs::Vector{Input},
     input_operational_blocks::Vector{InputOperationalBlock},
-    seasons::Vector{Season},
+    timesteps::Vector{Timestep},
     years::Years,
 )
     av_I = JuMP.Containers.DenseAxisArray(
@@ -101,12 +101,12 @@ function get_input_data(
             length(producers),
             length(inputs),
             length(input_operational_blocks),
-            length(seasons),
+            length(timesteps),
         ),
         get_name.(producers),
         get_name.(inputs),
         get_name.(input_operational_blocks),
-        get_name.(seasons),
+        get_name.(timesteps),
     )
 
     av_I_df = CSV.read(
@@ -175,13 +175,13 @@ function get_input_data(
             length(producers),
             length(inputs),
             length(input_operational_blocks),
-            length(seasons),
+            length(timesteps),
             length(years.range),
         ),
         get_name.(producers),
         get_name.(inputs),
         get_name.(input_operational_blocks),
-        get_name.(seasons),
+        get_name.(timesteps),
         years.range,
     )
 
@@ -190,13 +190,13 @@ function get_input_data(
             length(producers),
             length(inputs),
             length(input_operational_blocks),
-            length(seasons),
+            length(timesteps),
             length(years.range),
         ),
         get_name.(producers),
         get_name.(inputs),
         get_name.(input_operational_blocks),
-        get_name.(seasons),
+        get_name.(timesteps),
         years.range,
     )
 
@@ -219,7 +219,7 @@ function get_input_data(
 
         for y in years.range
 
-            for s in get_name.(seasons)
+            for s in get_name.(timesteps)
 
                 for b in get_name.(input_operational_blocks)
 
@@ -238,7 +238,7 @@ function get_input_data(
                     c_Pl_h = op_cost_par_df[
                         (op_cost_par_df.Input.==i).&(op_cost_par_df.Node.==n).&(op_cost_par_df[
                             !,
-                            "Season",
+                            "Timestep",
                         ].==s),
                         "Linear Cost $b $y",
                     ]
@@ -247,13 +247,13 @@ function get_input_data(
                         c_Pl[p_name, i, b, s, y] = c_Pl_h[1]
                     else
                         @_warning "Found $(length(c_Pl_h)) values for input cost parameter c_Pl" Producer =
-                            p_name Input = i Block = b Season = s Year = y
+                            p_name Input = i Block = b Timestep = s Year = y
                     end
 
                     c_Pq_h = op_cost_par_df[
                         (op_cost_par_df.Input.==i).&(op_cost_par_df.Node.==n).&(op_cost_par_df[
                             !,
-                            "Season",
+                            "Timestep",
                         ].==s),
                         "Quadratic Cost $b $y",
                     ]
@@ -262,7 +262,7 @@ function get_input_data(
                         c_Pq[p_name, i, b, s, y] = c_Pq_h[1]
                     else
                         @_warning "Found $(length(c_Pq_h)) values for input marginal cost parameter c_Pq" Producer =
-                            p_name Input = i Block = b Season = s Year = y
+                            p_name Input = i Block = b Timestep = s Year = y
                     end
 
                 end
@@ -295,9 +295,9 @@ function get_input_data(
                         p_name Input = i Block = b Year = y
                 end
 
-                for s in get_name.(seasons)
+                for s in get_name.(timesteps)
                     av_I_h = av_I_df[
-                        (av_I_df.Input.==i).&(av_I_df.Node.==n).&(av_I_df.Season.==s),
+                        (av_I_df.Input.==i).&(av_I_df.Node.==n).&(av_I_df.Timestep.==s),
                         "Availability Factor $b",
                     ]
 
@@ -305,7 +305,7 @@ function get_input_data(
                         av_I[p_name, i, b, s] = av_I_h[1]
                     else
                         @_warning "Found $(length(av_I_h)) values for availability factor" Producer =
-                            p_name Input = i Block = b Season = s
+                            p_name Input = i Block = b Timestep = s
                     end
                 end
 
@@ -889,10 +889,10 @@ function get_storage_data(
     datafile,
     storages::Vector{Storage},
     commodities::Vector{Commodity},
-    seasons::Vector{Season},
+    timesteps::Vector{Timestep},
     storage_repurposing_technologies::Vector{RepurposingStorage},
     years::Years,
-    season_mapping::SeasonMapping,
+    timestep_mapping::TimestepMapping,
 )
     tec_df = CSV.read(
         joinpath(datafile, "storage", "Technologies.csv"), DataFrame, delim=','
@@ -971,8 +971,8 @@ function get_storage_data(
     l_S_dict = Dict{
         Tuple{
             eltype(get_name.(commodities)),
-            eltype(get_name.(seasons)),
-            eltype(get_name.(seasons)),
+            eltype(get_name.(timesteps)),
+            eltype(get_name.(timesteps)),
         },
         Float64,
     }()
@@ -984,16 +984,16 @@ function get_storage_data(
             @_warning "Found $(length(L_S_h)) values for storage technology" Commodity = f
         end
 
-        for si in get_name.(seasons)
-            se = season_mapping.next_step[si]
+        for si in get_name.(timesteps)
+            se = timestep_mapping.next_step[si]
             l_S_h = los_df[
                 (los_df[
                     !,
                     "Commodity",
                 ].==f).&(los_df[
                     !,
-                    "Injection Season",
-                ].==si).&(los_df[!, "Extraction Season"].==se),
+                    "Injection Timestep",
+                ].==si).&(los_df[!, "Extraction Timestep"].==se),
                 "Loss Rate",
             ]
             if length(l_S_h) == 1
@@ -1094,7 +1094,7 @@ function get_demand_data(
     nodes::Vector{Node},
     commodities::Vector{Commodity},
     demand_blocks::Vector{DemandBlock},
-    seasons::Vector{Season},
+    timesteps::Vector{Timestep},
     years::Years,
 )
 
@@ -1107,13 +1107,13 @@ function get_demand_data(
             length(nodes),
             length(commodities),
             length(demand_blocks),
-            length(seasons),
+            length(timesteps),
             length(years.range),
         ),
         get_name.(nodes),
         get_name.(commodities),
         get_name.(demand_blocks),
-        get_name.(seasons),
+        get_name.(timesteps),
         years.range,
     )
     β_D = JuMP.Containers.DenseAxisArray(
@@ -1121,41 +1121,41 @@ function get_demand_data(
             length(nodes),
             length(commodities),
             length(demand_blocks),
-            length(seasons),
+            length(timesteps),
             length(years.range),
         ),
         get_name.(nodes),
         get_name.(commodities),
         get_name.(demand_blocks),
-        get_name.(seasons),
+        get_name.(timesteps),
         years.range,
     )
 
     for n in get_name.(nodes),
         d in get_name.(commodities),
         b in get_name.(demand_blocks),
-        s in get_name.(seasons),
+        s in get_name.(timesteps),
         y in years.range
 
         q = ref_df[
             (ref_df[
                 !,
                 "Commodity",
-            ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Season"].==s),
+            ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Timestep"].==s),
             "Consumption $b $y",
         ]
         p = ref_df[
             (ref_df[
                 !,
                 "Commodity",
-            ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Season"].==s),
+            ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Timestep"].==s),
             "Reference Price $b $y",
         ]
         ϵ = ref_df[
             (ref_df[
                 !,
                 "Commodity",
-            ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Season"].==s),
+            ].==d).&(ref_df[!, "Node"].==n).&(ref_df[!, "Timestep"].==s),
             "Price Elasticity $b $y",
         ]
         if (length(q) == 1) && (length(p) == 1) && (length(ϵ) == 1)
@@ -1168,7 +1168,7 @@ function get_demand_data(
             end
         else
             @_warning "Insufficient or ambiguous demand data, α_D and β_D left at zero" Node =
-                n Commodity = d Block = b Season = s Year = y
+                n Commodity = d Block = b Timestep = s Year = y
         end
     end
 
@@ -1489,13 +1489,13 @@ function get_HydrOGEnMod_data(
 )
     starttime = time()
 
-    @_status "Loading Data" Progress = "Reading in Seasons." "Time elapsed" =
+    @_status "Loading Data" Progress = "Reading in Timesteps." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    seasons = get_seasons(data)
+    timesteps = get_timesteps(data)
 
-    @_status "Loading Data" Progress = "Reading in Season Mapping." "Time elapsed" =
+    @_status "Loading Data" Progress = "Reading in Timestep Mapping." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    season_mapping = get_season_mapping(seasons)
+    timestep_mapping = get_timestep_mapping(timesteps)
 
     @_status "Loading Data" Progress = "Reading in Years." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -1568,7 +1568,7 @@ function get_HydrOGEnMod_data(
     @_status "Loading Data" Progress = "Reading in Input Data." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
     input_data =
-        get_input_data(data, producers, inputs, input_operational_blocks, seasons, years)
+        get_input_data(data, producers, inputs, input_operational_blocks, timesteps, years)
 
     @_status "Loading Data" Progress = "Reading in Production Data." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -1605,21 +1605,21 @@ function get_HydrOGEnMod_data(
         data,
         storages,
         commodities,
-        seasons,
+        timesteps,
         repurposing_storage_technologies,
         years,
-        season_mapping,
+        timestep_mapping,
     )
 
     @_status "Loading Data" Progress = "Reading in Demand Data." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    demand_data = get_demand_data(data, nodes, commodities, demand_blocks, seasons, years)
+    demand_data = get_demand_data(data, nodes, commodities, demand_blocks, timesteps, years)
 
     @_status "Loading Data" Progress = "Creating Model Data." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
     model_data = ModelData(
-        seasons = seasons,
-        season_mapping = season_mapping,
+        timesteps = timesteps,
+        timestep_mapping = timestep_mapping,
         years = years,
         inputs = inputs,
         input_operational_blocks = input_operational_blocks,
@@ -1646,8 +1646,8 @@ function get_HydrOGEnMod_data(
         storage_data = storage_data,
         demand_data = demand_data,
         days = JuMP.Containers.DenseAxisArray(
-            vcat([s.days for s in seasons], [years.days]),
-            vcat([s.name for s in seasons], ["year"]),
+            vcat([s.days for s in timesteps], [years.days]),
+            vcat([s.name for s in timesteps], ["year"]),
         ),
         discount = discount,
     )

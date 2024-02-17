@@ -1,2 +1,2 @@
-Commodity,Injection Season,Extraction Season,Loss Rate
+Commodity,Injection Timestep,Extraction Timestep,Loss Rate
 CNG,Single,Single,0

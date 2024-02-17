@@ -1,2 +1,2 @@
-Node,Input,Season,Availability Factor Block 1
-DEU,Electricity,OnlySeason,1
+Node,Input,Timestep,Availability Factor Block 1
+DEU,Electricity,OnlyTimestep,1

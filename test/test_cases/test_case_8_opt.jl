@@ -17,12 +17,12 @@ function test_case_8_opt(config)
             end
             @testset "Prices" begin
                 @test isapprox(
-                    value(model[:prices]["DEU", "CNG", "Block 1", "OnlySeason", 2020]),
+                    value(model[:prices]["DEU", "CNG", "Block 1", "OnlyTimestep", 2020]),
                     1,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["DEU", "GH2", "Block 1", "OnlySeason", 2020]),
+                    value(model[:prices]["DEU", "GH2", "Block 1", "OnlyTimestep", 2020]),
                     2,
                     atol = config.testing_tol,
                 )
@@ -30,7 +30,7 @@ function test_case_8_opt(config)
             @testset "Production Quantity" begin
                 @test isapprox(
                     value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlySeason", 2020],
+                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
                     ),
                     5.0,
                     atol = config.testing_tol,

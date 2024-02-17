@@ -13,14 +13,14 @@ function test_case_8_mcp(config)
             @testset "Prices" begin
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "CNG", "Block 1", "OnlySeason", 2020],
+                        model[:π_T_to_D]["DEU", "CNG", "Block 1", "OnlyTimestep", 2020],
                     ),
                     1,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "GH2", "Block 1", "OnlySeason", 2020],
+                        model[:π_T_to_D]["DEU", "GH2", "Block 1", "OnlyTimestep", 2020],
                     ),
                     2,
                     atol = config.testing_tol,
@@ -29,7 +29,7 @@ function test_case_8_mcp(config)
             @testset "Production Quantity" begin
                 @test isapprox(
                     result_value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlySeason", 2020],
+                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
                     ),
                     5.0,
                     atol = config.testing_tol,

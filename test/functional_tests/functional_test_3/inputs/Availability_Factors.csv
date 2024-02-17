@@ -1,4 +1,4 @@
-Node,Input,Season,Availability Factor Block 1,Availability Factor Block 2,Availability Factor Block 3,Availability Factor Block 4,Availability Factor Block 5
+Node,Input,Timestep,Availability Factor Block 1,Availability Factor Block 2,Availability Factor Block 3,Availability Factor Block 4,Availability Factor Block 5
 N1,Natural Gas,L,1,1,1,1,1
 N2,Natural Gas,L,1,1,1,1,1
 N3,Natural Gas,L,1,1,1,1,1

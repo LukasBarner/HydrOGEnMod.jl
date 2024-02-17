@@ -61,12 +61,12 @@ function functional_test_5(config)
             tst_dense = JuMP.Containers.DenseAxisArray(
                 10 * rand(26, 2, 3),
                 nodes_vec,
-                ["Season 1", "Season 2"],
+                ["Timestep 1", "Timestep 2"],
                 2020:5:2030,
             )
             @test isa(
                 plot_model_nodes(
-                    tst_dense[:, "Season 1", 2020];
+                    tst_dense[:, "Timestep 1", 2020];
                     nodes_path = nodes_path,
                     disputed_path = disputed_path,
                 ),
@@ -78,12 +78,12 @@ function functional_test_5(config)
             tst_sparse = JuMP.Containers.SparseAxisArray(
                 Dict(
                     (i, j, k) => 10 * rand() for i in nodes_vec,
-                    j in ["Season 1", "Season 2"], k = 2020:5:2030
+                    j in ["Timestep 1", "Timestep 2"], k = 2020:5:2030
                 ),
             )
             @test isa(
                 plot_model_nodes(
-                    tst_sparse[:, "Season 1", 2020];
+                    tst_sparse[:, "Timestep 1", 2020];
                     nodes_path = nodes_path,
                     disputed_path = disputed_path,
                 ),
@@ -108,12 +108,12 @@ function functional_test_5(config)
                 10 * rand(26^2, 2, 2, 3),
                 get_name.(arcs_vec),
                 ["GH2", "CNG"],
-                ["Season 1", "Season 2"],
+                ["Timestep 1", "Timestep 2"],
                 2020:5:2030,
             )
             @test isa(
                 plot_model_nodes(
-                    tst_arcs[:, "GH2", "Season 1", 2020],
+                    tst_arcs[:, "GH2", "Timestep 1", 2020],
                     arcs_vec;
                     nodes_path = nodes_path,
                     disputed_path = disputed_path,

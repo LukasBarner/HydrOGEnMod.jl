@@ -17,42 +17,42 @@ function test_case_21_opt(config)
             end
             @testset "Prices" begin
                 @test isapprox(
-                    value(model[:prices]["DEU", "CNG", "Block 1", "OnlySeason", 2020]),
+                    value(model[:prices]["DEU", "CNG", "Block 1", "OnlyTimestep", 2020]),
                     1.2,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["NLD", "CNG", "Block 1", "OnlySeason", 2020]),
+                    value(model[:prices]["NLD", "CNG", "Block 1", "OnlyTimestep", 2020]),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["DEU", "CNG", "Block 1", "OnlySeason", 2021]),
+                    value(model[:prices]["DEU", "CNG", "Block 1", "OnlyTimestep", 2021]),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["NLD", "CNG", "Block 1", "OnlySeason", 2021]),
+                    value(model[:prices]["NLD", "CNG", "Block 1", "OnlyTimestep", 2021]),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["DEU", "GH2", "Block 1", "OnlySeason", 2020]),
+                    value(model[:prices]["DEU", "GH2", "Block 1", "OnlyTimestep", 2020]),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["NLD", "GH2", "Block 1", "OnlySeason", 2020]),
+                    value(model[:prices]["NLD", "GH2", "Block 1", "OnlyTimestep", 2020]),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["DEU", "GH2", "Block 1", "OnlySeason", 2021]),
+                    value(model[:prices]["DEU", "GH2", "Block 1", "OnlyTimestep", 2021]),
                     1.2,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value(model[:prices]["NLD", "GH2", "Block 1", "OnlySeason", 2021]),
+                    value(model[:prices]["NLD", "GH2", "Block 1", "OnlyTimestep", 2021]),
                     0,
                     atol = config.testing_tol,
                 )
@@ -60,28 +60,28 @@ function test_case_21_opt(config)
             @testset "Production Quantities" begin
                 @test isapprox(
                     value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlySeason", 2020],
+                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
                     ),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     value(
-                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlySeason", 2020],
+                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
                     ),
                     0.88,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlySeason", 2021],
+                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2021],
                     ),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     value(
-                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlySeason", 2021],
+                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlyTimestep", 2021],
                     ),
                     0.88,
                     atol = config.testing_tol,

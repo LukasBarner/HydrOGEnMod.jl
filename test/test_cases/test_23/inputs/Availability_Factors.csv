@@ -1,2 +1,2 @@
-Node,Input,Season,Availability Factor Block 1,Availability Factor Block 2
-DEU,Natural Gas,OnlySeason,1,1
+Node,Input,Timestep,Availability Factor Block 1,Availability Factor Block 2
+DEU,Natural Gas,OnlyTimestep,1,1

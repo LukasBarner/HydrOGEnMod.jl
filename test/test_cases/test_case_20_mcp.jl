@@ -13,42 +13,42 @@ function test_case_20_mcp(config)
             @testset "Prices" begin
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "GH2", "Block 1", "OnlySeason", 2020],
+                        model[:π_T_to_D]["DEU", "GH2", "Block 1", "OnlyTimestep", 2020],
                     ),
                     0.00,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "NH3", "Block 1", "OnlySeason", 2020],
+                        model[:π_T_to_D]["DEU", "NH3", "Block 1", "OnlyTimestep", 2020],
                     ),
                     0.00,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "CNG", "Block 1", "OnlySeason", 2020],
+                        model[:π_T_to_D]["DEU", "CNG", "Block 1", "OnlyTimestep", 2020],
                     ),
                     1.25,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "GH2", "Block 1", "OnlySeason", 2021],
+                        model[:π_T_to_D]["DEU", "GH2", "Block 1", "OnlyTimestep", 2021],
                     ),
                     0.00,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "NH3", "Block 1", "OnlySeason", 2021],
+                        model[:π_T_to_D]["DEU", "NH3", "Block 1", "OnlyTimestep", 2021],
                     ),
                     1.50,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:π_T_to_D]["DEU", "CNG", "Block 1", "OnlySeason", 2021],
+                        model[:π_T_to_D]["DEU", "CNG", "Block 1", "OnlyTimestep", 2021],
                     ),
                     1.5,
                     atol = config.testing_tol,

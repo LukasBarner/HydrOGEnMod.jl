@@ -29,7 +29,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p = get_name.(data.producers),
             i = get_name.(data.inputs),
             b = get_name.(data.input_operational_blocks),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ] <=
         BIG
@@ -42,7 +42,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ] <=
@@ -80,7 +80,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_P[
             get_name.(data.producers),
             i = get_name.(data.inputs),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -93,7 +93,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.producers),
             i = get_name.(data.inputs),
             b = get_name.(data.input_operational_blocks),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -106,7 +106,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ] <=
@@ -147,7 +147,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.commodities),
             get_name.(data.demand_blocks),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -161,7 +161,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ] <=
@@ -176,7 +176,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.nodes),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -190,7 +190,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.nodes),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -204,7 +204,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.nodes),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -218,7 +218,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.nodes),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -232,7 +232,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            s = get_name.(data.seasons),
+            s = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ] <=
@@ -247,7 +247,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.nodes),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -276,7 +276,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_i = unique(get_input.(data.conversion_technologies)),
             c_o = unique(get_output.(data.conversion_technologies)),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ] <=
@@ -319,7 +319,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.converters),
             c_i = unique(get_input.(data.conversion_technologies)),
             c_o = unique(get_output.(data.conversion_technologies)),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ] <=
@@ -332,7 +332,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         q_A[
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
-            s = get_name.(data.seasons),
+            s = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ] <=
@@ -364,7 +364,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         λ_A[
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ] <=
@@ -402,7 +402,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -416,7 +416,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -430,7 +430,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -462,7 +462,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         λ_S[
             get_name.(data.storages),
             get_name.(data.commodities),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -476,7 +476,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -496,7 +496,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ] <=
@@ -510,7 +510,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ] <=
         BIG
@@ -524,7 +524,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ] <=
         BIG
@@ -538,7 +538,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ] <=
         BIG
@@ -550,7 +550,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         π_A[
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ] <=
@@ -565,7 +565,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ] <=
         BIG
@@ -579,7 +579,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ] <=
         BIG
@@ -593,7 +593,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -610,7 +610,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.demand_data.α_D[n, c, b, m, y] +
@@ -625,7 +625,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.days[m] / 2 * data.demand_data.β_D[n, c, b, m, y] * (demand[n, c, b, m, y])^2 +
@@ -640,7 +640,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         0.5 * sum(
@@ -659,7 +659,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p in get_name.(data.producers),
             i in get_name.(data.inputs),
             b in get_name.(data.input_operational_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.days[m] * (
@@ -677,7 +677,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             i in get_name.(data.inputs),
             y in data.years.range,
         ],
-        sum(data.days[m] * q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks), m in get_name.(data.seasons))
+        sum(data.days[m] * q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks), m in get_name.(data.timesteps))
     )
 
     @_status "Building Model" Progress = "Creating Input Capacity Expansion Cost Expression." "Time elapsed" =
@@ -701,7 +701,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p in get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -732,7 +732,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_i in unique(get_input.(data.conversion_technologies)),
             c_o in unique(get_output.(data.conversion_technologies)),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ],
@@ -782,7 +782,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -820,7 +820,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
 
     @_status "Building Model" Progress = "Creating Aggregated Arc Flow Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    @expression(model, yearly_arc_flows[a in get_name.(data.arcs), c in get_name.(data.commodities), y in data.years.range], sum(data.days[m] * q_T[t, a, c, o, m, y] for t in get_name.(data.traders), o in get_name.(data.origins), m in get_name.(data.seasons) if data.arc_adjacency.is_a_of_c[a,c] ));
+    @expression(model, yearly_arc_flows[a in get_name.(data.arcs), c in get_name.(data.commodities), y in data.years.range], sum(data.days[m] * q_T[t, a, c, o, m, y] for t in get_name.(data.traders), o in get_name.(data.origins), m in get_name.(data.timesteps) if data.arc_adjacency.is_a_of_c[a,c] ));
 
     @_status "Building Model" Progress = "Creating Storage Cost Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -831,7 +831,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             t in get_name.(data.traders),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.days[m] * data.storage_data.c_S_in[s, c, y] * q_S_in[s, t, c, o, m, y] +
@@ -873,7 +873,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p = get_name.(data.producers),
             i = get_name.(data.inputs),
             b = get_name.(data.input_operational_blocks),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.discount[y] *
@@ -890,7 +890,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p = get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -925,7 +925,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.input_data.L_I[i],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) + sum(
             ω_I[p, i, b, ys] for ys =
                 (y+data.years.step):data.years.step:min(
@@ -949,7 +949,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.production_data.L_P[c, o],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) + ω_P[p, c, o, y]
     )
 
@@ -958,7 +958,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         LHS_ϕ_P[
             p = get_name.(data.producers),
             i = get_name.(data.inputs),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         sum(q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks)) - sum(
@@ -974,7 +974,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p = get_name.(data.producers),
             i = get_name.(data.inputs),
             b = get_name.(data.input_operational_blocks),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.input_data.av_I[p, i, b, m] * (
@@ -991,7 +991,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             p = get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -1035,7 +1035,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c = get_name.(data.commodities),
             b = get_name.(data.demand_blocks),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.discount[y] *
@@ -1062,7 +1062,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -1076,7 +1076,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         ϕ_T[t, n, c, o, m, y] -
@@ -1090,7 +1090,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.discount[y] * data.days[m] * π_V_to_T[t, n, c, o, m, y] -
@@ -1104,7 +1104,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         ϕ_T[t, n, c, o, m, y] -
@@ -1118,7 +1118,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.discount[y] * data.days[m] * π_S_to_T[t, n, c, o, m, y] -
@@ -1132,7 +1132,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -1149,7 +1149,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n = get_name.(data.nodes),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         sum(
@@ -1184,7 +1184,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.trade_data.Λ_T[t, n, c, o, y] - sum(
             data.days[m] *
             sum(q_T_to_D[t, n, c, b, o, m, y] for b in get_name.(data.demand_blocks)) for
-            m in get_name.(data.seasons)
+            m in get_name.(data.timesteps)
         )
     )
 
@@ -1196,7 +1196,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_i = unique(get_input.(data.conversion_technologies)),
             c_o = unique(get_output.(data.conversion_technologies)),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ],
@@ -1238,7 +1238,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.conversion_data.L_V[c_i, c_o],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         )
     )
 
@@ -1260,11 +1260,11 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.conversion_data.L_V[c_in_new, c_out_new],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) + sum(
             λ_V[v, c_in_old, c_out_old, m, ys] for
             ys = (y+data.years.step):data.years.step:data.years.last,
-            m in get_name.(data.seasons)
+            m in get_name.(data.timesteps)
         )
     )
 
@@ -1274,7 +1274,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             v = get_name.(data.converters),
             c_i = unique(get_input.(data.conversion_technologies)),
             c_o = unique(get_output.(data.conversion_technologies)),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ],
@@ -1306,7 +1306,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         LHS_q_A[
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -1327,7 +1327,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.arc_data.L_A[c],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) + δ_A[a, c, y] - δ_A[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c, y]
     )
 
@@ -1346,11 +1346,11 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.arc_data.L_A[c_new],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) + sum(
             λ_A[a, c_old, m, ys] for
             ys = (y+data.years.step):data.years.step:data.years.last,
-            m in get_name.(data.seasons)
+            m in get_name.(data.timesteps)
         ) + δ_RA[a, c_old, c_new, y] - δ_RA[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c_old, c_new, y]
     )
 
@@ -1359,7 +1359,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         LHS_λ_A[
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -1412,12 +1412,12 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             t = get_name.(data.traders),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         λ_S[s, c, m, y] -
-        (1 - data.storage_data.l_S[c, m, data.season_mapping.next_step[m]]) *
-        ϕ_S[s, t, c, o, m, y] + ϕ_S[s, t, c, o, data.season_mapping.previous_step[m], y]
+        (1 - data.storage_data.l_S[c, m, data.timestep_mapping.next_step[m]]) *
+        ϕ_S[s, t, c, o, m, y] + ϕ_S[s, t, c, o, data.timestep_mapping.previous_step[m], y]
     )
 
     @mapping(
@@ -1427,7 +1427,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             t = get_name.(data.traders),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.discount[y] *
@@ -1442,7 +1442,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 y,
             ] + data.storage_data.c_S_in[s, c, y]
         ) -
-        (1 - data.storage_data.l_S[c, m, data.season_mapping.next_step[m]]) *
+        (1 - data.storage_data.l_S[c, m, data.timestep_mapping.next_step[m]]) *
         data.days[m] *
         ϕ_S[s, t, c, o, m, y]
     )
@@ -1454,7 +1454,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             t = get_name.(data.traders),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         -data.discount[y] *
@@ -1469,7 +1469,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 y,
             ] - data.storage_data.c_S_out[s, c, y]
         ) +
-        (1 - data.storage_data.l_S[c, m, data.season_mapping.next_step[m]]) *
+        (1 - data.storage_data.l_S[c, m, data.timestep_mapping.next_step[m]]) *
         data.days[m] *
         ϕ_S[s, t, c, o, m, y]
     )
@@ -1486,7 +1486,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.storage_data.L_S[c],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) + sum(
             ω_S[s, c, ys] for ys =
                 (y+data.years.step):data.years.step:min(
@@ -1511,11 +1511,11 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                 (y+data.years.step):data.years.step:min(
                     y + data.storage_data.L_S[c],
                     data.years.last,
-                ), m in get_name.(data.seasons)
+                ), m in get_name.(data.timesteps)
         ) +
         sum(
             λ_S[s, r, m, ys] for ys = (y+data.years.step):data.years.step:data.years.last,
-            m in get_name.(data.seasons)
+            m in get_name.(data.timesteps)
         ) +
         sum( data.storage_data.f_RS[r, c] * 
             ω_S[s, c, ys] for ys =
@@ -1531,7 +1531,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         LHS_λ_S[
             s = get_name.(data.storages),
             c = get_name.(data.commodities),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
         data.storage_data.Λ_S[s, c, y] +
@@ -1561,13 +1561,13 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             t = get_name.(data.traders),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ],
-        (1 - data.storage_data.l_S[c, m, data.season_mapping.next_step[m]]) * (
+        (1 - data.storage_data.l_S[c, m, data.timestep_mapping.next_step[m]]) * (
             q_S[s, t, c, o, m, y] +
             data.days[m] * (q_S_in[s, t, c, o, m, y] - q_S_out[s, t, c, o, m, y])
-        ) - q_S[s, t, c, o, data.season_mapping.next_step[m], y]
+        ) - q_S[s, t, c, o, data.timestep_mapping.next_step[m], y]
     )
 
     @mapping(
@@ -1598,7 +1598,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -1619,7 +1619,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         π_T_to_D[n, c, b, m, y] - prices[n, c, b, m, y]
@@ -1632,7 +1632,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -1657,7 +1657,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -1680,7 +1680,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         LHS_π_A[
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -1697,7 +1697,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         q_T_to_S[t, n, c, o, m, y] -
@@ -1711,7 +1711,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         q_S_out[

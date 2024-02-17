@@ -1,3 +1,3 @@
-Node,Commodity,Season,Consumption Block 1 2020,Reference Price Block 1 2020,Price Elasticity Block 1 2020
-DEU,CNG,OnlySeason,1,1,-1
-NLD,CNG,OnlySeason,0,0,-1
+Node,Commodity,Timestep,Consumption Block 1 2020,Reference Price Block 1 2020,Price Elasticity Block 1 2020
+DEU,CNG,OnlyTimestep,1,1,-1
+NLD,CNG,OnlyTimestep,0,0,-1

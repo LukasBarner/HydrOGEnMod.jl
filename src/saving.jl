@@ -200,8 +200,8 @@ function write_csv(datadir, data::ModelData; logfile = "")
         data.storage_data.l_S,
         [
             Symbol("Flow Commodity"),
-            Symbol("Injection Season"),
-            Symbol("Extraction Season"),
+            Symbol("Injection Timestep"),
+            Symbol("Extraction Timestep"),
             :Value,
         ],
     )
@@ -487,7 +487,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "q_S.csv"),
             result_value.(model[:q_S]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing q_S_in." "Time elapsed" =
@@ -495,7 +495,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "q_S_in.csv"),
             result_value.(model[:q_S_in]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing q_S_out." "Time elapsed" =
@@ -503,7 +503,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "q_S_out.csv"),
             result_value.(model[:q_S_out]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing Δ_S." "Time elapsed" =
@@ -527,7 +527,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "λ_S.csv"),
             result_value.(model[:λ_S]),
-            [:Storage, :Commodity, :Season, :Year, :Value],
+            [:Storage, :Commodity, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing ϕ_S." "Time elapsed" =
@@ -535,7 +535,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "ϕ_S.csv"),
             result_value.(model[:ϕ_S]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing ω_S." "Time elapsed" =
@@ -728,7 +728,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "q_S.csv"),
             value.(model[:q_S]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing q_S_in." "Time elapsed" =
@@ -736,7 +736,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "q_S_in.csv"),
             value.(model[:q_S_in]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing q_S_out." "Time elapsed" =
@@ -744,7 +744,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "variables", "q_S_out.csv"),
             value.(model[:q_S_out]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing Δ_S." "Time elapsed" =
@@ -935,7 +935,7 @@ function write_csv(resultsfile, model::Model; logfile = "")
         write(
             joinpath(resultsfile, "expressions", "storage_cost.csv"),
             value.(model[:storage_cost]),
-            [:Storage, :Trader, :Commodity, :Origin, :Season, :Year, :Value],
+            [:Storage, :Trader, :Commodity, :Origin, :Timestep, :Year, :Value],
         )
 
         @_status "Writing Results" Progress = "Writing storage_expansion_cost." "Time elapsed" =

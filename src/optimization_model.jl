@@ -29,7 +29,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             p = get_name.(data.producers),
             i = get_name.(data.inputs),
             b = get_name.(data.input_operational_blocks),
-            m = get_name.(data.seasons),
+            m = get_name.(data.timesteps),
             y = data.years.range,
         ] <=
         BIG
@@ -42,7 +42,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ] <=
@@ -83,7 +83,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.commodities),
             get_name.(data.demand_blocks),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -98,7 +98,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_i = unique(get_input.(data.conversion_technologies)),
             c_o = unique(get_output.(data.conversion_technologies)),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ] <=
@@ -142,7 +142,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
             o = get_name.(data.origins),
-            s = get_name.(data.seasons),
+            s = get_name.(data.timesteps),
             y = data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ] <=
@@ -176,7 +176,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -190,7 +190,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -204,7 +204,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             get_name.(data.traders),
             get_name.(data.commodities),
             get_name.(data.origins),
-            get_name.(data.seasons),
+            get_name.(data.timesteps),
             data.years.range,
         ] <=
         BIG
@@ -238,7 +238,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -258,7 +258,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         ],
         sum(
             data.days[m] * q_T_D[t, n, c, b, o, m, y] for o in get_name.(data.origins),
-            b in get_name.(data.demand_blocks), m in get_name.(data.seasons),
+            b in get_name.(data.demand_blocks), m in get_name.(data.timesteps),
             t in get_name.(data.traders)
         )
     )
@@ -274,7 +274,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         ],
         sum(
             data.days[m] * q_P_T[p, c, o, m, y] for
-            o in get_name.(data.origins), m in get_name.(data.seasons) if
+            o in get_name.(data.origins), m in get_name.(data.timesteps) if
             (c, o) in get_production_technology.(data.production_technologies)
         )
     )
@@ -287,7 +287,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.demand_data.α_D[n, c, b, m, y] +
@@ -302,7 +302,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in get_name.(data.nodes),
             c in get_name.(data.commodities),
             b in get_name.(data.demand_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.days[m] / 2 * data.demand_data.β_D[n, c, b, m, y] * (demand[n, c, b, m, y])^2 +
@@ -324,7 +324,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             data.trade_data.NC[t, n, c] *
             data.demand_data.β_D[n, c, b, m, y] *
             sum(q_T_D[t, n, c, b, o, m, y] for o in get_name.(data.origins))^2 for
-            t in get_name.(data.traders), m in get_name.(data.seasons)
+            t in get_name.(data.traders), m in get_name.(data.timesteps)
         )
     )
 
@@ -336,7 +336,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             p in get_name.(data.producers),
             i in get_name.(data.inputs),
             b in get_name.(data.input_operational_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.days[m] * (
@@ -354,7 +354,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             i in get_name.(data.inputs),
             y in data.years.range,
         ],
-        sum(data.days[m] * q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks), m in get_name.(data.seasons))
+        sum(data.days[m] * q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks), m in get_name.(data.timesteps))
     )
 
     @_status "Building Model" Progress = "Creating Input Capacity Expansion Cost Expression." "Time elapsed" =
@@ -378,7 +378,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             p in get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -409,7 +409,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_i in unique(get_input.(data.conversion_technologies)),
             c_o in unique(get_output.(data.conversion_technologies)),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ],
@@ -459,7 +459,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -498,7 +498,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
 
     @_status "Building Model" Progress = "Creating Aggregated Arc Flow Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    @expression(model, yearly_arc_flows[a in get_name.(data.arcs), c in get_name.(data.commodities), y in data.years.range], sum(data.days[m] * q_T[t, a, c, o, m, y] for t in get_name.(data.traders), o in get_name.(data.origins), m in get_name.(data.seasons) if data.arc_adjacency.is_a_of_c[a,c] ));
+    @expression(model, yearly_arc_flows[a in get_name.(data.arcs), c in get_name.(data.commodities), y in data.years.range], sum(data.days[m] * q_T[t, a, c, o, m, y] for t in get_name.(data.traders), o in get_name.(data.origins), m in get_name.(data.timesteps) if data.arc_adjacency.is_a_of_c[a,c] ));
 
     @_status "Building Model" Progress = "Creating Storage Cost Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -509,7 +509,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             t in get_name.(data.traders),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         data.days[m] * data.storage_data.c_S_in[s, c, y] * q_S_in[s, t, c, o, m, y] +
@@ -605,7 +605,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         producer_mass_balance[
             p in get_name.(data.producers),
             i in get_name.(data.inputs),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -623,7 +623,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             p in get_name.(data.producers),
             i in get_name.(data.inputs),
             b in get_name.(data.input_operational_blocks),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         q_I[p, i, b, m, y] <=
@@ -643,7 +643,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             p in get_name.(data.producers),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c, o) in get_production_technology.(data.production_technologies),
         ],
@@ -693,7 +693,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             n in data.nodes,
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -732,7 +732,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         sum(
             data.days[m] *
             sum(q_T_D[t, n, c, b, o, m, y] for b in get_name.(data.demand_blocks)) for
-            m in get_name.(data.seasons)
+            m in get_name.(data.timesteps)
         ) <= data.trade_data.Λ_T[t, n, c, o, y]
     )
 
@@ -744,7 +744,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             v in get_name.(data.converters),
             c_i = unique(get_input.(data.conversion_technologies)),
             c_o = unique(get_output.(data.conversion_technologies)),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             (c_i, c_o) ∈ get_conversion_technology.(data.conversion_technologies),
         ],
@@ -779,7 +779,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         arc_capacity[
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range;
             data.arc_adjacency.is_a_of_c[a,c]
         ],
@@ -840,7 +840,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         storage_capacities[
             s in get_name.(data.storages),
             c in get_name.(data.commodities),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
         sum(
@@ -873,11 +873,11 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             t in get_name.(data.traders),
             c in get_name.(data.commodities),
             o in get_name.(data.origins),
-            m in get_name.(data.seasons),
+            m in get_name.(data.timesteps),
             y in data.years.range,
         ],
-        q_S[s, t, c, o, data.season_mapping.next_step[m], y] ==
-        (1 - data.storage_data.l_S[c, m, data.season_mapping.next_step[m]]) * (
+        q_S[s, t, c, o, data.timestep_mapping.next_step[m], y] ==
+        (1 - data.storage_data.l_S[c, m, data.timestep_mapping.next_step[m]]) * (
             q_S[s, t, c, o, m, y] +
             data.days[m] * (q_S_in[s, t, c, o, m, y] - q_S_out[s, t, c, o, m, y])
         )

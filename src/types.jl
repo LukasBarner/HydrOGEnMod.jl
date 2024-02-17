@@ -16,8 +16,8 @@ export Node,
     RepurposingStorage,
     RepurposingArcs,
     ArcAdjacencyCommodity,
-    Season,
-    SeasonMapping,
+    Timestep,
+    TimestepMapping,
     Converter,
     TransportArc,
     Storage,
@@ -175,15 +175,15 @@ Base.@kwdef mutable struct RepurposingStorage <: AbstractSet
     RS::Tuple{T,T}
 end
 
-Base.@kwdef mutable struct Season <: AbstractSet
+Base.@kwdef mutable struct Timestep <: AbstractSet
     name::T
     days::Int64
     type::T
 end
 
-Base.@kwdef mutable struct SeasonMapping <: AbstractParameterCollection
-    next_step::Dict{Union{T,Season},Union{T,Season}}
-    previous_step::Dict{Union{T,Season},Union{T,Season}}
+Base.@kwdef mutable struct TimestepMapping <: AbstractParameterCollection
+    next_step::Dict{Union{T,Timestep},Union{T,Timestep}}
+    previous_step::Dict{Union{T,Timestep},Union{T,Timestep}}
 end
 
 Base.@kwdef mutable struct Converter <: AbstractSet
@@ -271,8 +271,8 @@ Base.@kwdef mutable struct DemandData <: AbstractParameterCollection
 end
 
 Base.@kwdef mutable struct ModelData <: AbstractModelData
-    seasons::Vector{Season}
-    season_mapping::SeasonMapping
+    timesteps::Vector{Timestep}
+    timestep_mapping::TimestepMapping
     years::Years
     inputs::Vector{Input} = Input[]
     input_operational_blocks::Vector{InputOperationalBlock} = InputOperationalBlock[]

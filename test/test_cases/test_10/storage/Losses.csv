@@ -1,5 +1,5 @@
-Commodity,Injection Season,Extraction Season,Loss Rate
-CNG,L,L,0
+Commodity,Injection Timestep,Extraction Timestep,Loss Rate
+CNG,L,L,0.0
 CNG,L,H,0.1
-CNG,H,L,0
-CNG,H,H,0
+CNG,H,L,0.0
+CNG,H,H,0.0

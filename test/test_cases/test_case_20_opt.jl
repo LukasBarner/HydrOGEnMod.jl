@@ -17,32 +17,32 @@ function test_case_20_opt(config)
             end
             @testset "Prices" begin
                 @test isapprox(
-                    value.(model[:prices])["DEU", "GH2", "Block 1", "OnlySeason", 2020],
+                    value.(model[:prices])["DEU", "GH2", "Block 1", "OnlyTimestep", 2020],
                     0.00,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "NH3", "Block 1", "OnlySeason", 2020],
+                    value.(model[:prices])["DEU", "NH3", "Block 1", "OnlyTimestep", 2020],
                     0.00,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlySeason", 2020],
+                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlyTimestep", 2020],
                     1.25,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "GH2", "Block 1", "OnlySeason", 2021],
+                    value.(model[:prices])["DEU", "GH2", "Block 1", "OnlyTimestep", 2021],
                     0.00,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "NH3", "Block 1", "OnlySeason", 2021],
+                    value.(model[:prices])["DEU", "NH3", "Block 1", "OnlyTimestep", 2021],
                     1.50,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlySeason", 2021],
+                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlyTimestep", 2021],
                     1.5,
                     atol = config.testing_tol,
                 )

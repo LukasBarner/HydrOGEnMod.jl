@@ -17,22 +17,22 @@ function test_case_25_opt(config)
             end
             @testset "Prices" begin
                 @test isapprox(
-                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlySeason", 2020],
+                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlyTimestep", 2020],
                     2,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlySeason", 2025],
+                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlyTimestep", 2025],
                     1.5,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlySeason", 2030],
+                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlyTimestep", 2030],
                     0.4,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
-                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlySeason", 2035],
+                    value.(model[:prices])["DEU", "CNG", "Block 1", "OnlyTimestep", 2035],
                     2,
                     atol = config.testing_tol,
                 )
