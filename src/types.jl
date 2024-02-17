@@ -177,7 +177,7 @@ end
 
 Base.@kwdef mutable struct Timestep <: AbstractSet
     name::T
-    days::Int64
+    weights::Int64
     type::T
 end
 
@@ -205,7 +205,7 @@ Base.@kwdef mutable struct Years <: AbstractSet
     start::Int64
     step::Int64
     last::Int64
-    days::Int64
+    weights::Int64
     name::T
 end
 
@@ -299,7 +299,7 @@ Base.@kwdef mutable struct ModelData <: AbstractModelData
     arc_data::ArcData
     storage_data::StorageData
     demand_data::DemandData
-    days::JuMP.Containers.DenseAxisArray{Int64}
+    weights::JuMP.Containers.DenseAxisArray{Int64}
     discount::JuMP.Containers.DenseAxisArray{Float64}
 end
 

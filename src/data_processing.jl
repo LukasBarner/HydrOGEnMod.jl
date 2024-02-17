@@ -2,7 +2,7 @@ function get_timesteps(datafile)
     timesteps = Timestep[]
     for r in
         eachrow(CSV.read(joinpath(datafile, "general_data", "Timesteps.csv"), DataFrame, delim=','))
-        s = Timestep(r[:Timestep], r[:Days], r[:Type])
+        s = Timestep(r[:Timestep], r[:Weights], r[:Type])
         push!(timesteps, s)
     end
     return timesteps
@@ -42,7 +42,7 @@ function get_years(datafile)
             r[:Initial],
             r[:Step],
             r[:Last],
-            sum(s.days for s in get_timesteps(datafile)),
+            sum(s.weights for s in get_timesteps(datafile)),
             "$(r[:Initial]) - $(r[:Last])",
         )
         r = CSV.read(joinpath(datafile, "general_data", "Temporal_Preferences.csv"), DataFrame)[1,"Discount Rate"]
@@ -1645,8 +1645,8 @@ function get_HydrOGEnMod_data(
         arc_data = arc_data,
         storage_data = storage_data,
         demand_data = demand_data,
-        days = JuMP.Containers.DenseAxisArray(
-            vcat([s.days for s in timesteps], [years.days]),
+        weights = JuMP.Containers.DenseAxisArray(
+            vcat([s.weights for s in timesteps], [years.weights]),
             vcat([s.name for s in timesteps], ["year"]),
         ),
         discount = discount,
