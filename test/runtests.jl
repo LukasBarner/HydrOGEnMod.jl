@@ -169,12 +169,8 @@ end
         functional_test_2(TestConfig())
         include(joinpath("functional_tests", "functional_test_3.jl"))
         functional_test_3(TestConfig())
-        # if haskey(ENV,"PATH_LICENSE_STRING")
-            include(joinpath("functional_tests", "functional_test_4.jl"))
-            functional_test_4(TestConfig())
-        # else
-        #     @testset "Functional Test 4 (license missing)" begin @test true end
-        # end
+        include(joinpath("functional_tests", "functional_test_4.jl"))
+        functional_test_4(TestConfig())
         include(joinpath("functional_tests", "functional_test_5.jl"))
         functional_test_5(TestConfig())
     end
