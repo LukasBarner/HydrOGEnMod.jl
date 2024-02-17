@@ -9,7 +9,7 @@
 To install HydrOGEnMod on your system, run the following Julia code:
 ```julia
 import Pkg
-Pkg.add("https://github.com/LukasBarner/HydrOGEnMod.jl")
+Pkg.add(url="https://github.com/LukasBarner/HydrOGEnMod.jl")
 ```
 Alternatively, you can also directly use the Pkg-mode from within the REPL. 
 
