@@ -2,7 +2,7 @@
 CurrentModule = HydrOGEnMod
 ```
 
-# Code Documentation
+# API Reference
 
 ```@index
 ```
