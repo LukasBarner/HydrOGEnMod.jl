@@ -4,24 +4,24 @@ Test Case 3 asserts exertion of market power in a simple Cournot setting with ti
 ## Sets
 |Set Name|Set Value|
 |:----- | ---: |
-|$$\mathcal{A}$$ | $${DEU\_to\_DEU}$$|
-|$$\mathcal{AC}$$ | $${(DEU\_to\_DEU,CNG)}$$|
-|$$\mathcal{C}$$ | $${CNG}$$|
-|$$\mathcal{DSB}$$ | $${Block 1}$$|
-|$$\mathcal{I}$$ | $${Natural Gas}$$|
-|$$\mathcal{IOB}$$ | $${Block 1}$$|
-|$$\mathcal{M}$$ | $${OnlyTimeStep}$$|
-|$$\mathcal{N}$$ | $${DEU}$$|
-|$$\mathcal{O}$$ | $${FES}$$|
-|$$\mathcal{P}$$ | $${P\_DEU}$$|
+|$$\mathcal{A}$$ | $$\{DEU\_to\_DEU\}$$|
+|$$\mathcal{AC}$$ | $$\{(DEU\_to\_DEU,CNG)\}$$|
+|$$\mathcal{C}$$ | $$\{CNG\}$$|
+|$$\mathcal{DSB}$$ | $$\{Block 1\}$$|
+|$$\mathcal{I}$$ | $$\{Natural Gas\}$$|
+|$$\mathcal{IOB}$$ | $$\{Block 1\}$$|
+|$$\mathcal{M}$$ | $$\{OnlyTimeStep\}$$|
+|$$\mathcal{N}$$ | $$\{DEU\}$$|
+|$$\mathcal{O}$$ | $$\{FES\}$$|
+|$$\mathcal{P}$$ | $$\{P\_DEU\}$$|
 |$$\mathcal{RA}$$ | ∅|
 |$$\mathcal{RS}$$ | ∅|
 |$$\mathcal{RV}$$ | ∅|
 |$$\mathcal{S}$$ | ∅|
-|$$\mathcal{T}$$ | $${T\_DEU}$$|
+|$$\mathcal{T}$$ | $$\{T\_DEU\}$$|
 |$$\mathcal{V}$$ | ∅|
 |$$\mathcal{VT}$$ | ∅|
-|$$\mathcal{Y}$$ | $${2020}$$|
+|$$\mathcal{Y}$$ | $$\{2020\}$$|
 
 ## Parameters
 |Parameter|y=2020|
