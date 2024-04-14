@@ -1,0 +1,3 @@
+Input,Node,Timestep,Linear Cost Block 1 2020,Linear Cost Block 1 2025,Linear Cost Block 1 2030,Quadratic Cost Block 1 2020,Quadratic Cost Block 1 2025,Quadratic Cost Block 1 2030
+Natural Gas,DEU,OnlyTimestep,2.0,2.0,2.0,0,0,0
+Natural Gas,NLD,OnlyTimestep,0.5,0.5,0.5,0,0,0
