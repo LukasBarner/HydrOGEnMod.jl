@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Convex Optimization Problem · HydrOGEnMod.jl</title><meta name="title" content="Convex Optimization Problem · HydrOGEnMod.jl"/><meta property="og:title" content="Convex Optimization Problem · HydrOGEnMod.jl"/><meta property="twitter:title" content="Convex Optimization Problem · HydrOGEnMod.jl"/><meta name="description" content="Documentation for HydrOGEnMod.jl."/><meta property="og:description" content="Documentation for HydrOGEnMod.jl."/><meta property="twitter:description" content="Documentation for HydrOGEnMod.jl."/><meta property="og:url" content="https://LukasBarner.github.io/HydrOGEnMod.jl/mathematical_formulation/convex_reformulation/convex_reformulation/"/><meta property="twitter:url" content="https://LukasBarner.github.io/HydrOGEnMod.jl/mathematical_formulation/convex_reformulation/convex_reformulation/"/><link rel="canonical" href="https://LukasBarner.github.io/HydrOGEnMod.jl/mathematical_formulation/convex_reformulation/convex_reformulation/"/><script data-outdated-warner src="../../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../search_index.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../../">HydrOGEnMod.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><span class="tocitem">Mathematical Formulation</span><ul><li><input class="collapse-toggle" id="menuitem-2-1" type="checkbox"/><label class="tocitem" for="menuitem-2-1"><span class="docs-label">Notation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../notation/sets/">Sets</a></li><li><a class="tocitem" href="../../notation/mappings/">Mappings</a></li><li><a class="tocitem" href="../../notation/primal_variables/">Primal Variables</a></li><li><a class="tocitem" href="../../notation/dual_variables/">Dual Variables</a></li><li><a class="tocitem" href="../../notation/parameters/">Parameters</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-2" type="checkbox"/><label class="tocitem" for="menuitem-2-2"><span class="docs-label">Player Optimization Problems</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../player_problems/producer_problem/">Producer Problem</a></li><li><a class="tocitem" href="../../player_problems/trader_problem/">Trader Problem</a></li><li><a class="tocitem" href="../../player_problems/converter_problem/">Converter Problem</a></li><li><a class="tocitem" href="../../player_problems/transmission_system_operator_problem/">Transmission System Operator Problem</a></li><li><a class="tocitem" href="../../player_problems/storage_system_operator_problem/">Storage System Operator Problem</a></li><li><a class="tocitem" href="../../player_problems/market_clearing/">Market Clearing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-3" type="checkbox"/><label class="tocitem" for="menuitem-2-3"><span class="docs-label">Complementarity Problem</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../complementarity_problem/producer_optimality_conditions/">Producer KKTs</a></li><li><a class="tocitem" href="../../complementarity_problem/trader_optimality_conditions/">Trader KKTs</a></li><li><a class="tocitem" href="../../complementarity_problem/converter_optimality_conditions/">Converter KKTs</a></li><li><a class="tocitem" href="../../complementarity_problem/transmission_system_operator_optimality_conditions/">Transmission System Operator KKTs</a></li><li><a class="tocitem" href="../../complementarity_problem/storage_system_operator_optimality_conditions/">Storage System Operator KKTs</a></li><li><a class="tocitem" href="../../complementarity_problem/market_clearing/">Market Clearing</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox" checked/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Convex Reformulation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Convex Optimization Problem</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../docstrings/">API Reference</a></li><li><span class="tocitem">Test Case Reference</span><ul><li><a class="tocitem" href="../../../tests/general_remarks/">General Remarks</a></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Test Cases</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../tests/test_cases/test_case_1/">Test Case 1</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_2/">Test Case 2</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_3/">Test Case 3</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_4/">Test Case 4</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_5/">Test Case 5</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_6/">Test Case 6</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_7/">Test Case 7</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_8/">Test Case 8</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_9/">Test Case 9</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_10/">Test Case 10</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_11/">Test Case 11</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_12/">Test Case 12</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_13/">Test Case 13</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_14/">Test Case 14</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_15/">Test Case 15</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_16/">Test Case 16</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_17/">Test Case 17</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_18/">Test Case 18</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_19/">Test Case 19</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_20/">Test Case 20</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_21/">Test Case 21</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_22/">Test Case 22</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_23/">Test Case 23</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_24/">Test Case 24</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_25/">Test Case 25</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_26/">Test Case 26</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_27/">Test Case 27</a></li><li><a class="tocitem" href="../../../tests/test_cases/test_case_28/">Test Case 28</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-3" type="checkbox"/><label class="tocitem" for="menuitem-4-3"><span class="docs-label">Functional Tests</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../tests/functional_tests/functional_test_1/">Functional Test 1</a></li><li><a class="tocitem" href="../../../tests/functional_tests/functional_test_2/">Functional Test 2</a></li><li><a class="tocitem" href="../../../tests/functional_tests/functional_test_3/">Functional Test 3</a></li><li><a class="tocitem" href="../../../tests/functional_tests/functional_test_4/">Functional Test 4</a></li><li><a class="tocitem" href="../../../tests/functional_tests/functional_test_5/">Functional Test 5</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../replication/">Replication</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Mathematical Formulation</a></li><li><a class="is-disabled">Convex Reformulation</a></li><li class="is-active"><a href>Convex Optimization Problem</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Convex Optimization Problem</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/LukasBarner/HydrOGEnMod.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/LukasBarner/HydrOGEnMod.jl/blob/main/docs/src/mathematical_formulation/convex_reformulation/convex_reformulation.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Convex-Optimization-Problem"><a class="docs-heading-anchor" href="#Convex-Optimization-Problem">Convex Optimization Problem</a><a id="Convex-Optimization-Problem-1"></a><a class="docs-heading-anchor-permalink" href="#Convex-Optimization-Problem" title="Permalink"></a></h1><p class="math-container">\[\begin{aligned}	
+\max_{\substack{q^{I}_{pibmy}, \\ q^{P \rightarrow T}_{pcomy}, \\ \Delta^{I}_{piby}, \\ \Delta^{P}_{pcoy}, \\ q^{T \rightarrow D}_{tncbomy}, \\ q^{V}_{vtcdomy}, \\ \Delta^{V}_{vcc&#39;y}, \\ \Delta^{RV}_{vrr&#39;cc&#39;y}, \\ q^{T}_{tacomy}, \\ \Delta^{A}_{acy}, \\ \Delta^{RA}_{arcy}, \\ q^{S}_{stcomy}, \\q^{S_{in}}_{stcomy}, \\ q^{S_{out}}_{stcomy}, \\  \Delta^{S}_{scy}, \\ \Delta^{RS}_{scry} }}  \quad &amp; \sum_{y \in \mathcal{Y}} r_{y}  \left[ 
+			\begin{aligned}
+				\sum_{m \in \mathcal{M}} d_m \sum_{c \in \mathcal{C}} \sum_{n \in \mathcal{N}} \left( 
+				\begin{aligned}
+					\frac{1}{2} \sum_{b \in \mathcal{DSB}} \beta^{D}_{ncbmy} \left( \sum_{t \in \mathcal{T}} \sum_{o \in \mathcal{O}} q^{T \rightarrow D}_{tncbomy} \right)^2 \\
+					+ \sum_{b \in \mathcal{DSB}} \alpha^{D}_{ncbmy} \left( \sum_{t \in \mathcal{T}} \sum_{o \in \mathcal{O}} q^{T \rightarrow D}_{tncbomy} \right) \\
+					+ \frac{1}{2} \sum_{t \in \mathcal{T}} {1}^{NC}_{tnc} \sum_{b \in \mathcal{DSB}} \beta^{D}_{ncbmy} \left( \sum_{o \in \mathcal{O}} q^{T \rightarrow D}_{tncbomy} \right)^2 \\
+				\end{aligned}
+				\right) \\
+				- \sum_{p \in \mathcal{P}} \sum_{i \in \mathcal{I}} \sum_{m \in \mathcal{M}} d_m \sum_{b \in \mathcal{IOB}} \left(c^{I_{l}}_{pibmy}  q^{I}_{pibmy} + \frac{1}{2} c^{I_{q}}_{pibmy}  \left(q^{I}_{pibmy}\right)^{2} \right) \\
+				- \sum_{p \in \mathcal{P}} \sum_{i \in \mathcal{I}} \sum_{b \in \mathcal{IOB}} \frac{1}{ \| \Delta \|_{y}}  c^{\Delta^{I}}_{piby}  \Delta^{I}_{piby} \\
+				- \sum_{p \in \mathcal{P}} \sum_{c \in \mathcal{C}} \sum_{o \in \mathcal{O}} \sum_{m \in \mathcal{M}} d_m  c^{P}_{pcoy} q^{P \rightarrow T}_{pcomy}\\
+				- \sum_{p \in \mathcal{P}} \sum_{c \in \mathcal{C}} \sum_{o \in \mathcal{O}} \frac{1}{ \| \Delta \|_{y}} c^{\Delta P}_{pcoy} \Delta^{P}_{pcoy} \\
+				- \sum_{v \in \mathcal{V}} \sum_{t \in \mathcal{T}} \sum_{(c,c&#39;) \in \mathcal{VT}} \sum_{o \in \mathcal{O}} \sum_{m \in \mathcal{M}} d_m c^{V}_{vcc&#39;y}  q^{V}_{vtcc&#39;omy} \\
+				- \sum_{v \in \mathcal{V}} \sum_{(c,c&#39;) \in \mathcal{VT}} \frac{1}{ \| \Delta \|_{y}} c^{\Delta V}_{vcc&#39;y} \Delta^{V}_{vcc&#39;y} \\
+				- \sum_{v \in \mathcal{V}} \sum_{((r,r&#39;),(c,c&#39;)) \in \mathcal{RV}} \frac{1}{ \| \Delta \|_{y}} c^{\Delta^{RV}}_{vrr&#39;cc&#39;y} \Delta^{RV}_{vrr&#39;cc&#39;y}\\
+				- \sum_{t \in \mathcal{T}} \sum_{ (a,c) \in \mathcal{AC} } \sum_{o \in \mathcal{O}} \sum_{m \in \mathcal{M}} d_m c^{A}_{acy}  q^{T}_{tacomy} \\
+				- \sum_{ (a,c) \in \mathcal{AC} } \frac{1}{ \| \Delta \|_{y}} \frac{1}{2} c^{\Delta A}_{acy} \Delta^{A}_{acy} \\
+				- \sum_{a \in \mathcal{A}} \sum_{(r,c) \in \mathcal{RA} | (a,r) \in \mathcal{AC} } \frac{1}{ \| \Delta \|_{y}} \frac{1}{2} c^{\Delta^{RA}}_{arcy} \Delta^{RA}_{arcy}\\
+				- \sum_{s \in \mathcal{S}} \sum_{t \in \mathcal{T}} \sum_{c \in \mathcal{C}} \sum_{o \in \mathcal{O}} \sum_{m \in \mathcal{M}} d_{m} c^{S_{in}}_{scy} q^{S_{in}}_{stcomy} \\
+				- \sum_{s \in \mathcal{S}} \sum_{t \in \mathcal{T}} \sum_{c \in \mathcal{C}} \sum_{o \in \mathcal{O}} \sum_{m \in \mathcal{M}} d_{m} c^{S_{out}}_{scy} q^{S_{out}}_{stcomy} \\
+				- \sum_{s \in \mathcal{S}} \sum_{c \in \mathcal{C}} \frac{1}{ \| \Delta \|_{y}} c^{\Delta S}_{scy} \Delta^{S}_{scy}\\
+				- \sum_{s \in \mathcal{S}} \sum_{(r,c) \in \mathcal{RS}} \frac{1}{ \| \Delta \|_{y}} c^{\Delta^{RS}}_{srcy} \Delta^{RS}_{srcy}
+			\end{aligned} 
+			\right] \\
+\text{s.t.} \, 	&amp; \sum_{o \in \mathcal{O}} \sum_{c \in \mathcal{C}} fi^{P}_{cio} q^{P \rightarrow T}_{pcomy} \leq \sum_{b \in \mathcal{IOB}} q^{I}_{pibmy}  &amp; \begin{aligned}
+				\forall p \in \mathcal{P}, i \in \mathcal{I}, \\ m \in \mathcal{M}, y \in \mathcal{Y} 
+			\end{aligned} \quad &amp;(\phi^{P}_{pimy}) &amp; \\
+			%
+			&amp; q^{I}_{pibmy}  \leq av^{I}_{pibm}
+			\left( \begin{aligned}
+				\Lambda^{I}_{piby} \\ + \sum_{ y&#39; \in \mathcal{Y} | (y-L^{I}_{i} \leq y&#39; &lt; y ) }  \Delta^{I}_{piby}
+			\end{aligned} 
+			\right)   &amp; \begin{aligned}
+				\forall p \in \mathcal{P}, i \in \mathcal{I}, \\ b \in \mathcal{IOB}, \\ m \in \mathcal{M},  y \in \mathcal{Y}
+			\end{aligned}  \quad &amp;( \Lambda^{I}_{piby}) &amp; \\
+			%
+			&amp; q^{P \rightarrow T}_{pcomy} \leq \left( 
+			\begin{aligned}
+				\Lambda^{P}_{pcoy} \\ + \sum_{ y&#39; \in \mathcal{Y} | (y-L^{P}_{co} \leq y&#39; &lt; y ) } \Delta^{P}_{pcoy} 
+			\end{aligned} 
+			\right)  &amp; \begin{aligned}
+				\forall p \in \mathcal{P}, c \in \mathcal{C}, \\ o \in \mathcal{O},  m \in \mathcal{M}, \\ y \in \mathcal{Y} 
+			\end{aligned} \quad &amp;(\lambda^{P}_{pcomy}) &amp; \\
+			%
+			&amp; \Delta^{P}_{pcoy} \leq \Omega^{P}_{pcoy}  &amp; \begin{aligned}
+				\forall p \in \mathcal{P}, c \in \mathcal{C},\\ o \in \mathcal{O}, y \in \mathcal{Y} 
+			\end{aligned} \quad &amp;(\omega^{P}_{pcoy}) &amp; \\
+			%
+			&amp; \sum_{ y&#39; \in \mathcal{Y} | (y-L^{I}_{i} \leq y&#39; &lt; y ) } \Delta^{I}_{piby&#39;} \leq \Omega^{I}_{piby}  &amp; \begin{aligned}
+				\forall p \in \mathcal{P}, i \in \mathcal{I}, \\ b \in \mathcal{IOB}, \\ y \in \mathcal{Y} 
+			\end{aligned} \quad &amp;(\omega^{I}_{piby}) &amp; \\
+			%
+			&amp;\begin{aligned}
+				\left(\begin{aligned}
+					\sum_{a \in \mathcal{A}_s(n) | (a,c) \in \mathcal{AC} } (1+l^{A}_{ac}) q^{T}_{tacomy} \\ 
+					+ \sum_{b \in \mathcal{DSB}} q^{T \rightarrow D}_{tncbomy} \\
+					+ \sum_{c&#39; \in \mathcal{C} | (c,c&#39;) \in \mathcal{VT}}fi^{V}_{cc&#39;} q^{V}_{v(n)tcc&#39;omy} \\
+					+ q^{S_{in}}_{s(n)tcomy}
+				\end{aligned}\right) \\  \leq 
+				\left(\begin{aligned}
+					\sum_{a \in \mathcal{A}_e(n) | (a,c) \in \mathcal{AC} } q^{T}_{tacomy} \\ 
+					+ \sum_{c&#39; \in \mathcal{C} | (c&#39;,c) \in \mathcal{VT}}q^{V }_{v(n)tc&#39;comy} \\
+					+ \sum_{p \in \mathcal{P}(t,n)} q^{P \rightarrow T}_{pcomy} \\
+					+ q^{S_{out}}_{s(n)tcomy}
+				\end{aligned}\right) 
+			\end{aligned} 
+			&amp; \begin{aligned}
+				\forall t \in \mathcal{T}, n \in \mathcal{N}, \\ c \in \mathcal{C},   o \in \mathcal{O}, \\ m \in \mathcal{M}, y \in \mathcal{Y} 
+			\end{aligned} \quad &amp;(\phi^{T}_{tncomy}) \\
+			%
+			&amp; \sum_{m \in \mathcal{M}} d_{m} \sum_{b \in \mathcal{DSB}} q^{T \rightarrow D}_{tncbomy} \leq \Lambda^{T}_{tncoy}  &amp; 
+			\begin{aligned}
+				\forall t \in \mathcal{T}, n \in \mathcal{N}, \\ c \in \mathcal{C},  o \in \mathcal{O}, \\ y \in \mathcal{Y}
+			\end{aligned}
+			\quad &amp; (\lambda^{T}_{tncoy}) \\
+			%
+			&amp; \begin{aligned} \sum_{o \in \mathcal{O}} \sum_{t \in \mathcal{T}} q^{V}_{vtcc&#39;omy} \\ \leq \left( 
+				\begin{aligned}
+					\Lambda^{V}_{vcc&#39;y}\\ 
+					+ \sum_{y&#39; \in \mathcal{Y} | y-L^{V}_{cc&#39;} \leq y&#39; &lt; y } \Delta^{V}_{vcc&#39;y} \\
+					+ \sum_{(r,r&#39;) | ((r,r&#39;),(cc&#39;)) \in \mathcal{RV}} \sum_{ y&#39; \in \mathcal{Y} | y-L^{V}_{cc&#39;} \leq y&#39;&lt; y} f^{RV}_{rr&#39;cc&#39;} \Delta^{RV}_{vrr&#39;cc&#39;y}\\ 
+					- \sum_{(r,r&#39;) | ((cc&#39;),(r,r&#39;)) \in \mathcal{RV}} \sum_{ y&#39; \in \mathcal{Y} | y&#39;&lt; y}  \Delta^{RV}_{vcc&#39;rr&#39;y}
+				\end{aligned} 
+				\right) \end{aligned}   &amp; 
+			\begin{aligned}
+				\forall v \in \mathcal{V}, \\ (c,c&#39;) \in \mathcal{VT}, \\ m \in \mathcal{M}, y \in \mathcal{Y}
+			\end{aligned}
+			\quad &amp; (\lambda^{V}_{vcdsy}) \\
+			%
+			&amp; \sum_{o \in \mathcal{O}} \sum_{t \in \mathcal{T}}q^{T}_{tacomy} \leq \left( 
+			\begin{aligned}
+				\Lambda^{A}_{acy} \\ 
+				+ \sum_{ y&#39; \in \mathcal{Y} | y-L^{A}_{c} \leq y&#39;&lt; y} \Delta^{A}_{acy}\\ 
+				+ \sum_{r | (r,c) \in \mathcal{RA}} \sum_{ y&#39; \in \mathcal{Y} | y-L^{A}_{c} \leq y&#39;&lt; y} f^{RA}_{rc} \Delta^{RA}_{arcy}\\ 
+				- \sum_{r | (c,r) \in \mathcal{RA}} \sum_{ y&#39; \in \mathcal{Y} | y&#39;&lt; y} \Delta^{RA}_{acry}
+			\end{aligned} 
+			\right)    &amp; 
+			\begin{aligned}
+				\forall  (a,c) \in \mathcal{AC} ,\\ m \in \mathcal{M}, y \in \mathcal{Y} \\
+			\end{aligned} \quad &amp; (\lambda^{A}_{acmy}) \\
+			%
+			&amp; \Delta^{A}_{acy} =  \Delta^{A}_{a^{-1}(a)cy}  \quad &amp; 
+			\begin{aligned}
+				\forall  (a,c) \in \mathcal{AC} , \\  y \in \mathcal{Y}
+			\end{aligned}
+			\quad &amp; (\delta^{A}_{acy}) \\
+			%
+			&amp; \Delta^{RA}_{arcy} = \Delta^{RA}_{a^{-1}(a)rcy} \quad &amp; 
+			\begin{aligned}
+				\forall a \in \mathcal{A}, \\ (r,c) \in \mathcal{RA}, \\  (a,r) \in \mathcal{AC}, \\y \in \mathcal{Y}
+			\end{aligned}
+			\quad &amp; (\delta^{RA}_{arcy}) \\
+			%
+			&amp; \begin{aligned}
+				\sum_{o \in \mathcal{O}}  \sum_{t \in \mathcal{T}} q^{S}_{stcomy} \\ \quad \leq 
+				\left( 
+				\begin{aligned}
+					\Lambda^{S}_{scy} \\ + \sum_{ y&#39; \in \mathcal{Y} | y-L^{S}_{c} \leq y&#39;&lt;y} \Delta^{S}_{scy}\\
+					+ \sum_{r | (r,c) \in \mathcal{RS}} \sum_{ y&#39; \in \mathcal{Y} | y-L^{S}_{c} \leq y&#39;&lt; y} f^{RS}_{rc} \Delta^{RS}_{srcy}\\ 
+					- \sum_{r | (c,r) \in \mathcal{RS}} \sum_{ y&#39; \in \mathcal{Y} | y&#39;&lt; y} \Delta^{RS}_{scry}
+				\end{aligned} 
+				\right) 
+			\end{aligned}
+			&amp; 
+			\begin{aligned}
+				\forall s \in \mathcal{S}, c \in \mathcal{C}, \\ m \in \mathcal{M}, y \in \mathcal{Y}
+			\end{aligned} 
+			\quad &amp; (\lambda^{S}_{scmy}) \\
+			%
+			&amp; \begin{aligned}
+				q^{S}_{stcom^{+}(m)y} \\ \quad \leq 
+				\left(1- l^{S}_{cmm^{+}(m)} \right) \cdot \left[
+				\begin{aligned}
+					q^{S}_{stcomy} \\ + d_{m} \left(q^{S_{in}}_{stcomy} - q^{S_{out}}_{stcomy}\right) 
+				\end{aligned}\right] 
+			\end{aligned}
+			&amp; 
+			\begin{aligned}
+				\forall s \in \mathcal{S}, t \in \mathcal{T}, \\ c \in \mathcal{C}, o \in \mathcal{O},\\  m \in \mathcal{M}, y \in \mathcal{Y}
+			\end{aligned} 
+			\quad &amp; (\phi^{S}_{stcomy}) \\
+			%
+			&amp; \left( 
+			\begin{aligned}
+				\sum_{ y&#39; \in \mathcal{Y} | y-L^{S}_{c} \leq y&#39;&lt;y} \Delta^{S}_{scy}\\
+				+ \sum_{r | (r,c) \in \mathcal{RS}} \sum_{ y&#39; \in \mathcal{Y} | y-L^{S}_{c} \leq y&#39;&lt; y} f^{RS}_{rc} \Delta^{RS}_{srcy}\\ 
+				- \sum_{r | (c,r) \in \mathcal{RS}} \sum_{ y&#39; \in \mathcal{Y} | y&#39;&lt; y} \Delta^{RS}_{scry}
+			\end{aligned} 
+			\right) 
+			\leq \Omega^{S}_{scy}  &amp; \begin{aligned}
+				\forall s \in \mathcal{S}, c \in \mathcal{C}, \\ y \in \mathcal{Y}
+			\end{aligned}  \quad &amp;(\omega^{S}_{scy}) &amp; \\
+			%
+			&amp; \left( \begin{aligned}
+				q^{I}_{pibmy}, q^{P \rightarrow T}_{pcomy}, \Delta^{I}_{piby}, \Delta^{P}_{pcoy}, q^{T \rightarrow D}_{tncbomy}, \\ q^{V}_{vtcc&#39;omy}, \Delta^{V}_{vcc&#39;y}, \Delta^{RV}_{vrr&#39;cc&#39;y}, q^{T}_{tacomy}, \Delta^{A}_{acy}, \\\Delta^{RA}_{arcy}, q^{S}_{stcomy}, q^{S_{in}}_{stcomy}, q^{S_{out}}_{stcomy}, \Delta^{S}_{scy}, \Delta^{RS}_{scry}
+			\end{aligned} \right) \geq 0 \quad &amp; \quad\quad\quad\quad\quad\quad\quad&amp; \quad\quad\quad\quad\quad\quad\quad \\
+\end{aligned}\]</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../complementarity_problem/market_clearing/">« Market Clearing</a><a class="docs-footer-nextpage" href="../../../docstrings/">API Reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.3.0 on <span class="colophon-date" title="Monday 15 April 2024 07:59">Monday 15 April 2024</span>. Using Julia version 1.10.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
