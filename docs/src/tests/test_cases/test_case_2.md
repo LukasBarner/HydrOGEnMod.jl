@@ -78,3 +78,12 @@ Test Case 2 adds multiple years and tests for prices in both, while also includi
 |$$\tilde{P}^{T \rightarrow D}_{DEU,CNG,Block 1,OnlyTimeStep,y}$$ | $$1.25$$| $$1.25$$|
 
 ## Graphical Solution
+### Inverse Demand and Marginalized Cost Curves
+#### GH2 2020
+![test_case_2a_graphic](../../images/test_case_2a_graphic.pdf)
+#### GH2 2021
+![test_case_2b_graphic](../../images/test_case_2b_graphic.pdf)
+#### CNG 2020
+![test_case_2a_graphic](../../images/test_case_2c_graphic.pdf)
+#### CNG 2021
+![test_case_2b_graphic](../../images/test_case_2d_graphic.pdf)

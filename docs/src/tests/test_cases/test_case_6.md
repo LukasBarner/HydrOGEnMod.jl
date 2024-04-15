@@ -66,3 +66,8 @@ Test Case 6 works similar to [Test Case 5](@ref), but here the low demand time s
 |$$q^{I}_{P\_DEU,Natural Gas,Block 1,m,2020}$$ | $$2.0$$ | $$0.0$$|
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices for Different Time Steps
+#### Time Step L
+![test_case_6a_graphic](../../images/test_case_6a_graphic.pdf)
+#### Time Step H
+![test_case_6b_graphic](../../images/test_case_6b_graphic.pdf)

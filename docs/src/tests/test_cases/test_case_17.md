@@ -92,3 +92,16 @@ Test Case 17 is similar to [Test Case 13](@ref), only that T\_NLD is not allowed
 |$$\Delta^{A}_{NLD\_to\_NLD,CNG,y}$$ | $$0.0$$  | $$0.0$$  | $$0.0$$ |
 
 ## [Graphical Solution](@id test_case_17_graphical_solution)
+### Marginalized Provision Costs and Prices
+#### NLD 2020
+![test_case_17a_graphic](../../images/test_case_17a_graphic.pdf)
+#### DEU 2020
+![test_case_17b_graphic](../../images/test_case_17b_graphic.pdf)
+#### NLD 2025
+![test_case_17c_graphic](../../images/test_case_17c_graphic.pdf)
+#### DEU 2025
+![test_case_17d_graphic](../../images/test_case_17d_graphic.pdf)
+#### NLD 2030
+![test_case_17e_graphic](../../images/test_case_17e_graphic.pdf)
+#### DEU 2030
+![test_case_17f_graphic](../../images/test_case_17f_graphic.pdf)

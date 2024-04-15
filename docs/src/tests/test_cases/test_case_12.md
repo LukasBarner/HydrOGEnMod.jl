@@ -78,3 +78,16 @@ Test Case 12 is structurally similar to [Test Case 11](@ref), but this time conv
 |$$\tilde{P}^{T \rightarrow D}_{DEU,CNG,Block 1,OnlyTimeStep,y}$$ | $$0$$ | $$0$$ | $$0$$|
 
 ## [Graphical Solution](@id test_case_12_graphical_solution)
+### Marginalized Provision Costs and Prices
+#### CNG 2020
+![test_case_12a_graphic](../../images/test_case_12a_graphic.pdf)
+#### GH2 2020
+![test_case_12b_graphic](../../images/test_case_12b_graphic.pdf)
+#### CNG 2025
+![test_case_12c_graphic](../../images/test_case_12c_graphic.pdf)
+#### GH2 2025
+![test_case_12d_graphic](../../images/test_case_12d_graphic.pdf)
+#### CNG 2030
+![test_case_12e_graphic](../../images/test_case_12e_graphic.pdf)
+#### GH2 2030
+![test_case_12f_graphic](../../images/test_case_12f_graphic.pdf)

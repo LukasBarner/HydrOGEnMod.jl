@@ -41,7 +41,7 @@ makedocs(;
             "Convex Reformulation" => ["Convex Optimization Problem" => "mathematical_formulation/convex_reformulation/convex_reformulation.md"]
         ],
         "API Reference" => "docstrings.md",
-        "Test Case Reference" => [
+        "Test Reference" => [
             "General Remarks" => "tests/general_remarks.md", 
             "Test Cases" => [
                 "Test Case 1" => "tests/test_cases/test_case_1.md",

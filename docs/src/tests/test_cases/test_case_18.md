@@ -92,3 +92,16 @@ $$\Delta^{A}_{NLD\_to\_DEU,CNG,y}$$ | $$0.5$$  | $$0.0$$  | $$0.0$$ |
 $$\Delta^{A}_{NLD\_to\_NLD,CNG,y}$$ | $$0.0$$  | $$0.0$$  | $$0.0$$|
 
 ## [Graphical Solution](@id test_case_18_graphical_solution)
+### Marginalized Provision Costs, Revenues and Prices
+#### NLD 2020
+![test_case_18a_graphic](../../images/test_case_18a_graphic.pdf)
+#### DEU 2020
+![test_case_18b_graphic](../../images/test_case_18b_graphic.pdf)
+#### NLD 2025
+![test_case_18c_graphic](../../images/test_case_18c_graphic.pdf)
+#### DEU 2025
+![test_case_18d_graphic](../../images/test_case_18d_graphic.pdf)
+#### NLD 2030
+![test_case_18e_graphic](../../images/test_case_18e_graphic.pdf)
+#### DEU 2030
+![test_case_18f_graphic](../../images/test_case_18f_graphic.pdf)

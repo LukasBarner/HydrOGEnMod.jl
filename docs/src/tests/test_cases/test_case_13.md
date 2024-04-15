@@ -92,3 +92,16 @@ Test Case 13 is similar to [Test Case 9](@ref), only that this time transport ca
 |$$\Delta^{A}_{NLD\_to\_NLD,CNG,y}$$ | $$0.0$$  | $$0.0$$  | $$0.0$$|
 
 ## [Graphical Solution](@id test_case_13_graphical_solution)
+### Marginalized Provision Costs and Prices
+#### NLD 2020
+![test_case_13a_graphic](../../images/test_case_13a_graphic.pdf)
+#### DEU 2020
+![test_case_13b_graphic](../../images/test_case_13b_graphic.pdf)
+#### NLD 2025
+![test_case_13c_graphic](../../images/test_case_13c_graphic.pdf)
+#### DEU 2025
+![test_case_13d_graphic](../../images/test_case_13d_graphic.pdf)
+#### NLD 2030
+![test_case_13e_graphic](../../images/test_case_13e_graphic.pdf)
+#### DEU 2030
+![test_case_13f_graphic](../../images/test_case_13f_graphic.pdf)

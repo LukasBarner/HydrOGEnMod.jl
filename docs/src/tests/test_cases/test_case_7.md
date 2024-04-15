@@ -74,3 +74,5 @@ Tests are passed if $$P=0.5$$ and produced quantities are 1 from each natural ga
 |$$q^{I}_{P\_DEU,Renewable Electricity,Block 1,OnlyTimeStep,y}$$ | $$1$$ |
 
 ## [Graphical Solution](@id test_case_7_graphical_solution)
+### Marginalized Provision Costs and Price
+![test_case_7_graphic](../../images/test_case_7_graphic.pdf)

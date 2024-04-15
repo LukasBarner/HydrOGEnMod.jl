@@ -10,5 +10,3 @@ The table below shows checked plotting functions.
 |[plot\_model\_nodes(container::SparseAxisArray{T,N,K})](@ref plot_model_nodes)|
 |[plot\_model\_nodes(arcs::Vector{TransportArc})](@ref plot_model_nodes)|
 |[plot\_model\_nodes(container::DenseAxisArray{T,N,Ax,L},arcs::Vector{TransportArc})](@ref plot_model_nodes)|
-
-## Sample Map Plots 

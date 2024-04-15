@@ -93,3 +93,20 @@ Test Case 22 asserts that repurposing of storage capacities works as intended, i
 |$$q^{I}_{P\_DEU,Natural Gas,Block 1,m,y}$$ | $$0.5$$ | $$0.0$$ | $$0.5$$ | $$0.0$$|
 
 ## Graphical Solution
+### Illustration for Different Years, Commodities and Time Steps
+#### Time Step L for CNG in 2020
+![test_case_22a_graphic](../../images/test_case_22a_graphic.pdf)
+#### Time Step H for CNG in 2020
+![test_case_22b_graphic](../../images/test_case_22b_graphic.pdf)
+#### Time Step L for CNG in 2021
+![test_case_22c_graphic](../../images/test_case_22c_graphic.pdf)
+#### Time Step H for CNG in 2021
+![test_case_22d_graphic](../../images/test_case_22d_graphic.pdf)
+#### Time Step L for GH2 in 2020
+![test_case_22e_graphic](../../images/test_case_22e_graphic.pdf)
+#### Time Step H for GH2 in 2020
+![test_case_22f_graphic](../../images/test_case_22f_graphic.pdf)
+#### Time Step L for GH2 in 2021
+![test_case_22g_graphic](../../images/test_case_22g_graphic.pdf)
+#### Time Step H for GH2 in 2021
+![test_case_22h_graphic](../../images/test_case_22h_graphic.pdf)

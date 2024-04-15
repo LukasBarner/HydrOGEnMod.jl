@@ -66,3 +66,8 @@ Test Case 5 asserts that storages work as intended. For this, multiple time step
 |$$q^{I}_{P\_DEU,Natural Gas,Block 1,m,2020}$$ | $$0.5$$ | $$0.0$$
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices for Different Time Steps
+#### Time Step L
+![test_case_5a_graphic](../../images/test_case_5a_graphic.pdf)
+#### Time Step H
+![test_case_5b_graphic](../../images/test_case_5b_graphic.pdf)

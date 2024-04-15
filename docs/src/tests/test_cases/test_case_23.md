@@ -64,3 +64,5 @@ Test Case 23 asserts that piece-wise quadratic cost functions for input procurem
 |Objective Value | $$0.45$$|
 |Social Welfare | $$0.575$$|
 ## Graphical Solution
+### Profit Maximization in a Cournot Setting
+![test_case_23_graphic](../../images/test_case_23_graphic.pdf)

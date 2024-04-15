@@ -65,3 +65,8 @@ Test Case 10 is structurally similar to [Test Case 5](@ref), but 10% losses betw
 |$$\tilde{P}^{T \rightarrow D}_{DEU,CNG,Block 1,m,2020}$$ | $$0.0$$ | $$1.1$$|
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices for Different Time Steps
+#### Time Step L
+![test_case_10a_graphic](../../images/test_case_10a_graphic.pdf)
+#### Time Step H
+![test_case_10b_graphic](../../images/test_case_10b_graphic.pdf)

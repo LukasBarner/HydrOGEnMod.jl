@@ -79,3 +79,16 @@ Test Case 11 tests production capacity expansion, including scaling of investmen
 |$$\Delta^{P}_{P\_DEU,CNG,FES,y}$$ | $$0$$ | $$0$$ | $$0$$ |
 
 ## [Graphical Solution](@id test_case_11_graphical_solution)
+### Marginalized Provision Costs and Prices for Different Time Steps and Commodities
+#### CNG 2020
+![test_case_11a_graphic](../../images/test_case_11a_graphic.pdf)
+#### GH2 2020
+![test_case_11b_graphic](../../images/test_case_11b_graphic.pdf)
+#### CNG 2025
+![test_case_11c_graphic](../../images/test_case_11c_graphic.pdf)
+#### GH2 2025
+![test_case_11d_graphic](../../images/test_case_11d_graphic.pdf)
+#### CNG 2030
+![test_case_11e_graphic](../../images/test_case_11e_graphic.pdf)
+#### GH2 2030
+![test_case_11f_graphic](../../images/test_case_11f_graphic.pdf)

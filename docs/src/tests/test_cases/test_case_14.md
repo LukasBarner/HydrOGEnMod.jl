@@ -112,3 +112,16 @@ Test Case 14 tests capacity expansion, scaling of investment costs and lifetimes
 |$$\Delta^{S}_{S\_DEU,CNG,2030}$$ | $$0$$ | $$0$$|
 
 ## [Graphical Solution](@id test_case_14_graphical_solution)
+### Marginalized Provision Costs and Prices
+#### Time Step L 2020
+![test_case_14a_graphic](../../images/test_case_14a_graphic.pdf)
+#### Time Step H 2020
+![test_case_14b_graphic](../../images/test_case_14b_graphic.pdf)
+#### Time Step L 2025
+![test_case_14c_graphic](../../images/test_case_14c_graphic.pdf)
+#### Time Step H 2025
+![test_case_14d_graphic](../../images/test_case_14d_graphic.pdf)
+#### Time Step L 2030
+![test_case_14e_graphic](../../images/test_case_14e_graphic.pdf)
+#### Time Step H 2030
+![test_case_14f_graphic](../../images/test_case_14f_graphic.pdf)

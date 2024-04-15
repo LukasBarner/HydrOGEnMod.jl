@@ -137,3 +137,20 @@ Test Case 21 asserts that repurposing of arc capacities works as intended, inclu
 |$q^{I}_{P\_NLD,Natural Gas,Block 1,OnlyTimeStep,y}$ | $0.88$  | $0.88$ |
 
 ## [Graphical Solution](@id test_case_21_graphical_solution)
+### Marginalized Provision Costs and Prices for Different Nodes
+#### Node NLD in 2020 for CNG
+![test_case_21a_graphic](../../images/test_case_21a_graphic.pdf)
+#### Node DEU in 2020 for CNG
+![test_case_21b_graphic](../../images/test_case_21b_graphic.pdf)
+#### Node NLD in 2021 for CNG
+![test_case_21c_graphic](../../images/test_case_21c_graphic.pdf)
+#### Node DEU in 2021 for CNG
+![test_case_21d_graphic](../../images/test_case_21d_graphic.pdf)
+#### Node NLD in 2020 for GH2
+![test_case_21e_graphic](../../images/test_case_21e_graphic.pdf)
+#### Node DEU in 2020 for GH2
+![test_case_21f_graphic](../../images/test_case_21f_graphic.pdf)
+#### Node NLD in 2021 for GH2
+![test_case_21g_graphic](../../images/test_case_21g_graphic.pdf)
+#### Node DEU in 2021 for GH2
+![test_case_21h_graphic](../../images/test_case_21h_graphic.pdf)

@@ -4,3 +4,6 @@
 /docs/Manifest.toml
 /docs/build/
 /results/*
+*.aux
+*.log
+*.synctex.gz

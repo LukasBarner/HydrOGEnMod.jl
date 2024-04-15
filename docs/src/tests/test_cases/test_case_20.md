@@ -101,3 +101,16 @@ Test Case 20 is based on [Test Case 2](@ref) and checks for repurposing of conve
 |$$\tilde{P}^{T \rightarrow D}_{DEU,CNG,Block 1,OnlyTimeStep,y}$$ | $$1.25$$| $$1.50$$|
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices
+#### GH2 2020
+![test_case_20a_graphic](../../images/test_case_20a_graphic.pdf)
+#### GH2 2021
+![test_case_20b_graphic](../../images/test_case_20b_graphic.pdf)
+#### NH3 2020
+![test_case_20c_graphic](../../images/test_case_20c_graphic.pdf)
+#### NH3 2021
+![test_case_20d_graphic](../../images/test_case_20d_graphic.pdf)
+#### CNG 2020
+![test_case_20e_graphic](../../images/test_case_20e_graphic.pdf)
+#### CNG 2021
+![test_case_20f_graphic](../../images/test_case_20f_graphic.pdf)

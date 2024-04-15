@@ -92,3 +92,9 @@ The implementation in the testing routine features two separate runs for shippin
 |$$q^{I}_{P\_NLD,Natural Gas,Block 1,OnlyTimeStep,y}$$ | $$0.0$$|
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices for Different Nodes
+Note: Marginalized costs are depicted as if adjacency was given.
+#### Node NLD
+![test_case_26a_graphic](../../images/test_case_26a_graphic.pdf)
+#### Node DEU
+![test_case_26b_graphic](../../images/test_case_26b_graphic.pdf)

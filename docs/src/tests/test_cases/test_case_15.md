@@ -79,3 +79,16 @@ Test Case 15 is similar to [Test Case 11](@ref), except that production capacity
 |$$\Delta^{P}_{P\_DEU,CNG,FES,y}$$ | $$0$$ | $$0$$ | $$0$$ |
 
 ## [Graphical Solution](@id test_case_15_graphical_solution)
+### Marginalized Provision Costs and Prices for Different Time Steps
+#### CNG 2020
+![test_case_15a_graphic](../../images/test_case_15a_graphic.pdf)
+#### GH2 2020
+![test_case_15b_graphic](../../images/test_case_15b_graphic.pdf)
+#### CNG 2025
+![test_case_15c_graphic](../../images/test_case_15c_graphic.pdf)
+#### GH2 2025
+![test_case_15d_graphic](../../images/test_case_15d_graphic.pdf)
+#### CNG 2030
+![test_case_15e_graphic](../../images/test_case_15e_graphic.pdf)
+#### GH2 2030
+![test_case_15f_graphic](../../images/test_case_15f_graphic.pdf)

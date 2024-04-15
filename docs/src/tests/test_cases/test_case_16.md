@@ -112,3 +112,16 @@ Test Case 16 is similar to [Test Case 14](@ref), except that storage capacity ex
 |$$\Delta^{S}_{S\_DEU,CNG,2030}$$ | $$0$$ | $$0$$|
 
 ## [Graphical Solution](@id test_case_16_graphical_solution)
+### Marginalized Provision Costs and Prices
+#### Time Step L 2020
+![test_case_16a_graphic](../../images/test_case_16a_graphic.pdf)
+#### Time Step H 2020
+![test_case_16b_graphic](../../images/test_case_16b_graphic.pdf)
+#### Time Step L 2025
+![test_case_16c_graphic](../../images/test_case_16c_graphic.pdf)
+#### Time Step H 2025
+![test_case_16d_graphic](../../images/test_case_16d_graphic.pdf)
+#### Time Step L 2030
+![test_case_16e_graphic](../../images/test_case_16e_graphic.pdf)
+#### Time Step H 2030
+![test_case_16f_graphic](../../images/test_case_16f_graphic.pdf)

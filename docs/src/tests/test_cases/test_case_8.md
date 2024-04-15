@@ -72,3 +72,8 @@ Test Case 8 asserts, that demand for multiple commodities can be satisfied by on
 |$$q^{I}_{P\_DEU,Natural Gas,Block 1,OnlyTimeStep,y}$$ | $$5$$ |
 
 ## [Graphical Solution](@id test_case_8_graphical_solution)
+### Marginalized Provision Costs and Prices
+#### Hydrogen
+![test_case_8a_graphic](../../images/test_case_8a_graphic.pdf)
+#### Natural Gas
+![test_case_8b_graphic](../../images/test_case_8b_graphic.pdf)

@@ -65,3 +65,12 @@ Test Case 25 asserts that input capacity expansion, availability of input capaci
 |Objective Value | | | |$$0.375$$|
 
 ## Graphical Solution
+### Profit Maximization in a Cournot Setting
+#### 2020
+![test_case_25a_graphic](../../images/test_case_25a_graphic.pdf)
+#### 2025
+![test_case_25b_graphic](../../images/test_case_25b_graphic.pdf)
+#### 2030
+![test_case_25c_graphic](../../images/test_case_25c_graphic.pdf)
+#### 2035
+![test_case_25d_graphic](../../images/test_case_25d_graphic.pdf)

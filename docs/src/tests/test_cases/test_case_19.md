@@ -73,3 +73,5 @@ Test Case 19 is structurally similar to [Test Case 7](@ref) and asserts, that tr
 |$$q^{I}_{P\_DEU,Renewable Electricity,OnlyTimeStep,y}$$ | $$1$$  |
 
 ## [Graphical Solution](@id test_case_19_graphical_solution)
+### Marginalized Provision Costs and Prices
+![test_case_19_graphic](../../images/test_case_19_graphic.pdf)

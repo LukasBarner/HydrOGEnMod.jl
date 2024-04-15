@@ -94,3 +94,17 @@ The implementation in the testing routine features two separate runs for shippin
 |$$\Delta^{A}_{NLD\_to\_NLD,CNG,y}$$ | N.E.  | N.E.  | N.E. |
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices
+Note: Marginalized costs are depicted as if adjacency was given.
+#### NLD 2020
+![test_case_27a_graphic](../../images/test_case_27a_graphic.pdf)
+#### DEU 2020
+![test_case_27b_graphic](../../images/test_case_27b_graphic.pdf)
+#### NLD 2025
+![test_case_27c_graphic](../../images/test_case_27c_graphic.pdf)
+#### DEU 2025
+![test_case_27d_graphic](../../images/test_case_27d_graphic.pdf)
+#### NLD 2030
+![test_case_27e_graphic](../../images/test_case_27e_graphic.pdf)
+#### DEU 2030
+![test_case_27f_graphic](../../images/test_case_27f_graphic.pdf)

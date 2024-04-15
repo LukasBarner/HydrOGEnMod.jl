@@ -58,3 +58,7 @@ This test case comprises a simple example. The tables below depict the model set
 |$$\tilde{P}^{T \rightarrow D}_{\text{DEU,CNG,Block 1,OnlyTimeStep,y}}$$ | $$1.5$$|
 
 ## Graphical Solution
+### Inverse Demand and Marginalized Cost Curves
+![test_case_1_graphic](../../images/test_case_1_graphic.pdf)
+
+

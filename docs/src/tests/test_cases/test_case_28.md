@@ -139,3 +139,21 @@ The implementation in the testing routine features two separate runs for shippin
 |$q^{I}_{P\_NLD,Natural Gas,Block 1,OnlyTimeStep,y}$ | $0.0$  | $0.0$ |
 
 ## Graphical Solution
+### Marginalized Provision Costs and Prices for Different Nodes
+Note: Marginalized costs are depicted as if adjacency was given.
+#### Node NLD in 2020 for CNG
+![test_case_28a_graphic](../../images/test_case_28a_graphic.pdf)
+#### Node DEU in 2020 for CNG
+![test_case_28b_graphic](../../images/test_case_28b_graphic.pdf)
+#### Node NLD in 2021 for CNG
+![test_case_28c_graphic](../../images/test_case_28c_graphic.pdf)
+#### Node DEU in 2021 for CNG
+![test_case_28d_graphic](../../images/test_case_28d_graphic.pdf)
+#### Node NLD in 2020 for GH2
+![test_case_28e_graphic](../../images/test_case_28e_graphic.pdf)
+#### Node DEU in 2020 for GH2
+![test_case_28f_graphic](../../images/test_case_28f_graphic.pdf)
+#### Node NLD in 2021 for GH2
+![test_case_28g_graphic](../../images/test_case_28g_graphic.pdf)
+#### Node DEU in 2021 for GH2
+![test_case_28h_graphic](../../images/test_case_28h_graphic.pdf)

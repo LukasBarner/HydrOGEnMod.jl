@@ -57,3 +57,5 @@ Test Case 3 asserts exertion of market power in a simple Cournot setting with ti
 |$$\tilde{P}^{T \rightarrow D}_{DEU,CNG,Block 1,OnlyTimeStep,y}$$ | $$1.5$$|
 
 ## Graphical Solution
+### Profit Maximization in a Cournot Setting
+![test_case_3_graphic](../../images/test_case_3_graphic.pdf)

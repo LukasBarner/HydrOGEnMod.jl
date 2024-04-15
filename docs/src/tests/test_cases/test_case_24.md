@@ -61,3 +61,8 @@ Test Case 24 asserts that supplying to multiple demand blocks of the same commod
 |Objective Value | $$0.75$$|$$0.75$$|
 
 ## Graphical Solution
+### Inverse Demand and Marginalized Cost Curves
+#### Block 1
+![test_case_24a_graphic](../../images/test_case_24a_graphic.pdf)
+#### Block 2
+![test_case_24b_graphic](../../images/test_case_24b_graphic.pdf)

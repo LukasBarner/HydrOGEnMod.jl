@@ -58,3 +58,8 @@ Test Case 4 asserts that discounting works as intended. It depicts a perfectly c
 |Objective Value | | 0.75|
 
 ## [Graphical Solution](@id test_case_4_graphical_solution)
+### Social Welfare in Test Years 
+#### 2020
+![test_case_4a_graphic](../../images/test_case_4a_graphic.pdf)
+#### 2021
+![test_case_4b_graphic](../../images/test_case_4b_graphic.pdf)
