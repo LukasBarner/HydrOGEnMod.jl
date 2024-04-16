@@ -2,10 +2,7 @@
 CurrentModule = HydrOGEnMod
 ```
 
-# API Reference
-
-```@index
-```
+# HydrOGEnMod
 
 ```@autodocs
 Modules = [HydrOGEnMod]

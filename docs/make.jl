@@ -4,7 +4,7 @@ using Documenter
 DocMeta.setdocmeta!(HydrOGEnMod, :DocTestSetup, :(using HydrOGEnMod); recursive=true)
 
 makedocs(;
-    modules=[HydrOGEnMod],
+    modules=[HydrOGEnMod,HydrOGEnMod.HydrOGEnMod_Types],
     authors="Lukas Barner",
     sitename="HydrOGEnMod.jl",
     format=Documenter.HTML(;
@@ -15,6 +15,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "Mathematical Formulation" => [
+            "Structural Overview" => "mathematical_formulation/structural_overview/structural_overview.md", 
             "Notation" => [
                 "Sets" => "mathematical_formulation/notation/sets.md", 
                 "Mappings" => "mathematical_formulation/notation/mappings.md", 
@@ -40,7 +41,15 @@ makedocs(;
             ], 
             "Convex Reformulation" => ["Convex Optimization Problem" => "mathematical_formulation/convex_reformulation/convex_reformulation.md"]
         ],
-        "API Reference" => "docstrings.md",
+        "User Manual" => [
+            "Installation Instructions" => "manual/installation_instructions.md",
+            "Running Code" => "manual/running_code.md",
+            "Data Specification" => "manual/data_specification.md",
+            ],
+        "API Reference" => [
+            "HydrOGEnMod" => "api/HydrOGEnMod.md", 
+            "HydrOGEnMod Types" => "api/HydrOGEnMod_Types.md",
+            ],
         "Test Reference" => [
             "General Remarks" => "tests/general_remarks.md", 
             "Test Cases" => [
