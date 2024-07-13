@@ -27,11 +27,11 @@ write_csv("path/to/calculated/parameters",data)
 model = build_optimization_model(data)
 
 # to solve the JuMP Model with a solver of your choice, run the following function:
-optimize!(model, Gurobi.Optimizer)
+optimize!(model, Ipopt.Optimizer)
 
 # you can also specify different solver options like this: 
 options = ("TimeLimit" => 100,"TimeLimit" => 100, "FeasibilityTol" => 1e-6)
-optimize!(model, Gurobi.Optimizer, options)
+optimize!(model, Ipopt.Optimizer, options)
 
 # to write the results to a file, use the following function: 
 write_csv("path/to/resultsfile", model)
