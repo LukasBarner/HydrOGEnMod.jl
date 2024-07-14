@@ -11,10 +11,18 @@ import Logging
 Logging.disable_logging(Logging.LogLevel(1500))
 
 struct TestConfig
-    optimizer
+    optimizer::Any
     testing_tol::Float64
-    solver_options
-    function TestConfig(; optimizer = Ipopt.Optimizer, testing_tol = 1e-3, solver_options = ("bound_relax_factor" => 1e-8, "max_wall_time" => 100.0, "print_level" => 0))
+    solver_options::Any
+    function TestConfig(;
+        optimizer = Ipopt.Optimizer,
+        testing_tol = 1e-3,
+        solver_options = (
+            "bound_relax_factor" => 1e-8,
+            "max_wall_time" => 100.0,
+            "print_level" => 0,
+        ),
+    )
         return new(optimizer, testing_tol, solver_options)
     end
 end
@@ -26,7 +34,7 @@ end
     # @testset "Code linting (JET.jl)" begin
     #     JET.test_package(HydrOGEnMod; target_defined_modules = true)
     # end
-    
+
     @testset "Test Cases Optimization Model" verbose = true begin
         include(joinpath("test_cases", "test_case_1_opt.jl"))
         test_case_1_opt(TestConfig())
@@ -111,11 +119,13 @@ end
         test_case_11_mcp(TestConfig())
         include(joinpath("test_cases", "test_case_12_mcp.jl"))
         test_case_12_mcp(TestConfig())
-        if haskey(ENV,"PATH_LICENSE_STRING")
+        if haskey(ENV, "PATH_LICENSE_STRING")
             include(joinpath("test_cases", "test_case_13_mcp.jl"))
             test_case_13_mcp(TestConfig())
         else
-            @testset "Test Case 13 (license missing)" begin @test true end
+            @testset "Test Case 13 (license missing)" begin
+                @test true
+            end
         end
         include(joinpath("test_cases", "test_case_14_mcp.jl"))
         test_case_14_mcp(TestConfig())
@@ -123,24 +133,30 @@ end
         test_case_15_mcp(TestConfig())
         include(joinpath("test_cases", "test_case_16_mcp.jl"))
         test_case_16_mcp(TestConfig())
-        if haskey(ENV,"PATH_LICENSE_STRING")
+        if haskey(ENV, "PATH_LICENSE_STRING")
             include(joinpath("test_cases", "test_case_17_mcp.jl"))
             test_case_17_mcp(TestConfig())
             include(joinpath("test_cases", "test_case_18_mcp.jl"))
             test_case_18_mcp(TestConfig())
         else
-            @testset "Test Case 17 (license missing)" begin @test true end
-            @testset "Test Case 18 (license missing)" begin @test true end
+            @testset "Test Case 17 (license missing)" begin
+                @test true
+            end
+            @testset "Test Case 18 (license missing)" begin
+                @test true
+            end
         end
         include(joinpath("test_cases", "test_case_19_mcp.jl"))
         test_case_19_mcp(TestConfig())
         include(joinpath("test_cases", "test_case_20_mcp.jl"))
         test_case_20_mcp(TestConfig())
-        if haskey(ENV,"PATH_LICENSE_STRING")
+        if haskey(ENV, "PATH_LICENSE_STRING")
             include(joinpath("test_cases", "test_case_21_mcp.jl"))
             test_case_21_mcp(TestConfig())
         else
-            @testset "Test Case 21 (license missing)" begin @test true end
+            @testset "Test Case 21 (license missing)" begin
+                @test true
+            end
         end
         include(joinpath("test_cases", "test_case_22_mcp.jl"))
         test_case_22_mcp(TestConfig())
@@ -154,11 +170,13 @@ end
         test_case_26_mcp(TestConfig())
         include(joinpath("test_cases", "test_case_27_mcp.jl"))
         test_case_27_mcp(TestConfig())
-        if haskey(ENV,"PATH_LICENSE_STRING")
+        if haskey(ENV, "PATH_LICENSE_STRING")
             include(joinpath("test_cases", "test_case_28_mcp.jl"))
             test_case_28_mcp(TestConfig())
         else
-            @testset "Test Case 28 (license missing)" begin @test true end
+            @testset "Test Case 28 (license missing)" begin
+                @test true
+            end
         end
     end
 

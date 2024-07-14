@@ -4,11 +4,7 @@ function test_case_8_opt(config)
         data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_8"))
         model = build_optimization_model(data)
 
-        optimize!(
-            model,
-            config.optimizer,
-            config.solver_options...,
-        )
+        optimize!(model, config.optimizer, config.solver_options...)
 
         @testset "Results" begin
             @testset "Termination Status" begin
@@ -30,7 +26,13 @@ function test_case_8_opt(config)
             @testset "Production Quantity" begin
                 @test isapprox(
                     value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_DEU",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     5.0,
                     atol = config.testing_tol,

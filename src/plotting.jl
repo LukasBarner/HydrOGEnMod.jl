@@ -52,15 +52,15 @@ function plot_model_nodes(;
     ]
 
 
-    fig = Figure(size = (1200,900), fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
+    fig = Figure(size = (1200, 900), fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     ax = GeoAxis(
         fig[1, 1:5];
         dest = "+proj=wintri",
         xgridcolor = (:grey, 0.5),
-        ygridcolor= (:grey, 0.5),
-        xautolimitmargin = (0,0),
-        yautolimitmargin = (0,0),
+        ygridcolor = (:grey, 0.5),
+        xautolimitmargin = (0, 0),
+        yautolimitmargin = (0, 0),
         titlevisible = false,
     )
 
@@ -71,7 +71,7 @@ function plot_model_nodes(;
         field;
         colormap = Reverse(:Blues_3),
         shading = NoShading,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -81,7 +81,7 @@ function plot_model_nodes(;
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -90,7 +90,7 @@ function plot_model_nodes(;
         color = [colormap[i.properties[:MODEL_NODE]] for i in all_countries],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     leg = Legend(
@@ -149,7 +149,7 @@ function plot_model_nodes(
     for i in all_countries
         push!(modelnodes, i.properties[geojson_property_tag])
     end
-    modelnodes = filter!(e -> e ∉ ["N.A.","P_N.A."], unique(modelnodes))
+    modelnodes = filter!(e -> e ∉ ["N.A.", "P_N.A."], unique(modelnodes))
     @assert issetequal(modelnodes, axes(container)...) "Data to be plotted does not match given map data, make sure that model nodes are correctly mapped in file $nodes_path"
 
     fig = Figure(fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
@@ -158,9 +158,9 @@ function plot_model_nodes(
         fig[1, 1:3];
         dest = "+proj=wintri",
         xgridcolor = (:grey, 0.5),
-        ygridcolor= (:grey, 0.5),
-        xautolimitmargin = (0,0),
-        yautolimitmargin = (0,0),
+        ygridcolor = (:grey, 0.5),
+        xautolimitmargin = (0, 0),
+        yautolimitmargin = (0, 0),
         titlevisible = false,
     )
 
@@ -171,7 +171,7 @@ function plot_model_nodes(
         field;
         colormap = Reverse(:Blues_3),
         shading = NoShading,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -181,7 +181,7 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -195,12 +195,13 @@ function plot_model_nodes(
         nan_color = unassigned_color,
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
-    cb_lims = extrema(container.data) .+ (-1e-12,1e-12)
+    cb_lims = extrema(container.data) .+ (-1e-12, 1e-12)
 
-    lower_label_cb_lims, upper_label_cb_lims = replace.(map( x-> @sprintf("%.3g", x), collect(cb_lims)), "-" => "−")
+    lower_label_cb_lims, upper_label_cb_lims =
+        replace.(map(x -> @sprintf("%.3g", x), collect(cb_lims)), "-" => "−")
 
     Label(fig[2, 1], lower_label_cb_lims)
     Label(fig[2, 3], upper_label_cb_lims)
@@ -246,7 +247,7 @@ function plot_model_nodes(
     unassigned_color = :gray85,
     strokecolor = :black,
     strokewidth = 0.1,
-    rasterize = false, 
+    rasterize = false,
     save_path = "",
     geojson_property_tag = :MODEL_NODE_3,
 ) where {T,N,K<:NTuple{N,Any}}
@@ -277,9 +278,9 @@ function plot_model_nodes(
         fig[1, 1:3];
         dest = "+proj=wintri",
         xgridcolor = (:grey, 0.5),
-        ygridcolor= (:grey, 0.5),
-        xautolimitmargin = (0,0),
-        yautolimitmargin = (0,0),
+        ygridcolor = (:grey, 0.5),
+        xautolimitmargin = (0, 0),
+        yautolimitmargin = (0, 0),
         titlevisible = false,
     )
 
@@ -290,7 +291,7 @@ function plot_model_nodes(
         field;
         colormap = Reverse(:Blues_3),
         shading = NoShading,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -300,7 +301,7 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -314,17 +315,18 @@ function plot_model_nodes(
         nan_color = unassigned_color,
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
-    cb_lims = extrema(values(container.data)) .+ (-1e-12,1e-12)
+    cb_lims = extrema(values(container.data)) .+ (-1e-12, 1e-12)
 
 
-    lower_label_cb_lims, upper_label_cb_lims = replace.(map( x-> @sprintf("%.3g", x), collect(cb_lims)), "-" => "−")
+    lower_label_cb_lims, upper_label_cb_lims =
+        replace.(map(x -> @sprintf("%.3g", x), collect(cb_lims)), "-" => "−")
 
     Label(fig[2, 1], lower_label_cb_lims)
     Label(fig[2, 3], upper_label_cb_lims)
-    
+
     cb = Colorbar(
         fig[2, 2];
         limits = cb_lims,
@@ -372,7 +374,7 @@ function plot_model_nodes(
     strokewidth = 0.1,
     linewidth = 0.2,
     linecolor = :black,
-    rasterize = false, 
+    rasterize = false,
     save_path = "",
 )
     all_countries = GeoMakie.GeoJSON.read(nodes_path)
@@ -409,9 +411,9 @@ function plot_model_nodes(
         fig[1, 1:3];
         dest = "+proj=wintri",
         xgridcolor = (:grey, 0.5),
-        ygridcolor= (:grey, 0.5),
-        xautolimitmargin = (0,0),
-        yautolimitmargin = (0,0),
+        ygridcolor = (:grey, 0.5),
+        xautolimitmargin = (0, 0),
+        yautolimitmargin = (0, 0),
         titlevisible = false,
     )
 
@@ -422,7 +424,7 @@ function plot_model_nodes(
         field;
         colormap = Reverse(:Blues_3),
         shading = NoShading,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -432,7 +434,7 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -441,7 +443,7 @@ function plot_model_nodes(
         color = [colormap[i.properties[:MODEL_NODE]] for i in all_countries],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     for a in arcs
@@ -496,7 +498,7 @@ function plot_model_nodes(
     strokewidth = 0.1,
     linewidth = 1,
     linecolorscheme = :plasma,
-    rasterize = false, 
+    rasterize = false,
     largestvalues = 10,
     minval = 1,
     save_path = "",
@@ -544,18 +546,18 @@ function plot_model_nodes(
     fig = Figure(fonts = (; regular = "CMU Serif", bold = "CMU Serif"))
 
     if !isempty(relevant_values)
-        cb_lims = extrema(values(relevant_values)) .+ (-1e-12,1e-12)
+        cb_lims = extrema(values(relevant_values)) .+ (-1e-12, 1e-12)
     else
-        cb_lims = (-1e-12,1e-12)
+        cb_lims = (-1e-12, 1e-12)
     end
 
     ax = GeoAxis(
         fig[1, 1:3];
         dest = "+proj=wintri",
         xgridcolor = (:grey, 0.5),
-        ygridcolor= (:grey, 0.5),
-        xautolimitmargin = (0,0),
-        yautolimitmargin = (0,0),
+        ygridcolor = (:grey, 0.5),
+        xautolimitmargin = (0, 0),
+        yautolimitmargin = (0, 0),
         titlevisible = false,
     )
 
@@ -566,7 +568,7 @@ function plot_model_nodes(
         field;
         colormap = Reverse(:Blues_3),
         shading = NoShading,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
     translate!(hm1, 0, 0, -10)
 
@@ -576,7 +578,7 @@ function plot_model_nodes(
         color = [unassigned_color for i in disputed_areas],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     hm2 = poly!(
@@ -585,7 +587,7 @@ function plot_model_nodes(
         color = [colormap[i.properties[:MODEL_NODE]] for i in all_countries],
         strokecolor = strokecolor,
         strokewidth = strokewidth,
-        rasterize = rasterize, 
+        rasterize = rasterize,
     )
 
     for a in arcs
@@ -603,12 +605,13 @@ function plot_model_nodes(
             )
         end
     end
-    
-    lower_label_cb_lims, upper_label_cb_lims = replace.(map( x-> @sprintf("%.3g", x), collect(cb_lims)), "-" => "−")
+
+    lower_label_cb_lims, upper_label_cb_lims =
+        replace.(map(x -> @sprintf("%.3g", x), collect(cb_lims)), "-" => "−")
 
     Label(fig[2, 1], lower_label_cb_lims)
     Label(fig[2, 3], upper_label_cb_lims)
-    
+
     cb = Colorbar(
         fig[2, 2];
         limits = cb_lims,

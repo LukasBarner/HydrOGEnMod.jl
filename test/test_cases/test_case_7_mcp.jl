@@ -22,7 +22,13 @@ function test_case_7_mcp(config)
             @testset "Production Quantities" begin
                 @test isapprox(
                     result_value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_DEU",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     1,
                     atol = config.testing_tol,
