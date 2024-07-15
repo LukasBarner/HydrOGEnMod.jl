@@ -236,6 +236,9 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         BIG
     )
 
+    @_status "Building Model" Progress = "Finished Creating Variables" Variables = num_variables(model) "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
+
     @_status "Building Model" Progress = "Creating Demand Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
     @expression(
