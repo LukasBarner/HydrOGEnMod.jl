@@ -10,5 +10,5 @@ data_mp =
 
 model_mp = build_complementarity_model(data_mp)
 
-options = (output = "yes", time_limit = 36000, cumulative_iteration_limit = 10000)
+options = (output = "yes", time_limit = 36000, cumulative_iteration_limit = 100000)
 solve_mcp(model_mp; options...)
