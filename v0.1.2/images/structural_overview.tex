@@ -1,0 +1,55 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{shapes.geometric, arrows,fit, shapes.multipart, quotes}
+\usetikzlibrary{positioning}
+\tikzstyle{box} = [draw=black, fill=gray!20, very thick, rectangle, rounded corners, inner sep=5pt, font=\footnotesize]
+\tikzstyle{fancytitle} = [fill=black, text=white, font=\footnotesize]
+\tikzset{tree node/.style={draw,circle,line width=0.5pt,minimum size=1cm}}
+\tikzset{tree dot/.style={draw,circle,fill,inner sep=0pt,minimum size=3pt}}
+\tikzset{tree line/.style={line width=.5pt, color=gray}}
+\tikzset{tree dotted/.style={line width=.5pt, color=gray,dotted}}
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzset{every edge quotes/.style =
+	{ fill = white,
+		sloped,
+		execute at begin node = $,
+		execute at end node   = $  }}
+\begin{document}
+	\begin{tikzpicture}[greybox/.style={box, minimum height=20pt,minimum width=100pt}]		
+		\node (input_procurement) [greybox] {Procurement of Inputs};
+		\node (production) [greybox, below= 2cm of input_procurement] {Production of Commodities};
+		\node (trader) [greybox, below= 2cm of production] {Trader};
+		\node (storage_production_node) [greybox, left= 2cm of production] { Storage  };
+		\node (conversion_production_node) [greybox, right= 2cm of production] {Conversion};
+		\node (int_node_tag) [below = 2cm of trader, text width = 2cm, align=center, minimum width=100pt] {Intermittent Nodes};
+		\node (storage_intermittent_node) [greybox, left = 2cm of int_node_tag] { Storage  };
+		\node (conversion_intermittent_node) [greybox, right = 2cm of int_node_tag] {Conversion};
+		\node (final_demand) [greybox, below = 2cm of int_node_tag] {Final Demand};
+		\node (storage_consumption_node) [greybox, left = 2cm of final_demand] { Storage  };
+		\node (conversion_consumption_node) [greybox, right = 2cm of final_demand] {Conversion};
+		\draw [arrow] (input_procurement) -- (production);
+		\draw [arrow] (input_procurement) to [out=240,in=120] (production);
+		\draw [arrow] (input_procurement) to [out=300,in=60] (production);
+		\draw [arrow] (production) -- (trader);
+		\draw [arrow] (production) to [out=240,in=120] (trader);
+		\draw [arrow] (production) to [out=300,in=60] (trader);
+		\draw [arrow] (trader) to [out=135,in=330] (storage_production_node);
+		\draw [arrow] (trader) to [out=45,in=210] (conversion_production_node);
+		\draw [arrow] (trader) to [out=200,in=40] (storage_consumption_node);
+		\draw [arrow] (trader) to [out=340,in=140] (conversion_consumption_node);
+		\draw [arrow] (trader) to [out=180,in=90] (storage_intermittent_node);
+		\draw [arrow] (trader) to [out=360,in=90] (conversion_intermittent_node);
+		\draw [arrow] (storage_production_node) to [out=315,in=150] (trader) ;
+		\draw [arrow] (conversion_production_node) to [out=225,in=30] (trader);
+		\draw [arrow] (storage_consumption_node) to [out=20,in=210] (trader);
+		\draw [arrow] (conversion_consumption_node) to [out=160,in=330] (trader);
+		\draw [arrow] (storage_intermittent_node) to [out=70,in=190] (trader);
+		\draw [arrow] (conversion_intermittent_node) to [out=110,in=350] (trader);
+		\draw [arrow] (trader) to [out=225,in=135] (final_demand);
+		\draw [arrow] (trader) to [out=315,in=45] (final_demand);
+		\node (prod_node_tag) [above = 10pt of input_procurement ] {Production Node};
+		\node[draw, dotted, thick, fill=gray!10, fill opacity=0.2, rounded corners, fit= (input_procurement) (prod_node_tag) (production) (storage_production_node) (conversion_production_node) ,inner sep=10pt](production_node) {};
+		\node (cons_node_tag) [below = 10pt of final_demand ] {Consumption Node};
+		\node[draw, dotted, thick, fill=gray!10, fill opacity=0.2, rounded corners, fit= (cons_node_tag) (storage_consumption_node) (conversion_consumption_node) (final_demand) ,inner sep=10pt](production_node) {};
+		\node[draw, dotted, thick, fill=gray!10, fill opacity=0.2, rounded corners, fit= (int_node_tag) (storage_intermittent_node) (conversion_intermittent_node)  ,inner sep=10pt](production_node) {};
+	\end{tikzpicture}
+\end{document}
