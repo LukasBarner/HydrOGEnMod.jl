@@ -4,11 +4,7 @@ function test_case_26_opt(config)
         data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_26a"))
         model = build_optimization_model(data)
 
-        optimize!(
-            model,
-            config.optimizer,
-            config.solver_options...,
-        )
+        optimize!(model, config.optimizer, config.solver_options...)
 
         @testset "Results" begin
             @testset "Termination Status" begin
@@ -30,14 +26,26 @@ function test_case_26_opt(config)
             @testset "Production Quantities" begin
                 @test isapprox(
                     value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_DEU",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     value(
-                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_NLD",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0,
                     atol = config.testing_tol,
@@ -55,11 +63,7 @@ function test_case_26_opt(config)
             @test all(isapprox.(data.arc_data.Λ_A.data, 1e+6, atol = config.testing_tol))
         end
 
-        optimize!(
-            model,
-            config.optimizer,
-            config.solver_options...,
-        )
+        optimize!(model, config.optimizer, config.solver_options...)
 
         @testset "Results" begin
             @testset "Termination Status" begin
@@ -81,14 +85,26 @@ function test_case_26_opt(config)
             @testset "Production Quantities" begin
                 @test isapprox(
                     value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_DEU",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     value(
-                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_NLD",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0,
                     atol = config.testing_tol,

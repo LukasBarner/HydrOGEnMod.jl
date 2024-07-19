@@ -234,7 +234,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             o = get_name.(data.origins),
             s = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ] <=
         BIG
     )
@@ -334,15 +334,21 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c = get_name.(data.commodities),
             s = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ] <=
         BIG
     )
 
     @variable(
         model,
-        0 <= Δ_A[a = get_name.(data.arcs), c = get_name.(data.commodities), y = data.years.range;
-        data.arc_adjacency.is_a_of_c[a,c]] <= BIG
+        0 <=
+        Δ_A[
+            a = get_name.(data.arcs),
+            c = get_name.(data.commodities),
+            y = data.years.range;
+            data.arc_adjacency.is_a_of_c[a, c],
+        ] <=
+        BIG
     )
 
     @variable(
@@ -353,7 +359,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old = get_from_throughput.(data.repurposing_arc_technologies),
             c_new = get_to_throughput.(data.repurposing_arc_technologies),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c_old]
+            data.arc_adjacency.is_a_of_c[a, c_old],
         ] <=
         BIG
     )
@@ -366,7 +372,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c = get_name.(data.commodities),
             m = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ] <=
         BIG
     )
@@ -377,7 +383,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ]
     )
 
@@ -388,9 +394,10 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old in get_name.(data.commodities),
             c_new in get_name.(data.commodities),
             y in data.years.range;
-            ((c_old, c_new) in
-            get_repurposing_technology.(data.repurposing_arc_technologies)) 
-            && (data.arc_adjacency.is_a_of_c[a,c_old])
+            (
+                (c_old, c_new) in
+                get_repurposing_technology.(data.repurposing_arc_technologies)
+            ) && (data.arc_adjacency.is_a_of_c[a, c_old]),
         ]
     )
 
@@ -552,7 +559,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c in get_name.(data.commodities),
             m in get_name.(data.timesteps),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ] <=
         BIG
     )
@@ -584,6 +591,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ] <=
         BIG
     )
+
+    @_status "Building Model" Progress = "Finished Creating Variables" Variables = num_variables(model) "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
 
     @_status "Building Model" Progress = "Creating Demand Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -628,7 +638,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             m in get_name.(data.timesteps),
             y in data.years.range,
         ],
-        data.weights[m] / 2 * data.demand_data.β_D[n, c, b, m, y] * (demand[n, c, b, m, y])^2 +
+        data.weights[m] / 2 *
+        data.demand_data.β_D[n, c, b, m, y] *
+        (demand[n, c, b, m, y])^2 +
         data.weights[m] * data.demand_data.α_D[n, c, b, m, y] * demand[n, c, b, m, y]
     )
 
@@ -677,7 +689,10 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             i in get_name.(data.inputs),
             y in data.years.range,
         ],
-        sum(data.weights[m] * q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks), m in get_name.(data.timesteps))
+        sum(
+            data.weights[m] * q_I[p, i, b, m, y] for
+            b in get_name.(data.input_operational_blocks), m in get_name.(data.timesteps)
+        )
     )
 
     @_status "Building Model" Progress = "Creating Input Capacity Expansion Cost Expression." "Time elapsed" =
@@ -784,7 +799,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             o in get_name.(data.origins),
             m in get_name.(data.timesteps),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         data.weights[m] * data.arc_data.c_A[a, c, y] * q_T[t, a, c, o, m, y]
     )
@@ -797,7 +812,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         data.arc_data.c_Δ_A[a, c, y] / data.years.step * Δ_A[a, c, y]
     )
@@ -811,8 +826,10 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old in get_from_throughput.(data.repurposing_arc_technologies),
             c_new in get_to_throughput.(data.repurposing_arc_technologies),
             y in data.years.range;
-            ((c_old, c_new) in
-            get_repurposing_technology.(data.repurposing_arc_technologies)) & data.arc_adjacency.is_a_of_c[a,c_old]
+            (
+                (c_old, c_new) in
+                get_repurposing_technology.(data.repurposing_arc_technologies)
+            ) & data.arc_adjacency.is_a_of_c[a, c_old],
         ],
         data.arc_data.c_Δ_RA[a, c_old, c_new, y] / data.years.step *
         Δ_RA[a, c_old, c_new, y]
@@ -820,7 +837,19 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
 
     @_status "Building Model" Progress = "Creating Aggregated Arc Flow Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    @expression(model, yearly_arc_flows[a in get_name.(data.arcs), c in get_name.(data.commodities), y in data.years.range], sum(data.weights[m] * q_T[t, a, c, o, m, y] for t in get_name.(data.traders), o in get_name.(data.origins), m in get_name.(data.timesteps) if data.arc_adjacency.is_a_of_c[a,c] ));
+    @expression(
+        model,
+        yearly_arc_flows[
+            a in get_name.(data.arcs),
+            c in get_name.(data.commodities),
+            y in data.years.range,
+        ],
+        sum(
+            data.weights[m] * q_T[t, a, c, o, m, y] for
+            t in get_name.(data.traders), o in get_name.(data.origins),
+            m in get_name.(data.timesteps) if data.arc_adjacency.is_a_of_c[a, c]
+        )
+    )
 
     @_status "Building Model" Progress = "Creating Storage Cost Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -864,7 +893,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.storage_data.c_Δ_RS[s, r, c, y] / data.years.step * Δ_RS[s, r, c, y]
     )
 
-    @_status "Building Model" Progress = "Creating LHS Expressions." "Time elapsed" =
+    @_status "Building Model" Progress = "Creating LHS_q_I Expressions." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
 
     @mapping(
@@ -883,6 +912,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             data.input_data.c_Pq[p, i, b, m, y] * q_I[p, i, b, m, y]
         ) - ϕ_P[p, i, m, y] + λ_I[p, i, b, m, y]
     )
+
+    @_status "Building Model" Progress = "Creating LHS_q_P_to_T Expressions." "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
 
     @mapping(
         model,
@@ -912,6 +944,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         λ_P[p, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_I Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+
     @mapping(
         model,
         LHS_Δ_I[
@@ -935,6 +970,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_P Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_P[
@@ -953,6 +991,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) + ω_P[p, c, o, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_ϕ_P Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_ϕ_P[
@@ -968,6 +1009,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_λ_I Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_λ_I[
@@ -985,6 +1029,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) - q_I[p, i, b, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_λ_P Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_λ_P[
@@ -1001,6 +1048,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) - q_P_to_T[p, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_ω_P Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_ω_P[
@@ -1013,6 +1063,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.production_data.Ω_P[p, c, o, y] - Δ_P[p, c, o, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_ω_I Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_ω_I[
@@ -1027,6 +1080,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T_to_D Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T_to_D[
@@ -1055,6 +1111,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T_from_P Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T_from_P[
@@ -1069,6 +1128,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.discount[y] * data.weights[m] * π_P[n, c, o, m, y] - ϕ_T[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T_to_V Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T_to_V[
@@ -1083,6 +1145,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.discount[y] * data.weights[m] * π_T_to_V[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T_from_V Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T_from_V[
@@ -1097,6 +1162,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_T[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T_to_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T_to_S[
@@ -1111,6 +1179,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.discount[y] * data.weights[m] * π_T_to_S[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T_from_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T_from_S[
@@ -1125,6 +1196,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_T[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_T Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_T[
@@ -1134,7 +1208,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             o = get_name.(data.origins),
             m = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         data.discount[y] * data.weights[m] * π_A[a, c, m, y] +
         (1 + data.arc_data.l_a[a, c]) *
@@ -1142,6 +1216,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_T[t, data.arcs[findfirst(x -> x.name == a, data.arcs)].end_node, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_ϕ_T Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_ϕ_T[
@@ -1154,7 +1231,8 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ],
         sum(
             q_T[t, a, c, o, m, y] for
-            a in data.nodes[findfirst(x -> x.name == n, data.nodes)].ending_arcs if data.arc_adjacency.is_a_of_c[a,c]
+            a in data.nodes[findfirst(x -> x.name == n, data.nodes)].ending_arcs if
+            data.arc_adjacency.is_a_of_c[a, c]
         ) +
         sum(
             q_P_to_T[p, c, o, m, y] for
@@ -1166,11 +1244,15 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         q_T_from_V[t, n, c, o, m, y] +
         q_T_from_S[t, n, c, o, m, y] - sum(
             (1 + data.arc_data.l_a[a, c]) * q_T[t, a, c, o, m, y] for
-            a in data.nodes[findfirst(x -> x.name == n, data.nodes)].starting_arcs if data.arc_adjacency.is_a_of_c[a,c]
+            a in data.nodes[findfirst(x -> x.name == n, data.nodes)].starting_arcs if
+            data.arc_adjacency.is_a_of_c[a, c]
         ) - sum(q_T_to_D[t, n, c, b, o, m, y] for b in get_name.(data.demand_blocks)) -
         q_T_to_V[t, n, c, o, m, y] - q_T_to_S[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_λ_T Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_λ_T[
@@ -1188,6 +1270,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_V Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_V[
@@ -1223,6 +1308,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) + λ_V[v, c_i, c_o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_V Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_V[
@@ -1242,6 +1330,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_RV Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_RV[
@@ -1256,7 +1347,8 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ],
         data.discount[y] / data.years.step *
         data.conversion_data.c_Δ_RV[v, c_in_old, c_out_old, c_in_new, c_out_new, y] - sum(
-            data.conversion_data.f_RV[c_in_old, c_out_old, c_in_new, c_out_new] * λ_V[v, c_in_new, c_out_new, m, ys] for ys =
+            data.conversion_data.f_RV[c_in_old, c_out_old, c_in_new, c_out_new] *
+            λ_V[v, c_in_new, c_out_new, m, ys] for ys =
                 (y+data.years.step):data.years.step:min(
                     y + data.conversion_data.L_V[c_in_new, c_out_new],
                     data.years.last,
@@ -1268,6 +1360,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_λ_V Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_λ_V[
@@ -1283,7 +1378,8 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             Δ_V[v, c_i, c_o, ys] for ys =
                 max(y - data.conversion_data.L_V[c_i, c_o], data.years.start):data.years.step:(y-data.years.step)
         ) +
-        sum( data.conversion_data.f_RV[c_in_old, c_out_old, c_in_new, c_out_new] *
+        sum(
+            data.conversion_data.f_RV[c_in_old, c_out_old, c_in_new, c_out_new] *
             Δ_RV[v, c_in_old, c_out_old, c_in_new, c_out_new, ys] for
             ((c_in_old, c_out_old), (c_in_new, c_out_new)) in
             get_repurposing_technology.(data.repurposing_conversion_technologies), ys =
@@ -1301,6 +1397,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_A Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_A[
@@ -1308,19 +1407,23 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c = get_name.(data.commodities),
             m = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
-        data.discount[y] * data.weights[m] * (-π_A[a, c, m, y] + data.arc_data.c_A[a, c, y]) +
-        λ_A[a, c, m, y]
+        data.discount[y] *
+        data.weights[m] *
+        (-π_A[a, c, m, y] + data.arc_data.c_A[a, c, y]) + λ_A[a, c, m, y]
     )
 
+    # @_status "Building Model" Progress = "Creating LHS_Δ_A Expressions." "Time elapsed" =
+    # temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_A[
             a = get_name.(data.arcs),
             c = get_name.(data.commodities),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         0.5 * data.discount[y] / data.years.step * data.arc_data.c_Δ_A[a, c, y] - sum(
             λ_A[a, c, m, ys] for ys =
@@ -1328,9 +1431,13 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
                     y + data.arc_data.L_A[c],
                     data.years.last,
                 ), m in get_name.(data.timesteps)
-        ) + δ_A[a, c, y] - δ_A[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c, y]
+        ) + δ_A[a, c, y] -
+        δ_A[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_RA Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_RA[
@@ -1338,22 +1445,32 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old = get_from_throughput.(data.repurposing_arc_technologies),
             c_new = get_to_throughput.(data.repurposing_arc_technologies),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c_old]
+            data.arc_adjacency.is_a_of_c[a, c_old],
         ],
-        0.5 * data.discount[y] / data.years.step * data.arc_data.c_Δ_RA[a, c_old, c_new, y] -
-        sum( data.arc_data.f_RA[c_old, c_new] * 
-            λ_A[a, c_new, m, ys] for ys =
+        0.5 * data.discount[y] / data.years.step *
+        data.arc_data.c_Δ_RA[a, c_old, c_new, y] - sum(
+            data.arc_data.f_RA[c_old, c_new] * λ_A[a, c_new, m, ys] for ys =
                 (y+data.years.step):data.years.step:min(
                     y + data.arc_data.L_A[c_new],
                     data.years.last,
                 ), m in get_name.(data.timesteps)
-        ) + sum(
+        ) +
+        sum(
             λ_A[a, c_old, m, ys] for
             ys = (y+data.years.step):data.years.step:data.years.last,
             m in get_name.(data.timesteps)
-        ) + δ_RA[a, c_old, c_new, y] - δ_RA[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c_old, c_new, y]
+        ) +
+        δ_RA[a, c_old, c_new, y] - δ_RA[
+            data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc,
+            c_old,
+            c_new,
+            y,
+        ]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_λ_A Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_λ_A[
@@ -1361,15 +1478,16 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c = get_name.(data.commodities),
             m = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         data.arc_data.Λ_A[a, c, y] +
         sum(
             Δ_A[a, c, ys] for ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step)
         ) +
-        sum( data.arc_data.f_RA[c_old, c_new] * 
-            Δ_RA[a, c_old, c_new, ys] for (c_old, c_new) in
+        sum(
+            data.arc_data.f_RA[c_old, c_new] * Δ_RA[a, c_old, c_new, ys] for
+            (c_old, c_new) in
             get_repurposing_technology.(data.repurposing_arc_technologies), ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step) if
             (c_new) == c
@@ -1377,20 +1495,27 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             Δ_RA[a, c_old, c_new, ys] for (c_old, c_new) in
             get_repurposing_technology.(data.repurposing_arc_technologies),
             ys = data.years.start:data.years.step:(y-data.years.step) if (c_old) == c
-        ) - q_A[a, c, m, y] 
+        ) - q_A[a, c, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_δ_A Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_δ_A[
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
-        ], 
-        Δ_A[a, c, y] - Δ_A[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c, y]
+            data.arc_adjacency.is_a_of_c[a, c],
+        ],
+        Δ_A[a, c, y] -
+        Δ_A[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_δ_RA Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_δ_RA[
@@ -1398,13 +1523,22 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old in get_name.(data.commodities),
             c_new in get_name.(data.commodities),
             y in data.years.range;
-            ((c_old, c_new) in
-            get_repurposing_technology.(data.repurposing_arc_technologies)) 
-            && (data.arc_adjacency.is_a_of_c[a,c_old])
+            (
+                (c_old, c_new) in
+                get_repurposing_technology.(data.repurposing_arc_technologies)
+            ) && (data.arc_adjacency.is_a_of_c[a, c_old]),
         ],
-        Δ_RA[a, c_old, c_new, y] - Δ_RA[data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc, c_old, c_new, y]
+        Δ_RA[a, c_old, c_new, y] - Δ_RA[
+            data.arcs[findfirst(x -> get_name(x) == a, data.arcs)].inverse_arc,
+            c_old,
+            c_new,
+            y,
+        ]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_S[
@@ -1420,6 +1554,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_S[s, t, c, o, m, y] + ϕ_S[s, t, c, o, data.timestep_mapping.previous_step[m], y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_S_in Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_S_in[
@@ -1447,6 +1584,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_S[s, t, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_q_S_out Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_q_S_out[
@@ -1474,6 +1614,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ϕ_S[s, t, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_S[
@@ -1496,6 +1639,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_Δ_RS Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_Δ_RS[
@@ -1506,8 +1652,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             (r, c) ∈ get_repurposing_technology.(data.repurposing_storage_technologies),
         ],
         data.discount[y] / data.years.step * data.storage_data.c_Δ_RS[s, r, c, y] - sum(
-            data.storage_data.f_RS[r, c] * 
-            λ_S[s, c, m, ys] for ys =
+            data.storage_data.f_RS[r, c] * λ_S[s, c, m, ys] for ys =
                 (y+data.years.step):data.years.step:min(
                     y + data.storage_data.L_S[c],
                     data.years.last,
@@ -1517,8 +1662,8 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             λ_S[s, r, m, ys] for ys = (y+data.years.step):data.years.step:data.years.last,
             m in get_name.(data.timesteps)
         ) +
-        sum( data.storage_data.f_RS[r, c] * 
-            ω_S[s, c, ys] for ys =
+        sum(
+            data.storage_data.f_RS[r, c] * ω_S[s, c, ys] for ys =
                 (y+data.years.step):data.years.step:min(
                     y + data.storage_data.L_S[c],
                     data.years.last,
@@ -1526,6 +1671,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) - sum(ω_S[s, r, ys] for ys = (y+data.years.step):data.years.step:data.years.last)
     )
 
+    @_status "Building Model" Progress = "Creating LHS_λ_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_λ_S[
@@ -1539,8 +1687,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             Δ_S[s, c, ys] for ys =
                 max(y - data.storage_data.L_S[c], data.years.start):data.years.step:(y-data.years.step)
         ) +
-        sum( data.storage_data.f_RS[c_old, c_new] * 
-            Δ_RS[s, c_old, c_new, ys] for (c_old, c_new) in
+        sum(
+            data.storage_data.f_RS[c_old, c_new] * Δ_RS[s, c_old, c_new, ys] for
+            (c_old, c_new) in
             get_repurposing_technology.(data.repurposing_storage_technologies), ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step) if
             (c_new) == c
@@ -1554,6 +1703,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_ϕ_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_ϕ_S[
@@ -1570,6 +1722,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) - q_S[s, t, c, o, data.timestep_mapping.next_step[m], y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_ω_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_ω_S[
@@ -1580,8 +1735,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         data.storage_data.Ω_S[s, c, y] - sum(
             Δ_S[s, c, ys] for ys =
                 max(y - data.storage_data.L_S[c], data.years.start):data.years.step:(y-data.years.step)
-        ) - sum( data.storage_data.f_RS[c_old, c_new] * 
-            Δ_RS[s, c_old, c_new, ys] for (c_old, c_new) in
+        ) - sum(
+            data.storage_data.f_RS[c_old, c_new] * Δ_RS[s, c_old, c_new, ys] for
+            (c_old, c_new) in
             get_repurposing_technology.(data.repurposing_storage_technologies), ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step) if
             (c_new) == c
@@ -1592,6 +1748,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_P Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_P[
@@ -1613,6 +1772,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_T_to_D Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_T_to_D[
@@ -1625,6 +1787,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         π_T_to_D[n, c, b, m, y] - prices[n, c, b, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_T_to_V Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_T_to_V[
@@ -1650,6 +1815,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) - q_T_to_V[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_V_to_T Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_V_to_T[
@@ -1675,6 +1843,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         ) - q_T_from_V[t, n, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_A Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_A[
@@ -1682,7 +1853,7 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
             c in get_name.(data.commodities),
             m in get_name.(data.timesteps),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         q_A[a, c, m, y] - sum(
             q_T[t, a, c, o, m, y] for o in get_name.(data.origins),
@@ -1690,6 +1861,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         )
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_T_to_S Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_T_to_S[
@@ -1704,6 +1878,9 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
         q_S_in[data.nodes[findfirst(x -> x.name == n, data.nodes)].storage, t, c, o, m, y]
     )
 
+    @_status "Building Model" Progress = "Creating LHS_π_S_to_T Expressions." "Time elapsed" =
+    temporal(time() - starttime) logfile = logfile
+    
     @mapping(
         model,
         LHS_π_S_to_T[
@@ -1727,90 +1904,176 @@ function build_complementarity_model(data::ModelData, BIG = 1e+6, logfile = "")
     @_status "Building Model" Progress = "Creating Complementarity Conditions." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_I" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_I, q_I)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_P_to_T" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_P_to_T, q_P_to_T)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_I" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_I, Δ_I)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_P" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_P, Δ_P)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "ϕ_P" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_ϕ_P, ϕ_P)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "λ_I" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_λ_I, λ_I)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "λ_P" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_λ_P, λ_P)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "ω_P" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_ω_P, ω_P)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "ω_I" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_ω_I, ω_I)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T_to_D" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T_to_D, q_T_to_D)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T_from_P" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T_from_P, q_T_from_P)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T_to_V" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T_to_V, q_T_to_V)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T_from_V" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T_from_V, q_T_from_V)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T_to_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T_to_S, q_T_to_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T_from_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T_from_S, q_T_from_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_T" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_T, q_T)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "ϕ_T" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_ϕ_T, ϕ_T)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "λ_T" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_λ_T, λ_T)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_V" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_V, q_V)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_V" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_V, Δ_V)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_RV" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_RV, Δ_RV)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "λ_V" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_λ_V, λ_V)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_A" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_A, q_A)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_A" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_A, Δ_A)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_RA" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_RA, Δ_RA)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "λ_A" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_λ_A, λ_A)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "δ_A" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_δ_A, δ_A)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "δ_RA" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_δ_RA, δ_RA)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_S, q_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_S_in" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_S_in, q_S_in)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "q_S_out" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_q_S_out, q_S_out)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_S, Δ_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "Δ_RS" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_Δ_RS, Δ_RS)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "λ_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_λ_S, λ_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "ϕ_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_ϕ_S, ϕ_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "ω_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_ω_S, ω_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_P" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_P, π_P)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_T_to_D" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_T_to_D, π_T_to_D)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_T_to_V" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_T_to_V, π_T_to_V)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_V_to_T" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_V_to_T, π_V_to_T)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_A" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_A, π_A)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_T_to_S" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_T_to_S, π_T_to_S)
 
+    @_status "Building Model" Progress = "Creating Complementarity Conditions." Variable = "π_S_to_T" "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
     @complementarity(model, LHS_π_S_to_T, π_S_to_T)
 
     @_status "Building Model" Progress = "Returning built Model." "Time elapsed" =

@@ -7,11 +7,11 @@ function functional_test_4(config)
 
         model = build_complementarity_model(data)
 
-        if haskey(ENV,"PATH_LICENSE_STRING")
+        if haskey(ENV, "PATH_LICENSE_STRING")
             status = solve_mcp(model; output = "no", time_limit = 5)
         else
             mcp_data = Complementarity.get_MCP_data(model)
-            for i in 1:length(mcp_data)
+            for i = 1:length(mcp_data)
                 Complementarity.set_result_value(mcp_data[i], 0.0)
             end
         end

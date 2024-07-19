@@ -7,11 +7,7 @@ function functional_test_3(config)
         exdir = joinpath(writedir, "expressions")
 
         model = build_optimization_model(data)
-        optimize!(
-            model,
-            Ipopt.Optimizer,
-            config.solver_options...,
-        )
+        optimize!(model, Ipopt.Optimizer, config.solver_options...)
         write_csv(writedir, model)
 
         @testset "Variables" begin

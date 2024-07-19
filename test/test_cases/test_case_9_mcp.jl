@@ -29,14 +29,26 @@ function test_case_9_mcp(config)
             @testset "Production Quantities" begin
                 @test isapprox(
                     result_value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_DEU",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_NLD",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0.88,
                     atol = config.testing_tol,
@@ -79,14 +91,26 @@ function test_case_9_mcp(config)
             @testset "Production Quantities" begin
                 @test isapprox(
                     result_value(
-                        model[:q_I]["P_DEU", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_DEU",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0,
                     atol = config.testing_tol,
                 )
                 @test isapprox(
                     result_value(
-                        model[:q_I]["P_NLD", "Natural Gas", "Block 1", "OnlyTimestep", 2020],
+                        model[:q_I][
+                            "P_NLD",
+                            "Natural Gas",
+                            "Block 1",
+                            "OnlyTimestep",
+                            2020,
+                        ],
                     ),
                     0.88,
                     atol = config.testing_tol,

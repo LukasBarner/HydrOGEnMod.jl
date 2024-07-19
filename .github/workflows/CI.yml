@@ -3,10 +3,12 @@ on:
   push:
     branches:
       - main
+      - dev_lb
     tags: ['*']
   pull_request:
     branches:
       - main
+      - dev_lb
     tags: ['*']
   workflow_dispatch:
 concurrency:

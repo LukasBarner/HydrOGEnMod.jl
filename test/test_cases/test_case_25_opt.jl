@@ -4,11 +4,7 @@ function test_case_25_opt(config)
         data = get_HydrOGEnMod_data(joinpath(@__DIR__, "test_25"))
         model = build_optimization_model(data)
 
-        optimize!(
-            model,
-            config.optimizer,
-            config.solver_options...
-        )
+        optimize!(model, config.optimizer, config.solver_options...)
 
         @testset "Results" begin
             @testset "Termination Status" begin

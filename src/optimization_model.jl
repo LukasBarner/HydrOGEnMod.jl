@@ -144,15 +144,21 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             o = get_name.(data.origins),
             s = get_name.(data.timesteps),
             y = data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ] <=
         BIG
     )
 
     @variable(
         model,
-        0 <= Δ_A[a = get_name.(data.arcs), c = get_name.(data.commodities), y = data.years.range;
-        data.arc_adjacency.is_a_of_c[a,c]] <= BIG
+        0 <=
+        Δ_A[
+            a = get_name.(data.arcs),
+            c = get_name.(data.commodities),
+            y = data.years.range;
+            data.arc_adjacency.is_a_of_c[a, c],
+        ] <=
+        BIG
     )
 
     @variable(
@@ -162,8 +168,8 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             a = get_name.(data.arcs),
             c_old = get_from_throughput.(data.repurposing_arc_technologies),
             c_new = get_to_throughput.(data.repurposing_arc_technologies),
-            y = data.years.range; 
-            data.arc_adjacency.is_a_of_c[a,c_old]
+            y = data.years.range;
+            data.arc_adjacency.is_a_of_c[a, c_old],
         ] <=
         BIG
     )
@@ -229,6 +235,9 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         ] <=
         BIG
     )
+
+    @_status "Building Model" Progress = "Finished Creating Variables" Variables = num_variables(model) "Time elapsed" =
+        temporal(time() - starttime) logfile = logfile
 
     @_status "Building Model" Progress = "Creating Demand Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -305,7 +314,9 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             m in get_name.(data.timesteps),
             y in data.years.range,
         ],
-        data.weights[m] / 2 * data.demand_data.β_D[n, c, b, m, y] * (demand[n, c, b, m, y])^2 +
+        data.weights[m] / 2 *
+        data.demand_data.β_D[n, c, b, m, y] *
+        (demand[n, c, b, m, y])^2 +
         data.weights[m] * data.demand_data.α_D[n, c, b, m, y] * demand[n, c, b, m, y]
     )
 
@@ -354,7 +365,10 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             i in get_name.(data.inputs),
             y in data.years.range,
         ],
-        sum(data.weights[m] * q_I[p, i, b, m, y] for b in get_name.(data.input_operational_blocks), m in get_name.(data.timesteps))
+        sum(
+            data.weights[m] * q_I[p, i, b, m, y] for
+            b in get_name.(data.input_operational_blocks), m in get_name.(data.timesteps)
+        )
     )
 
     @_status "Building Model" Progress = "Creating Input Capacity Expansion Cost Expression." "Time elapsed" =
@@ -461,7 +475,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             o in get_name.(data.origins),
             m in get_name.(data.timesteps),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         data.weights[m] * data.arc_data.c_A[a, c, y] * q_T[t, a, c, o, m, y]
     )
@@ -474,7 +488,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             a in get_name.(data.arcs),
             c in get_name.(data.commodities),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         0.5 * data.arc_data.c_Δ_A[a, c, y] / data.years.step * Δ_A[a, c, y]
     )
@@ -488,9 +502,10 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old in get_from_throughput.(data.repurposing_arc_technologies),
             c_new in get_to_throughput.(data.repurposing_arc_technologies),
             y in data.years.range;
-            ((c_old, c_new) in
-            get_repurposing_technology.(data.repurposing_arc_technologies)) 
-            && (data.arc_adjacency.is_a_of_c[a,c_old])
+            (
+                (c_old, c_new) in
+                get_repurposing_technology.(data.repurposing_arc_technologies)
+            ) && (data.arc_adjacency.is_a_of_c[a, c_old]),
         ],
         0.5 * data.arc_data.c_Δ_RA[a, c_old, c_new, y] / data.years.step *
         Δ_RA[a, c_old, c_new, y]
@@ -498,7 +513,19 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
 
     @_status "Building Model" Progress = "Creating Aggregated Arc Flow Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
-    @expression(model, yearly_arc_flows[a in get_name.(data.arcs), c in get_name.(data.commodities), y in data.years.range], sum(data.weights[m] * q_T[t, a, c, o, m, y] for t in get_name.(data.traders), o in get_name.(data.origins), m in get_name.(data.timesteps) if data.arc_adjacency.is_a_of_c[a,c] ));
+    @expression(
+        model,
+        yearly_arc_flows[
+            a in get_name.(data.arcs),
+            c in get_name.(data.commodities),
+            y in data.years.range,
+        ],
+        sum(
+            data.weights[m] * q_T[t, a, c, o, m, y] for
+            t in get_name.(data.traders), o in get_name.(data.origins),
+            m in get_name.(data.timesteps) if data.arc_adjacency.is_a_of_c[a, c]
+        )
+    )
 
     @_status "Building Model" Progress = "Creating Storage Cost Expression." "Time elapsed" =
         temporal(time() - starttime) logfile = logfile
@@ -698,7 +725,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
         ],
         sum(
             (1 + data.arc_data.l_a[a, c]) * q_T[get_name(t), a, c, o, m, y] for
-            a in n.starting_arcs if data.arc_adjacency.is_a_of_c[a,c]
+            a in n.starting_arcs if data.arc_adjacency.is_a_of_c[a, c]
         ) +
         sum(
             q_T_D[get_name(t), get_name(n), c, b, o, m, y] for
@@ -711,7 +738,10 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_o == c
         ) +
         q_S_in[n.storage, get_name(t), c, o, m, y] ==
-        sum(q_T[get_name(t), a, c, o, m, y] for a in n.ending_arcs if data.arc_adjacency.is_a_of_c[a,c]) +
+        sum(
+            q_T[get_name(t), a, c, o, m, y] for
+            a in n.ending_arcs if data.arc_adjacency.is_a_of_c[a, c]
+        ) +
         sum(
             q_V[n.converter, get_name(t), c_o, c_n, o, m, y] for
             (c_o, c_n) in get_conversion_technology.(data.conversion_technologies) if
@@ -757,7 +787,8 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             Δ_V[v, c_i, c_o, ys] for ys =
                 max(y - data.conversion_data.L_V[c_i, c_o], data.years.start):data.years.step:(y-data.years.step)
         ) +
-        sum( data.conversion_data.f_RV[c_in_old, c_out_old, c_in_new, c_out_new] *
+        sum(
+            data.conversion_data.f_RV[c_in_old, c_out_old, c_in_new, c_out_new] *
             Δ_RV[v, c_in_old, c_out_old, c_in_new, c_out_new, ys] for
             ((c_in_old, c_out_old), (c_in_new, c_out_new)) in
             get_repurposing_technology.(data.repurposing_conversion_technologies), ys =
@@ -781,7 +812,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             c in get_name.(data.commodities),
             m in get_name.(data.timesteps),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[a,c]
+            data.arc_adjacency.is_a_of_c[a, c],
         ],
         sum(
             q_T[t, a, c, o, m, y] for o in get_name.(data.origins),
@@ -792,8 +823,9 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             Δ_A[a, c, ys] for ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step)
         ) +
-        sum( data.arc_data.f_RA[c_old, c_new] * 
-            Δ_RA[a, c_old, c_new, ys] for (c_old, c_new) in
+        sum(
+            data.arc_data.f_RA[c_old, c_new] * Δ_RA[a, c_old, c_new, ys] for
+            (c_old, c_new) in
             get_repurposing_technology.(data.repurposing_arc_technologies), ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step) if
             (c_new) == c
@@ -812,7 +844,7 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             a in data.arcs,
             c in get_name.(data.commodities),
             y in data.years.range;
-            data.arc_adjacency.is_a_of_c[get_name(a),c]
+            data.arc_adjacency.is_a_of_c[get_name(a), c],
         ],
         Δ_A[get_name(a), c, y] == Δ_A[a.inverse_arc, c, y]
     )
@@ -826,9 +858,10 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             c_old in get_name.(data.commodities),
             c_new in get_name.(data.commodities),
             y in data.years.range;
-            ((c_old, c_new) in
-            get_repurposing_technology.(data.repurposing_arc_technologies)) 
-            && (data.arc_adjacency.is_a_of_c[get_name(a),c_old])
+            (
+                (c_old, c_new) in
+                get_repurposing_technology.(data.repurposing_arc_technologies)
+            ) && (data.arc_adjacency.is_a_of_c[get_name(a), c_old]),
         ],
         Δ_RA[get_name(a), c_old, c_new, y] == Δ_RA[a.inverse_arc, c_old, c_new, y]
     )
@@ -852,8 +885,9 @@ function build_optimization_model(data::ModelData, BIG = 1e+6, logfile = "")
             Δ_S[s, c, ys] for ys =
                 max(y - data.storage_data.L_S[c], data.years.start):data.years.step:(y-data.years.step)
         ) +
-        sum( data.storage_data.f_RS[c_old, c_new] * 
-            Δ_RS[s, c_old, c_new, ys] for (c_old, c_new) in
+        sum(
+            data.storage_data.f_RS[c_old, c_new] * Δ_RS[s, c_old, c_new, ys] for
+            (c_old, c_new) in
             get_repurposing_technology.(data.repurposing_storage_technologies), ys =
                 max(y - data.arc_data.L_A[c], data.years.start):data.years.step:(y-data.years.step) if
             (c_new) == c

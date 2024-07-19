@@ -163,7 +163,7 @@ Base.@kwdef mutable struct RepurposingArcs <: AbstractSet
     RA::Tuple{T,T}
 end
 
-Base.@kwdef mutable struct ArcAdjacencyCommodity 
+Base.@kwdef mutable struct ArcAdjacencyCommodity
     AC::Vector{Tuple{T,T}} = Tuple{T,T}[]
     is_a_of_c::Dict{Tuple{T,T},Bool} = Dict{Tuple{T,T},Bool}()
 end

@@ -1,7 +1,12 @@
 function get_timesteps(datafile)
     timesteps = Timestep[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Timesteps.csv"), DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(
+            joinpath(datafile, "general_data", "Timesteps.csv"),
+            DataFrame,
+            delim = ',',
+        ),
+    )
         s = Timestep(r[:Timestep], r[:Weights], r[:Type])
         push!(timesteps, s)
     end
@@ -35,8 +40,9 @@ function get_timestep_mapping(timesteps)
 end
 
 function get_years(datafile)
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Years.csv"), DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Years.csv"), DataFrame, delim = ','),
+    )
         years = Years(
             r[:Initial]:r[:Step]:r[:Last],
             r[:Initial],
@@ -45,7 +51,13 @@ function get_years(datafile)
             sum(s.weights for s in get_timesteps(datafile)),
             "$(r[:Initial]) - $(r[:Last])",
         )
-        r = CSV.read(joinpath(datafile, "general_data", "Temporal_Preferences.csv"), DataFrame)[1,"Discount Rate"]
+        r = CSV.read(
+            joinpath(datafile, "general_data", "Temporal_Preferences.csv"),
+            DataFrame,
+        )[
+            1,
+            "Discount Rate",
+        ]
         discount = JuMP.Containers.DenseAxisArray(
             [1.0 / (1.0 + r)^(y - years.start) for y in years.range],
             years.range,
@@ -57,8 +69,9 @@ end
 
 function get_nodes(datafile)
     nodes = Node[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim = ','),
+    )
         n = Node(
             name = r[:Node],
             producer = "P_$(r[:Node])",
@@ -75,8 +88,9 @@ end
 
 function get_producers(datafile)
     producers = Producer[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim = ','),
+    )
         p = Producer(
             name = "P_$(r[:Node])",
             node = r[:Node],
@@ -110,31 +124,40 @@ function get_input_data(
     )
 
     av_I_df = CSV.read(
-        joinpath(datafile, "inputs", "Availability_Factors.csv"), DataFrame, delim=','
+        joinpath(datafile, "inputs", "Availability_Factors.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     L_I = JuMP.Containers.DenseAxisArray(zeros(length(inputs)), get_name.(inputs))
 
     Λ_I_df = CSV.read(
-        joinpath(datafile, "inputs", "Exogenous_Capacities.csv"), DataFrame, delim=','
+        joinpath(datafile, "inputs", "Exogenous_Capacities.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     Ω_I_df = CSV.read(
-        joinpath(datafile, "inputs", "Capacity_Expansion_Limits.csv"), DataFrame, delim=','
+        joinpath(datafile, "inputs", "Capacity_Expansion_Limits.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     op_cost_par_df = CSV.read(
-        joinpath(datafile, "inputs", "Cost_Parameters.csv"), DataFrame, delim=','
+        joinpath(datafile, "inputs", "Cost_Parameters.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     inv_cost_par_df = CSV.read(
-        joinpath(datafile, "inputs", "Investment_Cost_Parameters.csv"), DataFrame, delim=','
+        joinpath(datafile, "inputs", "Investment_Cost_Parameters.csv"),
+        DataFrame,
+        delim = ',',
     )
 
-    life_df = CSV.read(
-        joinpath(datafile, "inputs", "Lifetimes.csv"), DataFrame, delim=','
-    )
-    
+    life_df =
+        CSV.read(joinpath(datafile, "inputs", "Lifetimes.csv"), DataFrame, delim = ',')
+
     for i in get_name.(inputs)
         L_I_h = life_df[(life_df.Input.==i), "Lifetime"]
         if length(L_I_h) == 1
@@ -223,10 +246,7 @@ function get_input_data(
 
                 for b in get_name.(input_operational_blocks)
 
-                    Λ_I_h = Λ_I_df[
-                        (Λ_I_df.Input.==i).&(Λ_I_df.Node.==n),
-                        "Capacity $b $y",
-                    ]
+                    Λ_I_h = Λ_I_df[(Λ_I_df.Input.==i).&(Λ_I_df.Node.==n), "Capacity $b $y"]
 
                     if length(Λ_I_h) == 1
                         Λ_I[p_name, i, b, y] = Λ_I_h[1]
@@ -336,16 +356,19 @@ function get_production_data(
     origins::Vector{Origin},
     years::Years,
 )
-    tec_df = CSV.read(
-        joinpath(datafile, "production", "Technology.csv"), DataFrame, delim=','
-    )
+    tec_df =
+        CSV.read(joinpath(datafile, "production", "Technology.csv"), DataFrame, delim = ',')
 
     cap_df = CSV.read(
-        joinpath(datafile, "production", "Exogenous_Capacities.csv"), DataFrame, delim=','
+        joinpath(datafile, "production", "Exogenous_Capacities.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
+
     lim_df = CSV.read(
-        joinpath(datafile, "production", "Capacity_Expansion_Limits.csv"), DataFrame, delim=','
+        joinpath(datafile, "production", "Capacity_Expansion_Limits.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     for i in get_name.(inputs)
@@ -481,9 +504,8 @@ function get_trade_data(
     origins::Vector{Origin},
     years::Years,
 )
-    sanctions_df = CSV.read(
-        joinpath(datafile, "trade", "Sanctions.csv"), DataFrame, delim=','
-    )
+    sanctions_df =
+        CSV.read(joinpath(datafile, "trade", "Sanctions.csv"), DataFrame, delim = ',')
 
     interim_sanctions = Dict{Tuple{String,String,String,String,Int64},Float64}(
         (row.Trader, row.Node, row.Commodity, row.Origin, y) =>
@@ -498,10 +520,8 @@ function get_trade_data(
 
     Λ_T = JuMP.Containers.SparseAxisArray(interim_sanctions)
 
-    NC_df = CSV.read(
-        joinpath(datafile, "general_data", "Market_Power.csv"), DataFrame
-    )
-    
+    NC_df = CSV.read(joinpath(datafile, "general_data", "Market_Power.csv"), DataFrame)
+
     NC = JuMP.Containers.DenseAxisArray(
         zeros(length(traders), length(nodes), length(commodities)),
         get_name.(traders),
@@ -526,7 +546,9 @@ function get_trade_data(
     end
 
     specific_df = CSV.read(
-        joinpath(datafile, "trade", "Specific_Market_Power.csv"), DataFrame, delim=','
+        joinpath(datafile, "trade", "Specific_Market_Power.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     specific_dict = Dict{Tuple{String,String,String},Float64}(
@@ -556,17 +578,20 @@ function get_conversion_data(
     years::Years,
 )
     df = CSV.read(
-        joinpath(datafile, "conversion", "Conversion_Data.csv"), DataFrame, delim=','
-    )
-    
-    cap_df = CSV.read(
-        joinpath(datafile, "conversion", "Capacities.csv"), DataFrame, delim=','
+        joinpath(datafile, "conversion", "Conversion_Data.csv"),
+        DataFrame,
+        delim = ',',
     )
 
+    cap_df =
+        CSV.read(joinpath(datafile, "conversion", "Capacities.csv"), DataFrame, delim = ',')
+
     repurposing_df = CSV.read(
-        joinpath(datafile, "conversion", "Repurposing.csv"), DataFrame, delim=','
+        joinpath(datafile, "conversion", "Repurposing.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
+
     for f in get_name.(input_commodities)
         if f ∉ df[!, "Input Commodity"]
             @_warning "Missing input commodity in converison technologies" Commodity = f
@@ -701,7 +726,8 @@ function get_conversion_data(
             (repurposing_df[!, "To Input Commodity"] .== c_in_new) .&
             (repurposing_df[!, "To Output Commodity"] .== c_out_new)
 
-        f_RV[c_in_old, c_out_old, c_in_new, c_out_new] = repurposing_df[filter_idxs, "Repurposing Factor"][1]
+        f_RV[c_in_old, c_out_old, c_in_new, c_out_new] =
+            repurposing_df[filter_idxs, "Repurposing Factor"][1]
 
         for v in converters, y in years.range
             c_Δ_RV[get_name(v), c_in_old, c_out_old, c_in_new, c_out_new, y] =
@@ -730,23 +756,33 @@ function get_arc_data(
     years::Years,
 )
     commodity_df = CSV.read(
-        joinpath(datafile, "transport", "Commodity_Data.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Commodity_Data.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
+
     pipe_dist_df = CSV.read(
-        joinpath(datafile, "transport", "Pipeline_Distances.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Pipeline_Distances.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
+
     ship_dist_df = CSV.read(
-        joinpath(datafile, "transport", "Shipping_Distances.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Shipping_Distances.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
+
     exist_pipes = CSV.read(
-        joinpath(datafile, "transport", "Exogenous_Pipelines.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Exogenous_Pipelines.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
+
     repurposing_df = CSV.read(
-        joinpath(datafile, "transport", "Repurposing_Data.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Repurposing_Data.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     c_A = JuMP.Containers.DenseAxisArray(
@@ -799,11 +835,11 @@ function get_arc_data(
             f.transport = transport_type[1]
         elseif length(transport_type) == 0
             @_error "Found $(length(transport_type)) values for flow commodity transport type" Commodity =
-            get_name(f)
+                get_name(f)
         elseif length(transport_type) !== 1
             f.transport = transport_type[1]
             @_warning "Found $(length(transport_type)) values for flow commodity transport type, using first type" Commodity =
-            get_name(f)
+                get_name(f)
         end
         L_A[get_name(f)] = commodity_df[flow_commodity_idx, "Lifetime"][1]
         for a in arcs
@@ -828,7 +864,10 @@ function get_arc_data(
                         ].==a.start_node).&(exist_pipes[
                             !,
                             "End",
-                        ].==a.end_node).&(exist_pipes[!, "Flow Commodity"].==get_name(f)),
+                        ].==a.end_node).&(exist_pipes[
+                            !,
+                            "Flow Commodity",
+                        ].==get_name(f)),
                         "Capacity $y",
                     ]
                     if length(pipe_cap_arr) == 1
@@ -867,7 +906,8 @@ function get_arc_data(
             (repurposing_df[!, "Old Flow Commodity"] .== r.from_throughput) .&
             (repurposing_df[!, "New Flow Commodity"] .== r.to_throughput)
 
-        f_RA[r.from_throughput, r.to_throughput] = repurposing_df[filter_idxs, "Repurposing Factor"][1]
+        f_RA[r.from_throughput, r.to_throughput] =
+            repurposing_df[filter_idxs, "Repurposing Factor"][1]
 
         for y in years.range, a in arcs
             distance =
@@ -879,8 +919,15 @@ function get_arc_data(
         end
     end
 
-    arc_data =
-        ArcData(c_A = c_A, c_Δ_A = c_Δ_A, c_Δ_RA = c_Δ_RA, Λ_A = Λ_A, l_a = l_a, L_A = L_A, f_RA = f_RA)
+    arc_data = ArcData(
+        c_A = c_A,
+        c_Δ_A = c_Δ_A,
+        c_Δ_RA = c_Δ_RA,
+        Λ_A = Λ_A,
+        l_a = l_a,
+        L_A = L_A,
+        f_RA = f_RA,
+    )
 
     return arc_data
 end
@@ -894,20 +941,18 @@ function get_storage_data(
     years::Years,
     timestep_mapping::TimestepMapping,
 )
-    tec_df = CSV.read(
-        joinpath(datafile, "storage", "Technologies.csv"), DataFrame, delim=','
-    )
-    
-    los_df = CSV.read(
-        joinpath(datafile, "storage", "Losses.csv"), DataFrame, delim=','
-    )
-    
-    cap_df = CSV.read(
-        joinpath(datafile, "storage", "Capacities.csv"), DataFrame, delim=','
-    )
-    
+    tec_df =
+        CSV.read(joinpath(datafile, "storage", "Technologies.csv"), DataFrame, delim = ',')
+
+    los_df = CSV.read(joinpath(datafile, "storage", "Losses.csv"), DataFrame, delim = ',')
+
+    cap_df =
+        CSV.read(joinpath(datafile, "storage", "Capacities.csv"), DataFrame, delim = ',')
+
     repurposing_df = CSV.read(
-        joinpath(datafile, "storage", "Repurposing_Data.csv"), DataFrame, delim=','
+        joinpath(datafile, "storage", "Repurposing_Data.csv"),
+        DataFrame,
+        delim = ',',
     )
 
     Λ_S = JuMP.Containers.DenseAxisArray(
@@ -952,10 +997,7 @@ function get_storage_data(
     )
 
     f_RS = JuMP.Containers.DenseAxisArray(
-        zeros(
-            length(commodities),
-            length(commodities),
-        ),
+        zeros(length(commodities), length(commodities)),
         get_name.(commodities),
         get_name.(commodities),
     )
@@ -1064,7 +1106,8 @@ function get_storage_data(
             (repurposing_df[!, "Old Commodity"] .== r.from_input) .&
             (repurposing_df[!, "New Commodity"] .== r.to_input)
 
-        f_RS[r.from_input, r.to_input] = repurposing_df[filter_idxs, "Repurposing Factor"][1]
+        f_RS[r.from_input, r.to_input] =
+            repurposing_df[filter_idxs, "Repurposing Factor"][1]
 
         for y in years.range, s in storages
             c_Δ_RS[get_name(s), r.from_input, r.to_input, y] =
@@ -1083,7 +1126,7 @@ function get_storage_data(
         l_S = l_S,
         L_S = L_S,
         Ω_S = Ω_S,
-        f_RS = f_RS
+        f_RS = f_RS,
     )
 
     return storage_data
@@ -1098,9 +1141,8 @@ function get_demand_data(
     years::Years,
 )
 
-    ref_df = CSV.read(
-        joinpath(datafile, "demand", "Reference_Data.csv"), DataFrame, delim=','
-    )
+    ref_df =
+        CSV.read(joinpath(datafile, "demand", "Reference_Data.csv"), DataFrame, delim = ',')
 
     α_D = JuMP.Containers.DenseAxisArray(
         zeros(
@@ -1179,8 +1221,9 @@ end
 
 function get_traders(datafile)
     traders = Trader[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim = ','),
+    )
         idx = findfirst(x -> r[Symbol("Nodal Trader")] == get_name(x), traders)
         if !isnothing(idx)
             t = traders[idx]
@@ -1195,8 +1238,9 @@ end
 
 function get_converters(datafile)
     converters = Converter[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim = ','),
+    )
         c = Converter(
             name = "V_$(r[:Node])",
             node = r[:Node],
@@ -1230,39 +1274,48 @@ function get_arc_adjacency(datafile, nodes, arcs, commodities)
     arc_adjacency = ArcAdjacencyCommodity()
 
     df_pipe = CSV.read(
-        joinpath(datafile, "transport", "Pipeline_Adjacency.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Pipeline_Adjacency.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
-    @assert df_pipe.Start == names(df_pipe[!,2:end])
+
+    @assert df_pipe.Start == names(df_pipe[!, 2:end])
     @assert get_name.(nodes) ⊆ df_pipe.Start
     node_names = df_pipe.Start
-    adjacency_pipe = JuMP.Containers.DenseAxisArray(Matrix(df_pipe[!,2:end]), node_names, node_names)
-    @assert isequal(adjacency_pipe.data,permutedims(adjacency_pipe.data))
+    adjacency_pipe =
+        JuMP.Containers.DenseAxisArray(Matrix(df_pipe[!, 2:end]), node_names, node_names)
+    @assert isequal(adjacency_pipe.data, permutedims(adjacency_pipe.data))
 
     df_shipping = CSV.read(
-        joinpath(datafile, "transport", "Shipping_Adjacency.csv"), DataFrame, delim=','
+        joinpath(datafile, "transport", "Shipping_Adjacency.csv"),
+        DataFrame,
+        delim = ',',
     )
-    
-    @assert df_shipping.Start == names(df_shipping[!,2:end])
+
+    @assert df_shipping.Start == names(df_shipping[!, 2:end])
     @assert get_name.(nodes) ⊆ df_shipping.Start
     node_names = df_shipping.Start
-    adjacency_shipping = JuMP.Containers.DenseAxisArray(Matrix(df_shipping[!,2:end]), node_names, node_names)
-    @assert isequal(adjacency_shipping.data,permutedims(adjacency_shipping.data))
+    adjacency_shipping = JuMP.Containers.DenseAxisArray(
+        Matrix(df_shipping[!, 2:end]),
+        node_names,
+        node_names,
+    )
+    @assert isequal(adjacency_shipping.data, permutedims(adjacency_shipping.data))
 
     for a in arcs, c in commodities
         if c.transport == "Shipping"
-            if !ismissing(adjacency_shipping[a.start_node,a.end_node])
-                push!(arc_adjacency.AC,(get_name(a),get_name(c)))
-                arc_adjacency.is_a_of_c[get_name(a),get_name(c)] = true
+            if !ismissing(adjacency_shipping[a.start_node, a.end_node])
+                push!(arc_adjacency.AC, (get_name(a), get_name(c)))
+                arc_adjacency.is_a_of_c[get_name(a), get_name(c)] = true
             else
-                arc_adjacency.is_a_of_c[get_name(a),get_name(c)] = false
+                arc_adjacency.is_a_of_c[get_name(a), get_name(c)] = false
             end
         elseif c.transport == "Pipeline"
-            if !ismissing(adjacency_pipe[a.start_node,a.end_node])
-                push!(arc_adjacency.AC,(get_name(a),get_name(c)))
-                arc_adjacency.is_a_of_c[get_name(a),get_name(c)] = true
+            if !ismissing(adjacency_pipe[a.start_node, a.end_node])
+                push!(arc_adjacency.AC, (get_name(a), get_name(c)))
+                arc_adjacency.is_a_of_c[get_name(a), get_name(c)] = true
             else
-                arc_adjacency.is_a_of_c[get_name(a),get_name(c)] = false
+                arc_adjacency.is_a_of_c[get_name(a), get_name(c)] = false
             end
         else
             @warn "Unassigned Transport Mode" Commodity = c.name
@@ -1275,8 +1328,9 @@ end
 
 function get_storages(datafile)
     storages = Storage[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Nodes.csv"),DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Nodes.csv"), DataFrame, delim = ','),
+    )
         s = Storage(
             name = "S_$(r[:Node])",
             node = r[:Node],
@@ -1291,7 +1345,11 @@ end
 function get_commodities(datafile)
     commodities = Commodity[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "general_data", "Commodities.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "general_data", "Commodities.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         c = Commodity(name = r[Symbol("Commodity")], transport = "unassigned")
         push!(commodities, c)
@@ -1301,8 +1359,9 @@ end
 
 function get_origins(datafile)
     origins = Origin[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Origins.csv"),DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Origins.csv"), DataFrame, delim = ','),
+    )
         o = Origin(name = r[:Origin])
         push!(origins, o)
     end
@@ -1311,8 +1370,9 @@ end
 
 function get_inputs(datafile)
     inputs = Input[]
-    for r in
-        eachrow(CSV.read(joinpath(datafile, "general_data", "Inputs.csv"),DataFrame, delim=','))
+    for r in eachrow(
+        CSV.read(joinpath(datafile, "general_data", "Inputs.csv"), DataFrame, delim = ','),
+    )
         i = Input(name = r[:Input])
         push!(inputs, i)
     end
@@ -1322,7 +1382,11 @@ end
 function get_input_operational_blocks(datafile)
     input_operational_blocks = InputOperationalBlock[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "general_data", "Input_Blocks.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "general_data", "Input_Blocks.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         i = InputOperationalBlock(name = r[Symbol("Input Block")])
         push!(input_operational_blocks, i)
@@ -1333,7 +1397,11 @@ end
 function get_demand_blocks(datafile)
     demand_blocks = DemandBlock[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "general_data", "Demand_Blocks.csv"),DataFrame; delim=',')
+        CSV.read(
+            joinpath(datafile, "general_data", "Demand_Blocks.csv"),
+            DataFrame;
+            delim = ',',
+        ),
     )
         i = DemandBlock(name = r[Symbol("Demand Blocks")])
         push!(demand_blocks, i)
@@ -1346,7 +1414,11 @@ function get_production_technology_data(datafile::String)
     origins = get_origins(datafile)
     production_technologies = ProductionTechnology[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "production", "Technology.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "production", "Technology.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         c = r[Symbol("Output")]
         o = r[Symbol("Origin")]
@@ -1370,7 +1442,11 @@ function get_conversion_technology_data(datafile::String)
     commodities = get_commodities(datafile)
     conversion_technologies = ConversionTechnology[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "conversion", "Conversion_Data.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "conversion", "Conversion_Data.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         c_in = r[Symbol("Input Commodity")]
         c_out = r[Symbol("Output Commodity")]
@@ -1394,7 +1470,11 @@ function get_arc_repurposing_technology(datafile)
     commodities = get_commodities(datafile)
     arc_repurposing_technologies = RepurposingArcs[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "transport", "Repurposing_Data.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "transport", "Repurposing_Data.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         c_old = r[Symbol("Old Flow Commodity")]
         c_new = r[Symbol("New Flow Commodity")]
@@ -1418,7 +1498,11 @@ function get_storage_repurposing_technology(datafile)
     commodities = get_commodities(datafile)
     storage_repurposing_technologies = RepurposingStorage[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "storage", "Repurposing_Data.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "storage", "Repurposing_Data.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         c_old = r[Symbol("Old Commodity")]
         c_new = r[Symbol("New Commodity")]
@@ -1442,7 +1526,11 @@ function get_conversion_repurposing_technology(datafile)
     commodities = get_commodities(datafile)
     repurposing_technology = RepurposingConversion[]
     for r in eachrow(
-        CSV.read(joinpath(datafile, "conversion", "Repurposing.csv"),DataFrame, delim=',')
+        CSV.read(
+            joinpath(datafile, "conversion", "Repurposing.csv"),
+            DataFrame,
+            delim = ',',
+        ),
     )
         c_in_old = r[Symbol("From Input Commodity")]
         c_out_old = r[Symbol("From Output Commodity")]
@@ -1483,10 +1571,7 @@ julia> using HydrOGEnMod
 julia> data = get_HydrOGEnMod_data("path/to/my/data");
 ```
 """
-function get_HydrOGEnMod_data(
-    data;
-    logfile = "",
-)
+function get_HydrOGEnMod_data(data; logfile = "")
     starttime = time()
 
     @_status "Loading Data" Progress = "Reading in Timesteps." "Time elapsed" =

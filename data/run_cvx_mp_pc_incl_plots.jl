@@ -2,11 +2,10 @@ using HydrOGEnMod
 using Gurobi
 using JuMP
 
-pc_results_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "results", "pc")
+pc_results_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "results", "cvx_pc")
 
-data_pc = get_HydrOGEnMod_data(
-    joinpath(dirname(dirname(pathof(HydrOGEnMod))), "data", "data_pc")
-);
+data_pc =
+    get_HydrOGEnMod_data(joinpath(dirname(dirname(pathof(HydrOGEnMod))), "data", "data_pc"));
 write_csv(joinpath(pc_results_path, "precalculated"), data_pc)
 
 model_pc = build_optimization_model(data_pc)
@@ -37,6 +36,19 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
             )
         end
     end
+
+    plot_model_nodes(
+        (
+            data_pc.weights["L"] .* value.(model_pc[:prices][:, c, "Block 1", "L", y]) .+
+            data_pc.weights["H"] .* value.(model_pc[:prices][:, c, "Block 1", "H", y])
+        ) ./ data_pc.weights["year"];
+        save_path = joinpath(
+            pc_results_path,
+            "graphics",
+            "pc_prices_$(c)_weighted_average_$(y).pdf",
+        ),
+        rasterize = 5,
+    )
 
     plot_model_nodes(
         value.(model_pc[:yearly_demand][:, c, y]);
@@ -75,11 +87,10 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
     end
 end
 
-mp_results_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "results", "mp")
+mp_results_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "results", "cvx_mp")
 
-data_mp = get_HydrOGEnMod_data(
-    joinpath(dirname(dirname(pathof(HydrOGEnMod))), "data", "data_mp")
-);
+data_mp =
+    get_HydrOGEnMod_data(joinpath(dirname(dirname(pathof(HydrOGEnMod))), "data", "data_mp"));
 
 write_csv(joinpath(mp_results_path, "precalculated"), data_mp)
 model_mp = build_optimization_model(data_mp)
@@ -109,6 +120,19 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
             )
         end
     end
+
+    plot_model_nodes(
+        (
+            data_mp.weights["L"] .* value.(model_mp[:prices][:, c, "Block 1", "L", y]) .+
+            data_mp.weights["H"] .* value.(model_mp[:prices][:, c, "Block 1", "H", y])
+        ) ./ data_mp.weights["year"];
+        save_path = joinpath(
+            mp_results_path,
+            "graphics",
+            "mp_prices_$(c)_weighted_average_$(y).pdf",
+        ),
+        rasterize = 5,
+    )
 
     plot_model_nodes(
         value.(model_mp[:yearly_demand][:, c, y]);
@@ -147,7 +171,7 @@ for y in [2030, 2050], c in ["GH2", "NH3", "LH2"]
     end
 end
 
-diff_plots_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "results", "diff")
+diff_plots_path = joinpath(dirname(dirname(pathof(HydrOGEnMod))), "results", "cvx_diff")
 
 for y in [2030, 2050]
     for s in ["L", "H"], c in ["GH2", "NH3"]
@@ -157,6 +181,26 @@ for y in [2030, 2050]
                 model_pc[:prices][:, c, "Block 1", s, y]
             ));
             save_path = joinpath(diff_plots_path, "diff_prices_$(c)_$(s)_$(y).pdf"),
+            rasterize = 5,
+        )
+    end
+
+    for c in ["GH2", "NH3"]
+        plot_model_nodes(
+            (
+                data_mp.weights["L"] .* (
+                    value.(model_mp[:prices][:, c, "Block 1", "L", y]) .-
+                    value.(model_pc[:prices][:, c, "Block 1", "L", y])
+                ) .+
+                data_mp.weights["H"] .* (
+                    value.(model_mp[:prices][:, c, "Block 1", "H", y]) .-
+                    value.(model_pc[:prices][:, c, "Block 1", "H", y])
+                )
+            ) ./ data_mp.weights["year"];
+            save_path = joinpath(
+                diff_plots_path,
+                "diff_prices_$(c)_weighted_average_$(y).pdf",
+            ),
             rasterize = 5,
         )
     end
